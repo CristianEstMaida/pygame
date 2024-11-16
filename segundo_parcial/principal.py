@@ -53,6 +53,7 @@ while corriendo == True:
                                 match(matriz[i][j]):
                                     case -1:
                                         explosion.play()
+                                print(matriz[i][j]
     pantalla.fill(color_fondo)
     if estado_juego == "inicio":
         pantalla.blit(imagen_buscaminas, posicion_buscaminas)
