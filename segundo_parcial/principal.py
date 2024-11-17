@@ -50,7 +50,7 @@ while corriendo == True:
                 for i in range(len(matriz)):
                     for j in range(len(matriz[i])):
                         if botones_buscaminas[i][j].collidepoint(evento.pos):
-                            print(i, j)
+                            print(j, i)
                             print(matriz[j][i])
                             match(matriz[j][i]):
                                 case -1:
