@@ -47,13 +47,15 @@ while corriendo == True:
             if boton_jugar.collidepoint(evento.pos):
                 estado_juego = "jugando"
                 if bandera_boton_buscaminas == True:
+                    print("")
+                    mostrar_matriz(matriz_minas_contiguas)
                     for i in range(len(matriz)):
                         for j in range(len(matriz[i])):
                             if botones_buscaminas[i][j].collidepoint(evento.pos):
+                                print("\n", matriz_minas_contiguas[i][j])
                                 match(matriz_minas_contiguas[i][j]):
                                     case -1:
                                         explosion.play()
-                                print(matriz_minas_contiguas[i][j]
     pantalla.fill(color_fondo)
     if estado_juego == "inicio":
         pantalla.blit(imagen_buscaminas, posicion_buscaminas)
