@@ -52,3 +52,13 @@ def establecer_minas_contiguas(matriz:list)->None:
                         if matriz[x][y] == -1:
                             contador += 1
             matriz[i][j] = contador
+
+def establecer_cantidad_minas(matriz:list, cantidad:int)->None:
+    contador = 0
+    for i in range(len(matriz)):
+        for j in range(len(matriz[i])):
+            if matriz[i][j] == -1:
+                contador += 1
+            if contador > cantidad:
+                contador -= 1
+                matriz[i][j] = 0
