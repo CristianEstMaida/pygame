@@ -39,7 +39,7 @@ def establecer_minas_contiguas(matriz:list)->None:
     '''
     Modifica de una matriz los elementos que no tienen minas con la cantidad de minas contiguas.
     Recibe la matriz (list).
-    Retorna la matriz modificada.
+    Retorna None.
     '''
     for i in range(len(matriz)):
         for j in range(len(matriz[i])):
