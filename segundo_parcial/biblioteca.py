@@ -35,7 +35,7 @@ def mostrar_matriz(matriz:list)->None:
             print(matriz[i][j], end=" ")
         print("")
 
-def establecer_minas_contiguas(matriz:list)->list:
+def establecer_minas_contiguas(matriz:list)->None:
     '''
     Modifica de una matriz los elementos que no tienen minas con la cantidad de minas contiguas.
     Recibe la matriz (list).
@@ -52,4 +52,3 @@ def establecer_minas_contiguas(matriz:list)->list:
                         if matriz[x][y] == -1:
                             contador += 1
             matriz[i][j] = contador
-    return matriz
