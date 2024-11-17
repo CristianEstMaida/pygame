@@ -33,6 +33,7 @@ explosion.set_volume(0.25)
 reloj = pg.time.Clock()
 matriz = crear_matriz_aleatoria(8, 8, -1, 0)
 establecer_minas_contiguas(matriz)
+establecer_cantidad_minas(matriz, 10)
 mostrar_matriz(matriz_minas_contiguas)
 botones_buscaminas = inicializar_matriz(8, 8, 0)
 estado_juego = "inicio"
@@ -67,6 +68,7 @@ while corriendo == True:
         boton_puntajes = pg.draw.rect(pantalla, COLOR_NARANJA, (50, 250, 200, 75), width=10, border_radius=15)
         boton_salir = pg.draw.rect(pantalla, COLOR_NARANJA, (50, 350, 200, 75), width=10, border_radius=15)
     elif estado_juego == "jugando":
+        pg.mixer.music.set_volume(0.2)
         for i in range(len(matriz)):
             for j in range(len(matriz[i])):
                 botones_buscaminas[i][j] = pantalla.blit(imagen_blanco, (posicion_imagen_blanco[0] + i * 16, posicion_imagen_blanco[1] + j * 16))
