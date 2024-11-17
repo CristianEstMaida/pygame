@@ -32,7 +32,7 @@ explosion = pg.mixer.Sound(ruta_efecto_explosion)
 explosion.set_volume(0.25)
 reloj = pg.time.Clock()
 matriz = crear_matriz_aleatoria(8, 8, -1, 0)
-matriz_minas_contiguas = establecer_minas_contiguas(matriz)
+establecer_minas_contiguas(matriz)
 mostrar_matriz(matriz_minas_contiguas)
 botones_buscaminas = inicializar_matriz(8, 8, 0)
 estado_juego = "inicio"
@@ -51,9 +51,10 @@ while corriendo == True:
                     for j in range(len(matriz[i])):
                         if botones_buscaminas[i][j].collidepoint(evento.pos):
                             print(i, j)
-                            match(matriz_minas_contiguas[i][j]):
+                            print(matriz[j][i])
+                            match(matriz[j][i]):
                                 case -1:
-                                    pass
+                                    explosion.play()
     pantalla.fill(color_fondo)
     if estado_juego == "inicio":
         pantalla.blit(imagen_buscaminas, posicion_buscaminas)
