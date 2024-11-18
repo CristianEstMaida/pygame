@@ -1,3 +1,4 @@
+import time
 import pygame as pg
 from constantes_buscaminas import *
 from biblioteca import *
@@ -6,23 +7,31 @@ pg.init()
 pg.mixer.init()
 pantalla = pg.display.set_mode(RESOLUCION_PANTALLA, pg.RESIZABLE)
 pg.display.set_caption("Buscaminas")
-color_fondo = [0, 0, 0]
+color_fondo = COLOR_GRIS_CLARO
+cantidad_minas = 10
+tiempo_inicial = 0
+tiempo_transcurrido_minutos = 0
+tiempo_transcurrido_segundos = 0
 ruta_imagen_mina = "segundo_parcial/recursos/mina.jpg"
 imagen_mina = pg.image.load(ruta_imagen_mina)
 pg.display.set_icon(imagen_mina)
 imagen_buscaminas = pg.image.load("segundo_parcial/recursos/buscaminas.png")
 posicion_buscaminas = (400, 0)
-texto_nivel = pg.font.Font(None, 36).render("Nivel", True, COLOR_NARANJA)
+fuente_inicio = pg.font.Font(None, 36)
+fuente_jugando = pg.font.Font(None, 36)
+texto_nivel = fuente_inicio.render("Nivel", True, COLOR_NARANJA)
 posicion_nivel = (70, 70)
-texto_jugar = pg.font.Font(None, 36).render("Jugar", True, COLOR_NARANJA)
+texto_jugar = fuente_inicio.render("Jugar", True, COLOR_NARANJA)
 posicion_jugar = (70, 170)
-texto_puntajes = pg.font.Font(None, 36).render("Ver puntajes", True, COLOR_NARANJA)
+texto_puntajes = fuente_inicio.render("Ver puntajes", True, COLOR_NARANJA)
 posicion_puntajes = (70, 270)
-texto_salir = pg.font.Font(None, 36).render("Salir", True, COLOR_NARANJA)
+texto_salir = fuente_inicio.render("Salir", True, COLOR_NARANJA)
 posicion_salir = (70, 370)
 ruta_imagen_blanco = "segundo_parcial/recursos/blanco.gif"
 imagen_blanco = pg.image.load(ruta_imagen_blanco)
-posicion_imagen_blanco = (70, 70)
+posicion_imagen_blanco = (70, 100)
+imagen_reiniciar = pg.image.load("segundo_parcial/recursos/cara_sonriente.gif")
+posicion_imagen_reiniciar = (120, 70)
 ruta_musica_buscaminas = "segundo_parcial/recursos/buscaminas.mp3"
 pg.mixer.music.load(ruta_musica_buscaminas)
 pg.mixer.music.set_volume(0.3)
@@ -32,13 +41,15 @@ explosion = pg.mixer.Sound(ruta_efecto_explosion)
 explosion.set_volume(0.25)
 reloj = pg.time.Clock()
 matriz = crear_matriz_aleatoria(8, 8, -1, 0)
-establecer_minas_contiguas(matriz)
 establecer_cantidad_minas(matriz, 10)
-mostrar_matriz(matriz_minas_contiguas)
+mostrar_matriz(matriz)
+establecer_minas_contiguas(matriz)
+mostrar_matriz(matriz)
 botones_buscaminas = inicializar_matriz(8, 8, 0)
 estado_juego = "inicio"
 bandera_boton_buscaminas = False
 corriendo = True
+bandera_tiempo_inicial = False
 
 while corriendo == True:
     for evento in pg.event.get():
@@ -51,8 +62,9 @@ while corriendo == True:
                 for i in range(len(matriz)):
                     for j in range(len(matriz[i])):
                         if botones_buscaminas[i][j].collidepoint(evento.pos):
-                            print(j, i)
-                            print(matriz[j][i])
+                            if bandera_tiempo_inicial == False:
+                                tiempo_inicial = time.time()
+                                bandera_tiempo_inicial = True
                             match(matriz[j][i]):
                                 case -1:
                                     explosion.play()
@@ -63,16 +75,30 @@ while corriendo == True:
         pantalla.blit(texto_jugar, posicion_jugar)
         pantalla.blit(texto_puntajes, posicion_puntajes)
         pantalla.blit(texto_salir, posicion_salir)
-        boton_nivel = pg.draw.rect(pantalla, COLOR_NARANJA, (50, 50, 200, 75), width=10, border_radius=15)
-        boton_jugar = pg.draw.rect(pantalla, COLOR_NARANJA, (50, 150, 200, 75), width=10, border_radius=15)
-        boton_puntajes = pg.draw.rect(pantalla, COLOR_NARANJA, (50, 250, 200, 75), width=10, border_radius=15)
-        boton_salir = pg.draw.rect(pantalla, COLOR_NARANJA, (50, 350, 200, 75), width=10, border_radius=15)
+        coordenadas_boton_nivel = (50, 50, 200, 75)
+        coordenadas_boton_jugar = (50, 150, 200, 75)
+        coordenadas_boton_puntajes = (50, 250, 200, 75)
+        coordenadas_boton_salir = (50, 350, 200, 75)
+        boton_nivel = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_nivel, width=10, border_radius=15)
+        boton_jugar = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_jugar, width=10, border_radius=15)
+        boton_puntajes = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_puntajes, width=10, border_radius=15)
+        boton_salir = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_salir, width=10, border_radius=15)
     elif estado_juego == "jugando":
         pg.mixer.music.set_volume(0.2)
+        texto_cantidad_minas = fuente_jugando.render(str(cantidad_minas), True, COLOR_ROJO)
+        posicion_cantidad_minas = (70, 70)
+        if bandera_tiempo_inicial == True:
+            tiempo_transcurrido_minutos = int(time.time() - tiempo_inicial) // 60
+            tiempo_transcurrido_segundos = int(time.time() - tiempo_inicial) % 60    
+        texto_tiempo = fuente_jugando.render(f"{tiempo_transcurrido_minutos}:{tiempo_transcurrido_segundos}", True, COLOR_ROJO)
+        posicion_tiempo = (160, 70)
+        pantalla.blit(texto_cantidad_minas, posicion_cantidad_minas)
+        pantalla.blit(imagen_reiniciar, posicion_imagen_reiniciar)
+        pantalla.blit(texto_tiempo, posicion_tiempo)
         for i in range(len(matriz)):
             for j in range(len(matriz[i])):
                 botones_buscaminas[i][j] = pantalla.blit(imagen_blanco, (posicion_imagen_blanco[0] + i * 16, posicion_imagen_blanco[1] + j * 16))
                 bandera_boton_buscaminas = True
-    reloj.tick(60)
+    reloj.tick(30)
     pg.display.flip()
 pg.quit()
