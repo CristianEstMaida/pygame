@@ -35,11 +35,29 @@ def mostrar_matriz(matriz:list)->None:
             print(matriz[i][j], end=" ")
         print("")
 
+def establecer_cantidad_minas(matriz:list, cantidad:int, desde:int, hasta:int)->None:
+    '''
+    Modifica una matriz para que tenga una cantidad de minas determinada.
+    Recibe la matriz (list), la cantidad de minas, desde y hasta (int). 
+    Retorna None.
+    '''
+    contador = 0
+    while contador < cantidad:
+        for i in range(len(matriz)):
+            for j in range(len(matriz[i])):
+                if contador < cantidad:
+                    matriz[i][j] = random.randint(desde, hasta)
+                if matriz[i][j] == -1:
+                    contador += 1
+                if contador > cantidad:
+                    matriz[i][j] = 0
+                    contador -= 1
+
 def establecer_minas_contiguas(matriz:list)->None:
     '''
     Modifica de una matriz los elementos que no tienen minas con la cantidad de minas contiguas.
     Recibe la matriz (list).
-    Retorna None.
+    Retorna la matriz modificada.
     '''
     for i in range(len(matriz)):
         for j in range(len(matriz[i])):
@@ -52,13 +70,3 @@ def establecer_minas_contiguas(matriz:list)->None:
                         if matriz[x][y] == -1:
                             contador += 1
             matriz[i][j] = contador
-
-def establecer_cantidad_minas(matriz:list, cantidad:int)->None:
-    contador = 0
-    for i in range(len(matriz)):
-        for j in range(len(matriz[i])):
-            if matriz[i][j] == -1:
-                contador += 1
-            if contador > cantidad:
-                contador -= 1
-                matriz[i][j] = 0
