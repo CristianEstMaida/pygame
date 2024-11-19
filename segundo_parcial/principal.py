@@ -20,8 +20,10 @@ imagen_mina = pg.image.load(ruta_imagen_mina)
 pg.display.set_icon(imagen_mina)
 imagen_buscaminas = pg.image.load("segundo_parcial/recursos/buscaminas.png")
 posicion_buscaminas = (400, 0)
-fuente_inicio = pg.font.Font(None, 36)
-fuente_jugando = pg.font.Font(None, 36)
+ruta_fuente_inicio = "segundo_parcial/recursos/pixelifysans_variablefont_wght.ttf"
+ruta_fuente_jugando = "segundo_parcial/recursos/digital_7.ttf"
+fuente_inicio = pg.font.Font(ruta_fuente_inicio, 24)
+fuente_jugando = pg.font.Font(ruta_fuente_jugando, 24)
 texto_nivel = fuente_inicio.render("Nivel", True, COLOR_NARANJA)
 posicion_nivel = (70, 70)
 texto_jugar = fuente_inicio.render("Jugar", True, COLOR_NARANJA)
