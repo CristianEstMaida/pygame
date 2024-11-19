@@ -59,25 +59,28 @@ while corriendo == True:
         if evento.type == pg.QUIT:
             corriendo = False
         elif evento.type == pg.MOUSEBUTTONDOWN:
-            if boton_jugar.collidepoint(evento.pos):
-                estado_juego = "jugando"
-            if bandera_boton_buscaminas == True:
-                for i in range(len(matriz)):
-                    for j in range(len(matriz[i])):
-                        if botones_buscaminas[i][j].collidepoint(evento.pos):
-                            if bandera_tiempo_inicial == False:
-                                tiempo_inicial = time.time()
-                                bandera_tiempo_inicial = True
-                            match(matriz[j][i]):
-                                case -1:
-                                    explosion.play()
-                                    estado_juego = "fin"
-                                case _:
-                                    if bandera_matriz_descubierta[i][j] == False:
-                                        contador_puntaje += 1
-                                    bandera_matriz_descubierta[i][j] = True
-                if evento.button == 3:
-                    print("Derecho")
+            if evento.button == 1:
+                if boton_jugar.collidepoint(evento.pos):
+                    estado_juego = "jugando"
+                if bandera_boton_buscaminas == True:
+                    for i in range(len(matriz)):
+                        for j in range(len(matriz[i])):
+                            if botones_buscaminas[i][j].collidepoint(evento.pos):
+                                if bandera_tiempo_inicial == False:
+                                    tiempo_inicial = time.time()
+                                    bandera_tiempo_inicial = True
+                                match(matriz[j][i]):
+                                    case -1:
+                                        explosion.play()
+                                        estado_juego = "fin"
+                                    case _:
+                                        if bandera_matriz_descubierta[i][j] == False:
+                                            contador_puntaje += 1
+                                        bandera_matriz_descubierta[i][j] = True
+                if boton_salir.collidepoint(evento.pos):
+                    corriendo = False
+            elif evento.button == 3:
+                print("Derecho")
     pantalla.fill(color_fondo)
     if estado_juego == "inicio":
         pantalla.blit(imagen_buscaminas, posicion_buscaminas)
