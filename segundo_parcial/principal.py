@@ -51,6 +51,7 @@ establecer_minas_contiguas(matriz)
 mostrar_matriz(matriz)
 botones_buscaminas = inicializar_matriz(8, 8, 0)
 bandera_matriz_descubierta = inicializar_matriz(8, 8, False)
+bandera_matriz_marcada = inicializar_matriz(8, 8, False)
 estado_juego = "inicio"
 corriendo = True
 
@@ -80,7 +81,13 @@ while corriendo == True:
                 if boton_salir.collidepoint(evento.pos):
                     corriendo = False
             elif evento.button == 3:
-                print("Derecho")
+                for i in range(len(matriz)):
+                        for j in range(len(matriz[i])):
+                            if botones_buscaminas[i][j].collidepoint(evento.pos):
+                                if bandera_matriz_marcada[i][j] == False:
+                                    bandera_matriz_marcada[i][j] = True
+                                else:
+                                    bandera_matriz_marcada[i][j] = False
     pantalla.fill(color_fondo)
     if estado_juego == "inicio":
         pantalla.blit(imagen_buscaminas, posicion_buscaminas)
@@ -112,9 +119,18 @@ while corriendo == True:
         pantalla.blit(imagen_reiniciar, posicion_imagen_reiniciar)
         pantalla.blit(texto_tiempo, posicion_tiempo)
         pantalla.blit(texto_puntaje, posicion_puntaje)
+        posicion_casillero_inicial = (70, 100)
         for i in range(len(matriz)):
             for j in range(len(matriz[i])):
-                botones_buscaminas[i][j] = pantalla.blit(imagen_blanco, (posicion_imagen_blanco[0] + i * 16, posicion_imagen_blanco[1] + j * 16))
+                posicion_casillero = (posicion_casillero_inicial[0] + i * 16, posicion_casillero_inicial[1] + j * 16)
+                if bandera_matriz_descubierta[i][j] == False:
+                    if bandera_matriz_marcada[i][j] == False:
+                        botones_buscaminas[i][j] = pantalla.blit(imagen_blanco, posicion_casillero)
+                    else:
+                        botones_buscaminas[i][j] = pantalla.blit(imagen_bandera, posicion_casillero)
+                else:
+                    texto_casillero = fuente_jugando.render(f"{matriz[j][i]}", True, COLOR_ROJO)
+                    pantalla.blit(texto_casillero, posicion_casillero)
                 bandera_boton_buscaminas = True
     elif estado_juego == "fin":
         bandera_tiempo_inicial = False
