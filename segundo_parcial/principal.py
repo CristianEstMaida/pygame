@@ -44,7 +44,7 @@ ruta_imagen_blanco = "segundo_parcial/recursos/blanco.gif"
 imagen_blanco = pg.image.load(ruta_imagen_blanco)
 IMAGEN_BLANCO_ANCHO = imagen_blanco.get_width()
 IMAGEN_BLANCO_ALTO = imagen_blanco.get_height()
-RESOLUCION_IMAGEN_REINICIAR = (IMAGEN_BLANCO_ANCHO, IMAGEN_BLANCO_ALTO)
+RESOLUCION_IMAGEN_BLANCO = (IMAGEN_BLANCO_ANCHO, IMAGEN_BLANCO_ALTO)
 
 imagen_reiniciar = pg.image.load("segundo_parcial/recursos/cara_sonriente.gif")
 IMAGEN_REINICIAR_ANCHO = imagen_reiniciar.get_width()
