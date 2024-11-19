@@ -24,7 +24,7 @@ imagen_mina = pg.image.load(ruta_imagen_mina)
 pg.display.set_icon(imagen_mina)
 
 imagen_buscaminas = pg.image.load("segundo_parcial/recursos/buscaminas.png")
-posicion_buscaminas = (400, 0)
+posicion_buscaminas = (400, 70)
 
 ruta_fuente_pixel = "segundo_parcial/recursos/pixelifysans_variablefont_wght.ttf"
 ruta_fuente_jugando = "segundo_parcial/recursos/digital_7.ttf"
@@ -42,6 +42,9 @@ posicion_salir = (70, 370)
 
 ruta_imagen_blanco = "segundo_parcial/recursos/blanco.gif"
 imagen_blanco = pg.image.load(ruta_imagen_blanco)
+IMAGEN_BLANCO_ANCHO = imagen_blanco.get_width()
+IMAGEN_BLANCO_ALTO = imagen_blanco.get_height()
+RESOLUCION_IMAGEN_REINICIAR = (IMAGEN_BLANCO_ANCHO, IMAGEN_BLANCO_ALTO)
 
 imagen_reiniciar = pg.image.load("segundo_parcial/recursos/cara_sonriente.gif")
 IMAGEN_REINICIAR_ANCHO = imagen_reiniciar.get_width()
@@ -49,8 +52,12 @@ IMAGEN_REINICIAR_ALTO = imagen_reiniciar.get_height()
 RESOLUCION_IMAGEN_REINICIAR = (IMAGEN_REINICIAR_ANCHO, IMAGEN_REINICIAR_ALTO)
 imagen_reiniciar = pg.transform.scale(imagen_reiniciar, RESOLUCION_IMAGEN_REINICIAR)
 posicion_imagen_reiniciar = (120, 70)
+
 ruta_imagen_bandera = "segundo_parcial/recursos/bandera.gif"
 imagen_bandera = pg.image.load(ruta_imagen_bandera)
+IMAGEN_BANDERA_ANCHO = imagen_bandera.get_width()
+IMAGEN_BANDERA_ALTO = imagen_bandera.get_height()
+RESOLUCION_IMAGEN_BANDERA = (IMAGEN_BANDERA_ANCHO, IMAGEN_BANDERA_ALTO)
 ruta_musica_buscaminas = "segundo_parcial/recursos/buscaminas.mp3"
 pg.mixer.music.load(ruta_musica_buscaminas)
 pg.mixer.music.set_volume(0.3)
