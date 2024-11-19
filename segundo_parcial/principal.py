@@ -44,6 +44,10 @@ ruta_imagen_blanco = "segundo_parcial/recursos/blanco.gif"
 imagen_blanco = pg.image.load(ruta_imagen_blanco)
 
 imagen_reiniciar = pg.image.load("segundo_parcial/recursos/cara_sonriente.gif")
+IMAGEN_REINICIAR_ANCHO = imagen_reiniciar.get_width()
+IMAGEN_REINICIAR_ALTO = imagen_reiniciar.get_height()
+RESOLUCION_IMAGEN_REINICIAR = (IMAGEN_REINICIAR_ANCHO, IMAGEN_REINICIAR_ALTO)
+imagen_reiniciar = pg.transform.scale(imagen_reiniciar, RESOLUCION_IMAGEN_REINICIAR)
 posicion_imagen_reiniciar = (120, 70)
 ruta_imagen_bandera = "segundo_parcial/recursos/bandera.gif"
 imagen_bandera = pg.image.load(ruta_imagen_bandera)
