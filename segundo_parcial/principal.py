@@ -20,10 +20,11 @@ imagen_mina = pg.image.load(ruta_imagen_mina)
 pg.display.set_icon(imagen_mina)
 imagen_buscaminas = pg.image.load("segundo_parcial/recursos/buscaminas.png")
 posicion_buscaminas = (400, 0)
-ruta_fuente_inicio = "segundo_parcial/recursos/pixelifysans_variablefont_wght.ttf"
+ruta_fuente_pixel = "segundo_parcial/recursos/pixelifysans_variablefont_wght.ttf"
 ruta_fuente_jugando = "segundo_parcial/recursos/digital_7.ttf"
-fuente_inicio = pg.font.Font(ruta_fuente_inicio, 24)
+fuente_inicio = pg.font.Font(ruta_fuente_pixel, 24)
 fuente_jugando = pg.font.Font(ruta_fuente_jugando, 24)
+fuente_casilleros = pg.font.Font(ruta_fuente_pixel, 16)
 texto_nivel = fuente_inicio.render("Nivel", True, COLOR_NARANJA)
 posicion_nivel = (70, 70)
 texto_jugar = fuente_inicio.render("Jugar", True, COLOR_NARANJA)
@@ -64,6 +65,20 @@ while corriendo == True:
                 if boton_jugar.collidepoint(evento.pos):
                     estado_juego = "jugando"
                 if bandera_boton_buscaminas == True:
+                    if boton_reiniciar.collidepoint(evento.pos):
+                        bandera_tiempo_inicial = False
+                        bandera_boton_buscaminas = False
+                        bandera_matriz_descubierta = inicializar_matriz(8, 8, False)
+                        bandera_matriz_marcada = inicializar_matriz(8, 8, False)
+                        tiempo_inicial = 0
+                        tiempo_transcurrido_minutos = 0
+                        tiempo_transcurrido_segundos = "0".zfill(2)
+                        contador_puntaje = 0
+                        matriz = crear_matriz_aleatoria(8, 8, -1, 0)
+                        establecer_cantidad_minas(matriz, 10, -1, 0)
+                        establecer_minas_contiguas(matriz)
+                        print("\n")
+                        mostrar_matriz(matriz)
                     for i in range(len(matriz)):
                         for j in range(len(matriz[i])):
                             if botones_buscaminas[i][j].collidepoint(evento.pos):
@@ -128,8 +143,8 @@ while corriendo == True:
                         botones_buscaminas[i][j] = pantalla.blit(imagen_blanco, posicion_casillero)
                     else:
                         botones_buscaminas[i][j] = pantalla.blit(imagen_bandera, posicion_casillero)
-                else:
-                    texto_casillero = fuente_jugando.render(f"{matriz[j][i]}", True, COLOR_ROJO)
+                elif matriz[j][i] > 0:
+                    texto_casillero = fuente_casilleros.render(f"{matriz[j][i]}", True, COLOR_ROJO)
                     pantalla.blit(texto_casillero, posicion_casillero)
                 bandera_boton_buscaminas = True
     elif estado_juego == "fin":
