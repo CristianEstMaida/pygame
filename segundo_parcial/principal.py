@@ -5,21 +5,27 @@ from biblioteca import *
 
 pg.init()
 pg.mixer.init()
+
 pantalla = pg.display.set_mode(RESOLUCION_PANTALLA, pg.RESIZABLE)
 pg.display.set_caption("Buscaminas")
 color_fondo = COLOR_GRIS_CLARO
+
 cantidad_minas = "10"
 tiempo_inicial = 0
 tiempo_transcurrido_minutos = 0
 tiempo_transcurrido_segundos = "0".zfill(2)
+tiempo_fin = 0
 contador_puntaje = 0
 bandera_boton_buscaminas = False
 bandera_tiempo_inicial = False
+
 ruta_imagen_mina = "segundo_parcial/recursos/mina.jpg"
 imagen_mina = pg.image.load(ruta_imagen_mina)
 pg.display.set_icon(imagen_mina)
+
 imagen_buscaminas = pg.image.load("segundo_parcial/recursos/buscaminas.png")
 posicion_buscaminas = (400, 0)
+
 ruta_fuente_pixel = "segundo_parcial/recursos/pixelifysans_variablefont_wght.ttf"
 ruta_fuente_jugando = "segundo_parcial/recursos/digital_7.ttf"
 fuente_inicio = pg.font.Font(ruta_fuente_pixel, 24)
@@ -33,29 +39,36 @@ texto_puntajes = fuente_inicio.render("Ver puntajes", True, COLOR_NARANJA)
 posicion_puntajes = (70, 270)
 texto_salir = fuente_inicio.render("Salir", True, COLOR_NARANJA)
 posicion_salir = (70, 370)
+
 ruta_imagen_blanco = "segundo_parcial/recursos/blanco.gif"
 imagen_blanco = pg.image.load(ruta_imagen_blanco)
-posicion_imagen_blanco = (70, 100)
+
 imagen_reiniciar = pg.image.load("segundo_parcial/recursos/cara_sonriente.gif")
 posicion_imagen_reiniciar = (120, 70)
+ruta_imagen_bandera = "segundo_parcial/recursos/bandera.gif"
+imagen_bandera = pg.image.load(ruta_imagen_bandera)
 ruta_musica_buscaminas = "segundo_parcial/recursos/buscaminas.mp3"
 pg.mixer.music.load(ruta_musica_buscaminas)
 pg.mixer.music.set_volume(0.3)
 pg.mixer.music.play(-1)
+
 ruta_efecto_explosion = "segundo_parcial/recursos/explosion.mp3"
 explosion = pg.mixer.Sound(ruta_efecto_explosion)        
 explosion.set_volume(0.25)
 ruta_efecto_descubrimiento = "segundo_parcial/recursos/descubrimiento.mp3"
 descubrimiento = pg.mixer.Sound(ruta_efecto_descubrimiento)
 descubrimiento.set_volume(0.25)
+
 reloj = pg.time.Clock()
 matriz = crear_matriz_aleatoria(8, 8, -1, 0)
 establecer_cantidad_minas(matriz, 10, -1, 0)
 establecer_minas_contiguas(matriz)
 mostrar_matriz(matriz)
+
 botones_buscaminas = inicializar_matriz(8, 8, 0)
 bandera_matriz_descubierta = inicializar_matriz(8, 8, False)
 bandera_matriz_marcada = inicializar_matriz(8, 8, False)
+
 estado_juego = "inicio"
 corriendo = True
 
@@ -92,11 +105,12 @@ while corriendo == True:
                                     case -1:
                                         explosion.play()
                                         estado_juego = "fin"
+                                        tiempo_fin = time.time()
                                     case _:
                                         if bandera_matriz_descubierta[i][j] == False:
                                             descubrimiento.play()
                                             contador_puntaje += 1
-                                        bandera_matriz_descubierta[i][j] = True
+                                            bandera_matriz_descubierta[i][j] = True
                 if boton_salir.collidepoint(evento.pos):
                     corriendo = False
             elif evento.button == 3:
@@ -135,7 +149,7 @@ while corriendo == True:
         texto_puntaje = fuente_jugando.render(puntaje, True, COLOR_ROJO)
         posicion_puntaje = (220, 70)
         pantalla.blit(texto_cantidad_minas, posicion_cantidad_minas)
-        pantalla.blit(imagen_reiniciar, posicion_imagen_reiniciar)
+        boton_reiniciar = pantalla.blit(imagen_reiniciar, posicion_imagen_reiniciar)
         pantalla.blit(texto_tiempo, posicion_tiempo)
         pantalla.blit(texto_puntaje, posicion_puntaje)
         posicion_casillero_inicial = (70, 100)
@@ -152,20 +166,24 @@ while corriendo == True:
                     pantalla.blit(texto_casillero, posicion_casillero)
                 bandera_boton_buscaminas = True
     elif estado_juego == "fin":
-        bandera_tiempo_inicial = False
-        bandera_boton_buscaminas = False
-        bandera_matriz_descubierta = inicializar_matriz(8, 8, False)
-        tiempo_inicial = 0
-        tiempo_transcurrido_minutos = 0
-        tiempo_transcurrido_segundos = "0".zfill(2)
-        contador_puntaje = 0
-        matriz = crear_matriz_aleatoria(8, 8, -1, 0)
-        establecer_cantidad_minas(matriz, 10, -1, 0)
-        establecer_minas_contiguas(matriz)
-        print("\n")
-        mostrar_matriz(matriz)
-        estado_juego = "inicio"
+        texto_fin = fuente_inicio.render("SE ACABÓ EL JUEGO", True, COLOR_ROJO)
+        posicion_fin = (pantalla.get_width() // 2 - texto_fin.get_width() // 2, pantalla.get_height() // 2)
+        pantalla.blit(texto_fin, posicion_fin)
+        if int(time.time() - tiempo_fin) >= 5:
+            bandera_tiempo_inicial = False
+            bandera_boton_buscaminas = False
+            bandera_matriz_descubierta = inicializar_matriz(8, 8, False)
+            bandera_matriz_marcada = inicializar_matriz(8, 8, False)
+            tiempo_inicial = 0
+            tiempo_transcurrido_minutos = 0
+            tiempo_transcurrido_segundos = "0".zfill(2)
+            contador_puntaje = 0
+            matriz = crear_matriz_aleatoria(8, 8, -1, 0)
+            establecer_cantidad_minas(matriz, 10, -1, 0)
+            establecer_minas_contiguas(matriz)
+            print("\n")
+            mostrar_matriz(matriz)
+            estado_juego = "inicio"
     reloj.tick(30)
     pg.display.flip()
-pg.quit()
 pg.quit()
