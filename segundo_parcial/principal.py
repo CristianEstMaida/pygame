@@ -45,6 +45,9 @@ pg.mixer.music.play(-1)
 ruta_efecto_explosion = "segundo_parcial/recursos/explosion.mp3"
 explosion = pg.mixer.Sound(ruta_efecto_explosion)        
 explosion.set_volume(0.25)
+ruta_efecto_descubrimiento = "segundo_parcial/recursos/descubrimiento.mp3"
+descubrimiento = pg.mixer.Sound(ruta_efecto_descubrimiento)
+descubrimiento.set_volume(0.25)
 reloj = pg.time.Clock()
 matriz = crear_matriz_aleatoria(8, 8, -1, 0)
 establecer_cantidad_minas(matriz, 10, -1, 0)
@@ -91,6 +94,7 @@ while corriendo == True:
                                         estado_juego = "fin"
                                     case _:
                                         if bandera_matriz_descubierta[i][j] == False:
+                                            descubrimiento.play()
                                             contador_puntaje += 1
                                         bandera_matriz_descubierta[i][j] = True
                 if boton_salir.collidepoint(evento.pos):
