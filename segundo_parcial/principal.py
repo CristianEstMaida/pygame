@@ -30,7 +30,7 @@ ruta_fuente_pixel = "segundo_parcial/recursos/pixelifysans_variablefont_wght.ttf
 ruta_fuente_jugando = "segundo_parcial/recursos/digital_7.ttf"
 fuente_inicio = pg.font.Font(ruta_fuente_pixel, 24)
 fuente_jugando = pg.font.Font(ruta_fuente_jugando, 24)
-fuente_casilleros = pg.font.Font(ruta_fuente_pixel, 16)
+fuente_casilleros = pg.font.Font(ruta_fuente_pixel, 15)
 texto_nivel = fuente_inicio.render("Nivel", True, COLOR_NARANJA)
 posicion_nivel = (70, 70)
 texto_jugar = fuente_inicio.render("Jugar", True, COLOR_NARANJA)
@@ -74,16 +74,28 @@ descubrimiento = pg.mixer.Sound(ruta_efecto_descubrimiento)
 descubrimiento.set_volume(0.25)
 
 reloj = pg.time.Clock()
-matriz = inicializar_matriz(8, 8, 0)
-establecer_cantidad_minas(matriz, 10)
+FILAS_FACIL = 8
+FILAS_MEDIO = 16
+FILAS_DIFICIL = 30
+COLUMNAS_FACIL = 8
+COLUMNAS_MEDIO = 16
+COLUMNAS_DIFICIL = 30
+CANTIDAD_MINAS_FACIL = 10
+CANTIDAD_MINAS_MEDIO = 40
+CANTIDAD_MINAS_DIFICIL = 100
+
+matriz = inicializar_matriz(FILAS_FACIL, COLUMNAS_FACIL, 0)
+establecer_cantidad_minas(matriz, CANTIDAD_MINAS_FACIL)
+botones_buscaminas = inicializar_matriz(FILAS_FACIL, COLUMNAS_FACIL, 0)
+bandera_matriz_descubierta = inicializar_matriz(FILAS_FACIL, COLUMNAS_FACIL, False)
+bandera_matriz_marcada = inicializar_matriz(FILAS_FACIL, COLUMNAS_FACIL, False)
+
 establecer_minas_contiguas(matriz)
 mostrar_matriz(matriz)
 
-botones_buscaminas = inicializar_matriz(8, 8, 0)
-bandera_matriz_descubierta = inicializar_matriz(8, 8, False)
-bandera_matriz_marcada = inicializar_matriz(8, 8, False)
 bandera_identificarse = False
 estado_juego = "inicio"
+nivel = "dificil"
 
 corriendo = True
 
@@ -99,16 +111,27 @@ while corriendo == True:
                     if boton_reiniciar.collidepoint(evento.pos) == True:
                         bandera_tiempo_inicial = False
                         bandera_boton_buscaminas = False
-                        bandera_matriz_descubierta = inicializar_matriz(8, 8, False)
                         bandera_identificarse = False
-                        bandera_matriz_marcada = inicializar_matriz(8, 8, False)
                         nombre_ingresado = ""
                         tiempo_inicial = 0
                         tiempo_transcurrido_minutos = 0
                         tiempo_transcurrido_segundos = "0".zfill(2)
                         contador_puntaje = 0
-                        matriz = inicializar_matriz(8, 8, 0)
-                        establecer_cantidad_minas(matriz, 10)
+                        if nivel == "facil":
+                            bandera_matriz_descubierta = inicializar_matriz(FILAS_FACIL, COLUMNAS_FACIL, False)
+                            bandera_matriz_marcada = inicializar_matriz(FILAS_FACIL, COLUMNAS_FACIL, False)
+                            matriz = inicializar_matriz(FILAS_FACIL, COLUMNAS_FACIL, 0)
+                            establecer_cantidad_minas(matriz, CANTIDAD_MINAS_FACIL)
+                        elif nivel == "medio":
+                            bandera_matriz_descubierta = inicializar_matriz(FILAS_MEDIO, COLUMNAS_MEDIO, False)
+                            bandera_matriz_marcada = inicializar_matriz(FILAS_MEDIO, COLUMNAS_MEDIO, False)
+                            matriz = inicializar_matriz(FILAS_MEDIO, COLUMNAS_MEDIO, 0)
+                            establecer_cantidad_minas(matriz, CANTIDAD_MINAS_MEDIO)
+                        elif nivel == "dificil":
+                            bandera_matriz_descubierta = inicializar_matriz(FILAS_DIFICIL, COLUMNAS_DIFICIL, False)
+                            bandera_matriz_marcada = inicializar_matriz(FILAS_DIFICIL, COLUMNAS_DIFICIL, False)
+                            matriz = inicializar_matriz(FILAS_DIFICIL, COLUMNAS_DIFICIL, 0)
+                            establecer_cantidad_minas(matriz, CANTIDAD_MINAS_DIFICIL)
                         establecer_minas_contiguas(matriz)
                         print("\n")
                         mostrar_matriz(matriz)
@@ -128,7 +151,7 @@ while corriendo == True:
                                             descubrimiento.play()
                                             contador_puntaje += 1
                                             bandera_matriz_descubierta[i][j] = True
-                if boton_salir.collidepoint(evento.pos):
+                if boton_salir.collidepoint(evento.pos) == True:
                     corriendo = False
             elif evento.button == 3:
                 for i in range(len(matriz)):
@@ -206,16 +229,27 @@ while corriendo == True:
         if int(time.time() - tiempo_fin) >= 5:
             bandera_tiempo_inicial = False
             bandera_boton_buscaminas = False
-            bandera_matriz_descubierta = inicializar_matriz(8, 8, False)
             bandera_identificarse = False
-            bandera_matriz_marcada = inicializar_matriz(8, 8, False)
             nombre_ingresado = ""
             tiempo_inicial = 0
             tiempo_transcurrido_minutos = 0
             tiempo_transcurrido_segundos = "0".zfill(2)
             contador_puntaje = 0
-            matriz = inicializar_matriz(8, 8, 0)
-            establecer_cantidad_minas(matriz, 10)
+            if nivel == "facil":
+                bandera_matriz_descubierta = inicializar_matriz(FILAS_FACIL, COLUMNAS_FACIL, False)
+                bandera_matriz_marcada = inicializar_matriz(FILAS_FACIL, COLUMNAS_FACIL, False)
+                matriz = inicializar_matriz(FILAS_FACIL, COLUMNAS_FACIL, 0)
+                establecer_cantidad_minas(matriz, CANTIDAD_MINAS_FACIL)
+            elif nivel == "medio":
+                bandera_matriz_descubierta = inicializar_matriz(FILAS_MEDIO, COLUMNAS_MEDIO, False)
+                bandera_matriz_marcada = inicializar_matriz(FILAS_MEDIO, COLUMNAS_MEDIO, False)
+                matriz = inicializar_matriz(FILAS_MEDIO, COLUMNAS_MEDIO, 0)
+                establecer_cantidad_minas(matriz, CANTIDAD_MINAS_MEDIO)
+            elif nivel == "dificil":
+                bandera_matriz_descubierta = inicializar_matriz(FILAS_DIFICIL, COLUMNAS_DIFICIL, False)
+                bandera_matriz_marcada = inicializar_matriz(FILAS_DIFICIL, COLUMNAS_DIFICIL, False)
+                matriz = inicializar_matriz(FILAS_DIFICIL, COLUMNAS_DIFICIL, 0)
+                establecer_cantidad_minas(matriz, CANTIDAD_MINAS_DIFICIL)
             establecer_minas_contiguas(matriz)
             print("\n")
             mostrar_matriz(matriz)
