@@ -95,7 +95,7 @@ def cargar_archivo_json(ruta:str)->any:
         datos = load(archivo)
     return datos
 
-def definir_orden(diccionario:dict) -> float:
+def definir_orden(diccionario:dict) -> str:
     '''
     La funcion establece el orden por puntaje.
     Recibe un diccionario (dict).
