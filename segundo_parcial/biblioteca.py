@@ -1,4 +1,5 @@
 import random
+from json import *
 
 def inicializar_matriz(cantidad_filas:int, cantidad_columnas:int, valor_inicial:any)->list:
     '''
@@ -57,3 +58,58 @@ def establecer_minas_contiguas(matriz:list)->None:
                         if matriz[x][y] == -1:
                             contador += 1
             matriz[i][j] = contador
+
+def guardar_archivo_json(ruta:str, dato:any)->None:
+    '''
+    La funcion guarda el dato en un archivo en formato json.
+    Recibe una ruta (str) y un dato (any).
+    Retorna None.
+    '''
+    with open(ruta, "w") as archivo:
+        dump(dato, archivo, indent=4)
+
+def cargar_jugador(lista: list, nombre:str, puntaje:str, estado:str) -> dict:
+    '''
+    Carga un diccionario con valores.
+    Recibe una lista de claves (list), un nombre, un puntaje y un estado (str).
+    Retorna el diccionario cargado.
+    '''
+    diccionario = {}
+
+    for clave in lista:
+        if clave == estado:
+            diccionario.update({clave: True})
+        elif clave == lista[0]:
+            diccionario.update({clave: nombre})
+        else:
+            diccionario.update({clave: puntaje})
+    return diccionario
+
+def cargar_archivo_json(ruta:str)->any:
+    '''
+    La funcion carga datos de un archivo en formato json.
+    Recibe una ruta (str).
+    Retorna los datos cargados.
+    '''
+    with open(ruta, "r") as archivo:
+        datos = load(archivo)
+    return datos
+
+def definir_orden(diccionario:dict) -> float:
+    '''
+    La funcion establece el orden por puntaje.
+    Recibe un diccionario (dict).
+    Retorna el valor de diccionario en la clave puntaje
+    '''
+    return diccionario["puntaje"]
+
+def ordenar_jugadores(lista_alumnos:list[dict], orden:str) -> None:
+    '''
+    La funcion ordena una lista de jugadores segun un orden.
+    Recibe la lista (list[dict]) y el orden (str).
+    Retorna None.
+    '''
+    if orden == "asc":
+        lista_alumnos.sort(key=definir_orden)
+    elif orden == "desc":
+        lista_alumnos.sort(key=definir_orden, reverse=True)
