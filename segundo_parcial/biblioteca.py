@@ -1,17 +1,5 @@
 import random
 
-def crear_matriz_aleatoria(cantidad_filas:int, cantidad_columnas:int, desde:int, hasta:int)->list:
-    '''
-    Carga en un matriz números aleatorios.
-    Recibe cantidad de filas, columnas, desde y hasta (int).
-    Retorna None
-    '''
-    matriz = inicializar_matriz(cantidad_filas, cantidad_columnas, 0)
-    for i in range(len(matriz)):
-        for j in range(len(matriz[i])):
-            matriz[i][j] = random.randint(desde, hasta)
-    return matriz
-
 def inicializar_matriz(cantidad_filas:int, cantidad_columnas:int, valor_inicial:any)->list:
     '''
     Carga una matriz con valores iniciales.
@@ -35,23 +23,22 @@ def mostrar_matriz(matriz:list)->None:
             print(matriz[i][j], end=" ")
         print("")
 
-def establecer_cantidad_minas(matriz:list, cantidad:int, desde:int, hasta:int)->None:
+def establecer_cantidad_minas(matriz:list, cantidad:int)->None:
     '''
     Modifica una matriz para que tenga una cantidad de minas determinada.
-    Recibe la matriz (list), la cantidad de minas, desde y hasta (int). 
+    Recibe la matriz (list) y la cantidad de minas (int). 
     Retorna None.
     '''
     contador = 0
     while contador < cantidad:
+        x = random.randint(0, len(matriz) - 1)
+        y = random.randint(0, len(matriz[0]) - 1)
+        matriz[x][y] = -1
+        contador = 0
         for i in range(len(matriz)):
             for j in range(len(matriz[i])):
-                if contador < cantidad:
-                    matriz[i][j] = random.randint(desde, hasta)
                 if matriz[i][j] == -1:
                     contador += 1
-                if contador > cantidad:
-                    matriz[i][j] = 0
-                    contador -= 1
 
 def establecer_minas_contiguas(matriz:list)->None:
     '''
