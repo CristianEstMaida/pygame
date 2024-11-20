@@ -20,6 +20,7 @@ bandera_boton_buscaminas = False
 bandera_boton_nivel = False
 bandera_campo_texto = False
 bandera_tiempo_inicial = False
+bandera_inicio = False
 
 ruta_imagen_mina = "segundo_parcial/recursos/mina.jpg"
 imagen_mina = pg.image.load(ruta_imagen_mina)
@@ -47,6 +48,8 @@ texto_nivel_medio = fuente_inicio.render("Medio", True, COLOR_NARANJA)
 posicion_nivel_medio = (70, 170)
 texto_nivel_dificil = fuente_inicio.render("Dificil", True, COLOR_NARANJA)
 posicion_nivel_dificil = (70, 270)
+texto_inicio = fuente_inicio.render("Inicio", True, COLOR_NARANJA)
+posicion_inicio = (70, 370)
 nombre_ingresado = ""
 fuente_nombre = pg.font.SysFont(ruta_fuente_pixel, 72, bold=True)
 nombre_usuario = fuente_nombre.render(nombre_ingresado, True, COLOR_ROJO)
@@ -172,6 +175,7 @@ while corriendo == True:
                             bandera_boton_nivel = False
                             bandera_identificarse = False
                             bandera_campo_texto = False
+                            bandera_inicio = False
                             nombre_ingresado = ""
                             tiempo_inicial = 0
                             tiempo_transcurrido_minutos = 0
@@ -215,6 +219,10 @@ while corriendo == True:
                         bandera_campo_texto = True
                     else:
                         bandera_campo_texto = False
+                elif estado_juego == "puntajes":
+                    if bandera_inicio == True:
+                        if boton_inicio.collidepoint(evento.pos):
+                            estado_juego ="inicio"
             elif evento.button == 3:
                 if estado_juego == "jugando":
                     for i in range(len(matriz)):
@@ -337,6 +345,10 @@ while corriendo == True:
                     else:
                         break
                     contador_mostrar_puntajes += 1
+        pantalla.blit(texto_inicio, posicion_inicio)
+        coordenadas_boton_inicio = (50, 350, 200, 75)
+        boton_inicio = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_inicio, width=10, border_radius=15)
+        bandera_inicio = True    
     elif estado_juego == "fin":
         texto_fin = fuente_inicio.render("PERDISTE", True, COLOR_ROJO)
         posicion_fin = (pantalla.get_width() // 2 - texto_fin.get_width() // 2, pantalla.get_height() // 2)
@@ -347,6 +359,7 @@ while corriendo == True:
             bandera_boton_nivel = False
             bandera_identificarse = False
             bandera_campo_texto = False
+            bandera_inicio = False
             nombre_ingresado = ""
             tiempo_inicial = 0
             tiempo_transcurrido_minutos = 0
