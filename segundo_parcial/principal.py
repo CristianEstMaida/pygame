@@ -18,6 +18,7 @@ tiempo_fin = 0
 contador_puntaje = 0
 bandera_boton_buscaminas = False
 bandera_boton_nivel = False
+bandera_campo_texto = False
 bandera_tiempo_inicial = False
 
 ruta_imagen_mina = "segundo_parcial/recursos/mina.jpg"
@@ -161,6 +162,7 @@ while corriendo == True:
                             bandera_boton_buscaminas = False
                             bandera_boton_nivel = False
                             bandera_identificarse = False
+                            bandera_campo_texto = False
                             nombre_ingresado = ""
                             tiempo_inicial = 0
                             tiempo_transcurrido_minutos = 0
@@ -194,31 +196,38 @@ while corriendo == True:
                                         case -1:
                                             explosion.play()
                                             estado_juego = "identificarse"
-                                            tiempo_fin = time.time()
                                         case _:
                                             if bandera_matriz_descubierta[i][j] == False:
                                                 descubrimiento.play()
                                                 contador_puntaje += 1
                                                 bandera_matriz_descubierta[i][j] = True
+                elif estado_juego == "identificarse":
+                    if campo_texto.collidepoint(evento.pos) == True:
+                        bandera_campo_texto = True
+                    else:
+                        bandera_campo_texto = False
             elif evento.button == 3:
-                for i in range(len(matriz)):
-                        for j in range(len(matriz[i])):
-                            if botones_buscaminas[i][j].collidepoint(evento.pos) == True:
-                                if bandera_matriz_marcada[i][j] == False:
-                                    bandera_matriz_marcada[i][j] = True
-                                else:
-                                    bandera_matriz_marcada[i][j] = False
+                if estado_juego == "jugando":
+                    for i in range(len(matriz)):
+                            for j in range(len(matriz[i])):
+                                if botones_buscaminas[i][j].collidepoint(evento.pos) == True:
+                                    if bandera_matriz_marcada[i][j] == False:
+                                        bandera_matriz_marcada[i][j] = True
+                                    else:
+                                        bandera_matriz_marcada[i][j] = False
         if evento.type == pg.KEYDOWN:
             if estado_juego == "identificarse":
-                if evento.key == pg.K_RETURN:
-                    if len(nombre_ingresado) >= 3: 
-                        bandera_identificarse = True
-                elif evento.key == pg.K_BACKSPACE:
-                    nombre_ingresado = nombre_ingresado[0:-1]
-                else:
-                    if len(nombre_ingresado) < 15:
-                        nombre_ingresado += evento.unicode
-                nombre_usuario = fuente_inicio.render(nombre_ingresado, True, COLOR_ROJO)
+                if bandera_campo_texto == True:
+                    if evento.key == pg.K_RETURN:
+                        if len(nombre_ingresado) >= 3:
+                            tiempo_fin = time.time()
+                            bandera_identificarse = True
+                    elif evento.key == pg.K_BACKSPACE:
+                        nombre_ingresado = nombre_ingresado[0:-1]
+                    else:
+                        if len(nombre_ingresado) < 15 and (evento.unicode == "_" or evento.unicode == " " or evento.unicode.isalnum() == True):
+                            nombre_ingresado += evento.unicode
+                    nombre_usuario = fuente_inicio.render(nombre_ingresado, True, COLOR_ROJO)
     pantalla.fill(color_fondo)
     if estado_juego == "inicio":
         pantalla.blit(imagen_buscaminas, posicion_buscaminas)
@@ -275,9 +284,17 @@ while corriendo == True:
                     pantalla.blit(texto_casillero, posicion_casillero)
                 bandera_boton_buscaminas = True
     elif estado_juego == "identificarse":
-        texto_nombre_usuario = fuente_inicio.render(f"Ingrese nombre: {nombre_ingresado}", True, COLOR_ROJO)
-        posicion_nombre_usuario = (pantalla.get_width() // 2 - nombre_usuario.get_width() // 2, pantalla.get_height() // 2)
+        texto_nombre_usuario = fuente_inicio.render("Ingrese nombre: ", True, COLOR_ROJO)
+        texto_nombre_ingresado = fuente_inicio.render(f"{nombre_ingresado}", True, COLOR_ROJO)
+        posicion_nombre_usuario = (70, 90)
+        posicion_nombre_ingresado = (290, 90)
         pantalla.blit(texto_nombre_usuario, posicion_nombre_usuario)
+        pantalla.blit(texto_nombre_ingresado, posicion_nombre_ingresado)
+        coordenadas_campo_texto = (270, 70, 260, 75)
+        if bandera_campo_texto == False:
+            campo_texto = pg.draw.rect(pantalla, COLOR_ROJO, coordenadas_campo_texto, width=10, border_radius=15)
+        else:
+            campo_texto = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_campo_texto, width=10, border_radius=15)
         if bandera_identificarse == True:
             estado_juego = "fin"
     elif estado_juego == "fin":
@@ -287,8 +304,9 @@ while corriendo == True:
         if int(time.time() - tiempo_fin) >= 5:
             bandera_tiempo_inicial = False
             bandera_boton_buscaminas = False
-            bander_boton_nivel = False
+            bandera_boton_nivel = False
             bandera_identificarse = False
+            bandera_campo_texto = False
             nombre_ingresado = ""
             tiempo_inicial = 0
             tiempo_transcurrido_minutos = 0
