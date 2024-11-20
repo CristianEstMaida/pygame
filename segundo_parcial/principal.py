@@ -104,9 +104,16 @@ mostrar_matriz(matriz)
 bandera_identificarse = False
 estado_juego = "inicio"
 nivel = "facil"
+lista_claves = ["nombre", "puntaje", "activo"]
 
 corriendo = True
-
+try:
+    lista_jugadores = cargar_archivo_json("segundo_parcial/recursos/jugadores.json")
+    criterio = "desc"
+    ordenar_jugadores(lista_jugadores, criterio)
+except:
+    lista_jugadores = []
+    guardar_archivo_json("segundo_parcial/recursos/jugadores.json", lista_jugadores)
 while corriendo == True:
     for evento in pg.event.get():
         if evento.type == pg.QUIT:
@@ -118,6 +125,8 @@ while corriendo == True:
                         estado_juego = "nivel"
                     elif boton_jugar.collidepoint(evento.pos) == True:
                         estado_juego = "jugando"
+                    elif boton_puntajes.collidepoint(evento.pos) == True:
+                        estado_juego = "puntajes"
                     elif boton_salir.collidepoint(evento.pos) == True:
                         corriendo = False
                 elif estado_juego == "nivel":
@@ -221,13 +230,17 @@ while corriendo == True:
                     if evento.key == pg.K_RETURN:
                         if len(nombre_ingresado) >= 3:
                             tiempo_fin = time.time()
+                            jugador = cargar_jugador(lista_claves, nombre_ingresado, puntaje, "activo")
+                            print(jugador)
+                            lista_jugadores.append(jugador)
+                            guardar_archivo_json("segundo_parcial/recursos/jugadores.json", lista_jugadores)
                             bandera_identificarse = True
                     elif evento.key == pg.K_BACKSPACE:
                         nombre_ingresado = nombre_ingresado[0:-1]
                     else:
                         if len(nombre_ingresado) < 15 and (evento.unicode == "_" or evento.unicode == " " or evento.unicode.isalnum() == True):
                             nombre_ingresado += evento.unicode
-                    nombre_usuario = fuente_inicio.render(nombre_ingresado, True, COLOR_ROJO)
+                    nombre_usuario = fuente_inicio.render(nombre_ingresado, True, COLOR_ROJO)            
     pantalla.fill(color_fondo)
     if estado_juego == "inicio":
         pantalla.blit(imagen_buscaminas, posicion_buscaminas)
@@ -297,6 +310,33 @@ while corriendo == True:
             campo_texto = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_campo_texto, width=10, border_radius=15)
         if bandera_identificarse == True:
             estado_juego = "fin"
+    elif estado_juego == "puntajes":
+        if len(lista_jugadores) > 0:
+            posicion_nombre = [70, 70]
+            posicion_puntaje = [300, 70]
+            contador_mostrar_puntajes = 0
+            for clave_encabezado in lista_claves:
+                if clave_encabezado == "nombre":
+                    encabezado_nombre = fuente_inicio.render(f"{clave_encabezado.upper()}", True, COLOR_ROJO)
+                    pantalla.blit(encabezado_nombre, posicion_nombre)
+                elif clave_encabezado == "puntaje":
+                    encabezado_puntaje = fuente_inicio.render(f"{clave_encabezado.upper()}", True, COLOR_ROJO)
+                    pantalla.blit(encabezado_puntaje, posicion_puntaje)                    
+            for puntaje_jugador in lista_jugadores:
+                if puntaje_jugador["activo"] == True:
+                    if contador_mostrar_puntajes < 3:
+                        for clave in puntaje_jugador:
+                            if clave == "nombre":
+                                texto_nombre = fuente_inicio.render(f"{puntaje_jugador[clave]}", True, COLOR_ROJO)
+                                posicion_nombre[1] += 40
+                                pantalla.blit(texto_nombre, posicion_nombre)
+                            elif clave == "puntaje":
+                                texto_puntaje =  fuente_inicio.render(f"{puntaje_jugador[clave]}", True, COLOR_ROJO)
+                                posicion_puntaje[1] += 40
+                                pantalla.blit(texto_puntaje, posicion_puntaje)
+                    else:
+                        break
+                    contador_mostrar_puntajes += 1
     elif estado_juego == "fin":
         texto_fin = fuente_inicio.render("PERDISTE", True, COLOR_ROJO)
         posicion_fin = (pantalla.get_width() // 2 - texto_fin.get_width() // 2, pantalla.get_height() // 2)
