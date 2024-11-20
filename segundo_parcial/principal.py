@@ -231,8 +231,8 @@ while corriendo == True:
                         if len(nombre_ingresado) >= 3:
                             tiempo_fin = time.time()
                             jugador = cargar_jugador(lista_claves, nombre_ingresado, puntaje, "activo")
-                            print(jugador)
                             lista_jugadores.append(jugador)
+                            ordenar_jugadores(lista_jugadores, criterio)
                             guardar_archivo_json("segundo_parcial/recursos/jugadores.json", lista_jugadores)
                             bandera_identificarse = True
                     elif evento.key == pg.K_BACKSPACE:
