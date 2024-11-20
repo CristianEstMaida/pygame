@@ -39,6 +39,9 @@ texto_puntajes = fuente_inicio.render("Ver puntajes", True, COLOR_NARANJA)
 posicion_puntajes = (70, 270)
 texto_salir = fuente_inicio.render("Salir", True, COLOR_NARANJA)
 posicion_salir = (70, 370)
+nombre_ingresado = ""
+fuente_nombre = pg.font.SysFont(ruta_fuente_pixel, 72, bold=True)
+nombre_usuario = fuente_nombre.render(nombre_ingresado, True, COLOR_ROJO)
 
 ruta_imagen_blanco = "segundo_parcial/recursos/blanco.gif"
 imagen_blanco = pg.image.load(ruta_imagen_blanco)
@@ -71,51 +74,54 @@ descubrimiento = pg.mixer.Sound(ruta_efecto_descubrimiento)
 descubrimiento.set_volume(0.25)
 
 reloj = pg.time.Clock()
-matriz = crear_matriz_aleatoria(8, 8, -1, 0)
-establecer_cantidad_minas(matriz, 10, -1, 0)
+matriz = inicializar_matriz(8, 8, 0)
+establecer_cantidad_minas(matriz, 10)
 establecer_minas_contiguas(matriz)
 mostrar_matriz(matriz)
 
 botones_buscaminas = inicializar_matriz(8, 8, 0)
 bandera_matriz_descubierta = inicializar_matriz(8, 8, False)
 bandera_matriz_marcada = inicializar_matriz(8, 8, False)
-
+bandera_identificarse = False
 estado_juego = "inicio"
+
 corriendo = True
 
 while corriendo == True:
     for evento in pg.event.get():
         if evento.type == pg.QUIT:
             corriendo = False
-        elif evento.type == pg.MOUSEBUTTONDOWN:
+        if evento.type == pg.MOUSEBUTTONDOWN:
             if evento.button == 1:
-                if boton_jugar.collidepoint(evento.pos):
+                if boton_jugar.collidepoint(evento.pos) == True:
                     estado_juego = "jugando"
                 if bandera_boton_buscaminas == True:
-                    if boton_reiniciar.collidepoint(evento.pos):
+                    if boton_reiniciar.collidepoint(evento.pos) == True:
                         bandera_tiempo_inicial = False
                         bandera_boton_buscaminas = False
                         bandera_matriz_descubierta = inicializar_matriz(8, 8, False)
+                        bandera_identificarse = False
                         bandera_matriz_marcada = inicializar_matriz(8, 8, False)
+                        nombre_ingresado = ""
                         tiempo_inicial = 0
                         tiempo_transcurrido_minutos = 0
                         tiempo_transcurrido_segundos = "0".zfill(2)
                         contador_puntaje = 0
-                        matriz = crear_matriz_aleatoria(8, 8, -1, 0)
-                        establecer_cantidad_minas(matriz, 10, -1, 0)
+                        matriz = inicializar_matriz(8, 8, 0)
+                        establecer_cantidad_minas(matriz, 10)
                         establecer_minas_contiguas(matriz)
                         print("\n")
                         mostrar_matriz(matriz)
                     for i in range(len(matriz)):
                         for j in range(len(matriz[i])):
-                            if botones_buscaminas[i][j].collidepoint(evento.pos):
+                            if botones_buscaminas[i][j].collidepoint(evento.pos) == True:
                                 if bandera_tiempo_inicial == False:
                                     tiempo_inicial = time.time()
                                     bandera_tiempo_inicial = True
                                 match(matriz[j][i]):
                                     case -1:
                                         explosion.play()
-                                        estado_juego = "fin"
+                                        estado_juego = "identificarse"
                                         tiempo_fin = time.time()
                                     case _:
                                         if bandera_matriz_descubierta[i][j] == False:
@@ -127,11 +133,22 @@ while corriendo == True:
             elif evento.button == 3:
                 for i in range(len(matriz)):
                         for j in range(len(matriz[i])):
-                            if botones_buscaminas[i][j].collidepoint(evento.pos):
+                            if botones_buscaminas[i][j].collidepoint(evento.pos) == True:
                                 if bandera_matriz_marcada[i][j] == False:
                                     bandera_matriz_marcada[i][j] = True
                                 else:
                                     bandera_matriz_marcada[i][j] = False
+        if evento.type == pg.KEYDOWN:
+            if estado_juego == "identificarse":
+                if evento.key == pg.K_RETURN:
+                    if len(nombre_ingresado) >= 3: 
+                        bandera_identificarse = True
+                elif evento.key == pg.K_BACKSPACE:
+                    nombre_ingresado = nombre_ingresado[0:-1]
+                else:
+                    if len(nombre_ingresado) < 15:
+                        nombre_ingresado += evento.unicode
+                nombre_usuario = fuente_inicio.render(nombre_ingresado, True, COLOR_ROJO)
     pantalla.fill(color_fondo)
     if estado_juego == "inicio":
         pantalla.blit(imagen_buscaminas, posicion_buscaminas)
@@ -176,21 +193,29 @@ while corriendo == True:
                     texto_casillero = fuente_casilleros.render(f"{matriz[j][i]}", True, COLOR_ROJO)
                     pantalla.blit(texto_casillero, posicion_casillero)
                 bandera_boton_buscaminas = True
+    elif estado_juego == "identificarse":
+        texto_nombre_usuario = fuente_inicio.render(f"Ingrese nombre: {nombre_ingresado}", True, COLOR_ROJO)
+        posicion_nombre_usuario = (pantalla.get_width() // 2 - nombre_usuario.get_width() // 2, pantalla.get_height() // 2)
+        pantalla.blit(texto_nombre_usuario, posicion_nombre_usuario)
+        if bandera_identificarse == True:
+            estado_juego = "fin"
     elif estado_juego == "fin":
-        texto_fin = fuente_inicio.render("SE ACABÓ EL JUEGO", True, COLOR_ROJO)
+        texto_fin = fuente_inicio.render("PERDISTE", True, COLOR_ROJO)
         posicion_fin = (pantalla.get_width() // 2 - texto_fin.get_width() // 2, pantalla.get_height() // 2)
         pantalla.blit(texto_fin, posicion_fin)
         if int(time.time() - tiempo_fin) >= 5:
             bandera_tiempo_inicial = False
             bandera_boton_buscaminas = False
             bandera_matriz_descubierta = inicializar_matriz(8, 8, False)
+            bandera_identificarse = False
             bandera_matriz_marcada = inicializar_matriz(8, 8, False)
+            nombre_ingresado = ""
             tiempo_inicial = 0
             tiempo_transcurrido_minutos = 0
             tiempo_transcurrido_segundos = "0".zfill(2)
             contador_puntaje = 0
-            matriz = crear_matriz_aleatoria(8, 8, -1, 0)
-            establecer_cantidad_minas(matriz, 10, -1, 0)
+            matriz = inicializar_matriz(8, 8, 0)
+            establecer_cantidad_minas(matriz, 10)
             establecer_minas_contiguas(matriz)
             print("\n")
             mostrar_matriz(matriz)
