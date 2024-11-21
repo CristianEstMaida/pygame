@@ -28,19 +28,21 @@ pg.display.set_icon(imagen_mina)
 
 imagen_buscaminas = pg.image.load("segundo_parcial/recursos/buscaminas.png")
 posicion_buscaminas = (400, 70)
+imagen_explosion = pg.image.load("segundo_parcial/recursos/explosion.jpg")
+posicion_explosion = (0, 0)
 
 ruta_fuente_pixel = "segundo_parcial/recursos/pixelifysans_variablefont_wght.ttf"
 ruta_fuente_jugando = "segundo_parcial/recursos/digital_7.ttf"
 fuente_inicio = pg.font.Font(ruta_fuente_pixel, 24)
 fuente_jugando = pg.font.Font(ruta_fuente_jugando, 24)
 fuente_casilleros = pg.font.Font(ruta_fuente_pixel, 15)
-texto_nivel = fuente_inicio.render("Nivel", True, COLOR_NARANJA)
+texto_nivel = fuente_inicio.render("Nivel", True, COLOR_NARANJA, color_fondo)
 posicion_nivel = (70, 70)
-texto_jugar = fuente_inicio.render("Jugar", True, COLOR_NARANJA)
+texto_jugar = fuente_inicio.render("Jugar", True, COLOR_NARANJA, color_fondo)
 posicion_jugar = (70, 170)
-texto_puntajes = fuente_inicio.render("Ver puntajes", True, COLOR_NARANJA)
+texto_puntajes = fuente_inicio.render("Ver puntajes", True, COLOR_NARANJA, color_fondo)
 posicion_puntajes = (70, 270)
-texto_salir = fuente_inicio.render("Salir", True, COLOR_NARANJA)
+texto_salir = fuente_inicio.render("Salir", True, COLOR_NARANJA, color_fondo)
 posicion_salir = (70, 370)
 texto_nivel_facil = fuente_inicio.render("Facil", True, COLOR_NARANJA)
 posicion_nivel_facil = (70, 70)
@@ -85,15 +87,7 @@ descubrimiento = pg.mixer.Sound(ruta_efecto_descubrimiento)
 descubrimiento.set_volume(0.25)
 
 reloj = pg.time.Clock()
-FILAS_FACIL = 8
-FILAS_MEDIO = 16
-FILAS_DIFICIL = 30
-COLUMNAS_FACIL = 8
-COLUMNAS_MEDIO = 16
-COLUMNAS_DIFICIL = 30
-CANTIDAD_MINAS_FACIL = 10
-CANTIDAD_MINAS_MEDIO = 40
-CANTIDAD_MINAS_DIFICIL = 100
+
 
 matriz = inicializar_matriz(FILAS_FACIL, COLUMNAS_FACIL, 0)
 establecer_cantidad_minas(matriz, CANTIDAD_MINAS_FACIL)
@@ -251,6 +245,7 @@ while corriendo == True:
                     nombre_usuario = fuente_inicio.render(nombre_ingresado, True, COLOR_ROJO)            
     pantalla.fill(color_fondo)
     if estado_juego == "inicio":
+        pantalla.blit(imagen_explosion, posicion_explosion)
         pantalla.blit(imagen_buscaminas, posicion_buscaminas)
         pantalla.blit(texto_nivel, posicion_nivel)
         pantalla.blit(texto_jugar, posicion_jugar)
@@ -301,7 +296,23 @@ while corriendo == True:
                     else:
                         botones_buscaminas[i][j] = pantalla.blit(imagen_bandera, posicion_casillero)
                 elif matriz[j][i] > 0:
-                    texto_casillero = fuente_casilleros.render(f"{matriz[j][i]}", True, COLOR_ROJO)
+                    match matriz[j][i]:
+                        case 1:
+                            texto_casillero = fuente_casilleros.render(f"{matriz[j][i]}", True, "blue1")
+                        case 2:
+                            texto_casillero = fuente_casilleros.render(f"{matriz[j][i]}", True, "chartreuse4")
+                        case 3:
+                            texto_casillero = fuente_casilleros.render(f"{matriz[j][i]}", True, "red1")
+                        case 4:
+                            texto_casillero = fuente_casilleros.render(f"{matriz[j][i]}", True, "blue4")
+                        case 5:
+                            texto_casillero = fuente_casilleros.render(f"{matriz[j][i]}", True, "darkred")
+                        case 6:
+                            texto_casillero = fuente_casilleros.render(f"{matriz[j][i]}", True, "aquamarine4")
+                        case 7:
+                            texto_casillero = fuente_casilleros.render(f"{matriz[j][i]}", True, "black")
+                        case 8:
+                            texto_casillero = fuente_casilleros.render(f"{matriz[j][i]}", True, "azure4")
                     pantalla.blit(texto_casillero, posicion_casillero)
                 bandera_boton_buscaminas = True
     elif estado_juego == "identificarse":
