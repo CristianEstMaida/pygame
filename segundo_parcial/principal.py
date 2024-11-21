@@ -35,7 +35,9 @@ ruta_fuente_pixel = "segundo_parcial/recursos/pixelifysans_variablefont_wght.ttf
 ruta_fuente_jugando = "segundo_parcial/recursos/digital_7.ttf"
 fuente_inicio = pg.font.Font(ruta_fuente_pixel, 24)
 fuente_jugando = pg.font.Font(ruta_fuente_jugando, 24)
-fuente_casilleros = pg.font.Font(ruta_fuente_pixel, 15)
+fuente_casilleros_dificil = pg.font.Font(ruta_fuente_pixel, 15)
+fuente_casilleros_medio = pg.font.Font(ruta_fuente_pixel, 24)
+fuente_casilleros_facil = pg.font.Font(ruta_fuente_pixel, 52)
 texto_nivel = fuente_inicio.render("Nivel", True, COLOR_NARANJA, color_fondo)
 posicion_nivel = (70, 70)
 texto_jugar = fuente_inicio.render("Jugar", True, COLOR_NARANJA, color_fondo)
@@ -57,11 +59,21 @@ fuente_nombre = pg.font.SysFont(ruta_fuente_pixel, 72, bold=True)
 nombre_usuario = fuente_nombre.render(nombre_ingresado, True, COLOR_ROJO)
 
 ruta_imagen_blanco = "segundo_parcial/recursos/blanco.gif"
-imagen_blanco = pg.image.load(ruta_imagen_blanco)
-IMAGEN_BLANCO_ANCHO = imagen_blanco.get_width()
-IMAGEN_BLANCO_ALTO = imagen_blanco.get_height()
+imagen_blanco_facil = pg.image.load(ruta_imagen_blanco)
+IMAGEN_BLANCO_ANCHO = imagen_blanco_facil.get_width() * 4
+IMAGEN_BLANCO_ALTO = imagen_blanco_facil.get_height() * 4
 RESOLUCION_IMAGEN_BLANCO = (IMAGEN_BLANCO_ANCHO, IMAGEN_BLANCO_ALTO)
-imagen_blanco = pg.transform.scale(imagen_blanco, RESOLUCION_IMAGEN_BLANCO)
+imagen_blanco_facil = pg.transform.scale(imagen_blanco_facil, RESOLUCION_IMAGEN_BLANCO)
+
+IMAGEN_BLANCO_ANCHO_MEDIO = imagen_blanco_facil.get_width() / 2
+IMAGEN_BLANCO_ALTO_MEDIO = imagen_blanco_facil.get_height() / 2
+RESOLUCION_IMAGEN_BLANCO_MEDIO = (IMAGEN_BLANCO_ANCHO_MEDIO, IMAGEN_BLANCO_ALTO_MEDIO)
+imagen_blanco_medio = pg.transform.scale(imagen_blanco_facil, RESOLUCION_IMAGEN_BLANCO_MEDIO)
+
+IMAGEN_BLANCO_ANCHO_DIFICIL = imagen_blanco_facil.get_width() / 4
+IMAGEN_BLANCO_ALTO_DIFICIL = imagen_blanco_facil.get_height() / 4
+RESOLUCION_IMAGEN_BLANCO_DIFICIL = (IMAGEN_BLANCO_ANCHO_DIFICIL, IMAGEN_BLANCO_ALTO_DIFICIL)
+imagen_blanco_dificil = pg.transform.scale(imagen_blanco_facil, RESOLUCION_IMAGEN_BLANCO_DIFICIL)
 
 imagen_reiniciar = pg.image.load("segundo_parcial/recursos/cara_sonriente.gif")
 IMAGEN_REINICIAR_ANCHO = imagen_reiniciar.get_width()
@@ -71,11 +83,22 @@ imagen_reiniciar = pg.transform.scale(imagen_reiniciar, RESOLUCION_IMAGEN_REINIC
 posicion_imagen_reiniciar = (120, 70)
 
 ruta_imagen_bandera = "segundo_parcial/recursos/bandera.gif"
-imagen_bandera = pg.image.load(ruta_imagen_bandera)
-IMAGEN_BANDERA_ANCHO = imagen_bandera.get_width()
-IMAGEN_BANDERA_ALTO = imagen_bandera.get_height()
+imagen_bandera_facil = pg.image.load(ruta_imagen_bandera)
+IMAGEN_BANDERA_ANCHO = imagen_bandera_facil.get_width() * 4
+IMAGEN_BANDERA_ALTO = imagen_bandera_facil.get_height() * 4
 RESOLUCION_IMAGEN_BANDERA = (IMAGEN_BANDERA_ANCHO, IMAGEN_BANDERA_ALTO)
-imagen_bandera = pg.transform.scale(imagen_blanco, RESOLUCION_IMAGEN_BANDERA)
+imagen_bandera_facil = pg.transform.scale(imagen_bandera_facil, RESOLUCION_IMAGEN_BANDERA)
+
+IMAGEN_BANDERA_ANCHO_MEDIO = imagen_bandera_facil.get_width() / 2
+IMAGEN_BANDERA_ALTO_MEDIO = imagen_bandera_facil.get_height() / 2
+RESOLUCION_IMAGEN_BANDERA_MEDIO = (IMAGEN_BANDERA_ANCHO_MEDIO, IMAGEN_BANDERA_ALTO_MEDIO)
+imagen_bandera_medio = pg.transform.scale(imagen_bandera_facil, RESOLUCION_IMAGEN_BANDERA_MEDIO)
+
+IMAGEN_BANDERA_ANCHO_DIFICIL = imagen_bandera_facil.get_width() / 4
+IMAGEN_BANDERA_ALTO_DIFICIL = imagen_bandera_facil.get_height() / 4
+RESOLUCION_IMAGEN_BANDERA_DIFICIL = (IMAGEN_BANDERA_ANCHO_DIFICIL, IMAGEN_BANDERA_ALTO_DIFICIL)
+imagen_bandera_dificil = pg.transform.scale(imagen_bandera_facil, RESOLUCION_IMAGEN_BANDERA_DIFICIL)
+
 ruta_musica_buscaminas = "segundo_parcial/recursos/buscaminas.mp3"
 pg.mixer.music.load(ruta_musica_buscaminas)
 pg.mixer.music.set_volume(0.3)
@@ -291,30 +314,85 @@ while corriendo == True:
         posicion_casillero_inicial = (70, 100)
         for i in range(len(matriz)):
             for j in range(len(matriz[i])):
-                posicion_casillero = (posicion_casillero_inicial[0] + i * 16, posicion_casillero_inicial[1] + j * 16)
+                if nivel == "dificil":
+                    posicion_casillero = (posicion_casillero_inicial[0] + i * 16, posicion_casillero_inicial[1] + j * 16)
+                elif nivel == "medio":
+                    posicion_casillero = (posicion_casillero_inicial[0] + i * 33, posicion_casillero_inicial[1] + j * 33)
+                elif nivel == "facil":
+                    posicion_casillero = (posicion_casillero_inicial[0] + i * 65, posicion_casillero_inicial[1] + j * 65)
                 if bandera_matriz_descubierta[i][j] == False:
                     if bandera_matriz_marcada[i][j] == False:
-                        botones_buscaminas[i][j] = pantalla.blit(imagen_blanco, posicion_casillero)
+                        if nivel == "dificil":
+                            botones_buscaminas[i][j] = pantalla.blit(imagen_blanco_dificil, posicion_casillero)
+                        elif nivel == "medio":
+                            botones_buscaminas[i][j] = pantalla.blit(imagen_blanco_medio, posicion_casillero)
+                        elif nivel == "facil":
+                            botones_buscaminas[i][j] = pantalla.blit(imagen_blanco_facil, posicion_casillero)
                     else:
-                        botones_buscaminas[i][j] = pantalla.blit(imagen_bandera, posicion_casillero)
+                        if nivel == "dificil":
+                            botones_buscaminas[i][j] = pantalla.blit(imagen_bandera_dificil, posicion_casillero)
+                        elif nivel == "medio":
+                            botones_buscaminas[i][j] = pantalla.blit(imagen_bandera_medio, posicion_casillero)
+                        elif nivel == "facil":
+                            botones_buscaminas[i][j] = pantalla.blit(imagen_bandera_facil, posicion_casillero)
                 elif matriz[j][i] > 0:
                     match matriz[j][i]:
                         case 1:
-                            texto_casillero = fuente_casilleros.render(f"{matriz[j][i]}", True, "blue1")
+                            if nivel == "dificil":
+                                texto_casillero = fuente_casilleros_dificil.render(f"{matriz[j][i]}", True, "blue1")
+                            elif nivel == "medio":
+                                texto_casillero = fuente_casilleros_medio.render(f"{matriz[j][i]}", True, "blue1")
+                            elif nivel == "facil":
+                                texto_casillero = fuente_casilleros_facil.render(f"{matriz[j][i]}", True, "blue1")
                         case 2:
-                            texto_casillero = fuente_casilleros.render(f"{matriz[j][i]}", True, "chartreuse4")
+                            if nivel == "dificil":
+                                texto_casillero = fuente_casilleros_dificil.render(f"{matriz[j][i]}", True, "chartreuse4")
+                            elif nivel == "medio":
+                                texto_casillero = fuente_casilleros_medio.render(f"{matriz[j][i]}", True, "chartreuse4")
+                            elif nivel == "facil":
+                                texto_casillero = fuente_casilleros_facil.render(f"{matriz[j][i]}", True, "chartreuse4")
                         case 3:
-                            texto_casillero = fuente_casilleros.render(f"{matriz[j][i]}", True, "red1")
+                            if nivel == "dificil":
+                                texto_casillero = fuente_casilleros_dificil.render(f"{matriz[j][i]}", True, "red1")
+                            elif nivel == "medio":
+                                texto_casillero = fuente_casilleros_medio.render(f"{matriz[j][i]}", True, "red1")
+                            elif nivel == "facil":
+                                texto_casillero = fuente_casilleros_facil.render(f"{matriz[j][i]}", True, "red1")
                         case 4:
-                            texto_casillero = fuente_casilleros.render(f"{matriz[j][i]}", True, "blue4")
+                            if nivel == "dificil":
+                                texto_casillero = fuente_casilleros_dificil.render(f"{matriz[j][i]}", True, "blue4")
+                            elif nivel == "medio":
+                                texto_casillero = fuente_casilleros_medio.render(f"{matriz[j][i]}", True, "blue4")
+                            elif nivel == "facil":
+                                texto_casillero = fuente_casilleros_facil.render(f"{matriz[j][i]}", True, "blue4")
                         case 5:
-                            texto_casillero = fuente_casilleros.render(f"{matriz[j][i]}", True, "darkred")
+                            if nivel == "dificil":
+                                texto_casillero = fuente_casilleros_dificil.render(f"{matriz[j][i]}", True, "darkred")
+                            elif nivel == "medio":
+                                texto_casillero = fuente_casilleros_medio.render(f"{matriz[j][i]}", True, "darkred")
+                            elif nivel == "facil":
+                                texto_casillero = fuente_casilleros_facil.render(f"{matriz[j][i]}", True, "darkred")
                         case 6:
-                            texto_casillero = fuente_casilleros.render(f"{matriz[j][i]}", True, "aquamarine4")
+                            if nivel == "dificil":
+                                texto_casillero = fuente_casilleros_dificil.render(f"{matriz[j][i]}", True, "aquamarine4")
+                            elif nivel == "medio":
+                                texto_casillero = fuente_casilleros_medio.render(f"{matriz[j][i]}", True, "aquamarine4")
+                            elif nivel == "facil":
+                                texto_casillero = fuente_casilleros_facil.render(f"{matriz[j][i]}", True, "aquamarine4")
                         case 7:
-                            texto_casillero = fuente_casilleros.render(f"{matriz[j][i]}", True, "black")
+                            if nivel == "dificil":
+                                texto_casillero = fuente_casilleros_dificil.render(f"{matriz[j][i]}", True, "black")
+                            elif nivel == "medio":
+                                texto_casillero = fuente_casilleros_medio.render(f"{matriz[j][i]}", True, "black")
+                            elif nivel == "facil":
+                                texto_casillero = fuente_casilleros_facil.render(f"{matriz[j][i]}", True, "black")
                         case 8:
-                            texto_casillero = fuente_casilleros.render(f"{matriz[j][i]}", True, "azure4")
+                            if nivel == "dificil":
+                                texto_casillero = fuente_casilleros_dificil.render(f"{matriz[j][i]}", True, "azure4")
+                            elif nivel == "medio":
+                                texto_casillero = fuente_casilleros_medio.render(f"{matriz[j][i]}", True, "azure4")
+                            elif nivel == "facil":
+                                texto_casillero = fuente_casilleros_facil.render(f"{matriz[j][i]}", True, "azure4")
                     pantalla.blit(texto_casillero, posicion_casillero)
                 bandera_boton_buscaminas = True
     elif estado_juego == "identificarse":
