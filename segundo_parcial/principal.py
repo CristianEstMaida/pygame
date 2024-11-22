@@ -10,7 +10,9 @@ pantalla = pg.display.set_mode(RESOLUCION_PANTALLA, pg.RESIZABLE)
 pg.display.set_caption("Buscaminas")
 color_fondo = COLOR_GRIS_CLARO
 
-cantidad_minas = "10"
+cantidad_minas_facil = str(CANTIDAD_MINAS_FACIL)
+cantidad_minas_medio = str(CANTIDAD_MINAS_MEDIO)
+cantidad_minas_dificil = str(CANTIDAD_MINAS_DIFICIL)
 tiempo_inicial = 0
 tiempo_transcurrido_minutos = 0
 tiempo_transcurrido_segundos = "0".zfill(2)
@@ -36,17 +38,15 @@ IMAGEN_MINA_ALTO_FACIL = imagen_mina_fin.get_height() * 4
 RESOLUCION_IMAGEN_BANDERA = (IMAGEN_MINA_ANCHO_FACIL, IMAGEN_MINA_ALTO_FACIL)
 imagen_mina_facil = pg.transform.scale(imagen_mina_fin, RESOLUCION_IMAGEN_BANDERA)
 
-IMAGEN_MINA_ANCHO_MEDIO = imagen_mina_fin.get_width() / 2
-IMAGEN_MINA_ALTO_MEDIO = imagen_mina_fin.get_height() / 2
+IMAGEN_MINA_ANCHO_MEDIO = imagen_mina_facil.get_width() / 2
+IMAGEN_MINA_ALTO_MEDIO = imagen_mina_facil.get_height() / 2
 RESOLUCION_IMAGEN_MINA_MEDIO = (IMAGEN_MINA_ANCHO_MEDIO, IMAGEN_MINA_ALTO_MEDIO)
-imagen_mina_medio = pg.transform.scale(imagen_mina_fin, RESOLUCION_IMAGEN_MINA_MEDIO)
+imagen_mina_medio = pg.transform.scale(imagen_mina_facil, RESOLUCION_IMAGEN_MINA_MEDIO)
 
-IMAGEN_MINA_ANCHO_DIFICIL = imagen_mina_fin.get_width() / 4
-IMAGEN_MINA_ALTO_DIFICIL = imagen_mina_fin.get_height() / 4
+IMAGEN_MINA_ANCHO_DIFICIL = imagen_mina_facil.get_width() / 4
+IMAGEN_MINA_ALTO_DIFICIL = imagen_mina_facil.get_height() / 4
 RESOLUCION_IMAGEN_MINA_DIFICIL = (IMAGEN_MINA_ANCHO_DIFICIL, IMAGEN_MINA_ALTO_DIFICIL)
-imagen_mina_dificil = pg.transform.scale(imagen_mina_fin, RESOLUCION_IMAGEN_MINA_DIFICIL)
-
-
+imagen_mina_dificil = pg.transform.scale(imagen_mina_facil, RESOLUCION_IMAGEN_MINA_DIFICIL)
 
 imagen_buscaminas = pg.image.load("segundo_parcial/recursos/buscaminas.png")
 posicion_buscaminas = (400, 70)
@@ -56,7 +56,7 @@ posicion_explosion = (0, 0)
 ruta_fuente_pixel = "segundo_parcial/recursos/pixelifysans_variablefont_wght.ttf"
 ruta_fuente_jugando = "segundo_parcial/recursos/digital_7.ttf"
 fuente_inicio = pg.font.Font(ruta_fuente_pixel, 24)
-fuente_jugando = pg.font.Font(ruta_fuente_jugando, 24)
+fuente_jugando = pg.font.Font(ruta_fuente_jugando, 52)
 fuente_casilleros_dificil = pg.font.Font(ruta_fuente_pixel, 15)
 fuente_casilleros_medio = pg.font.Font(ruta_fuente_pixel, 24)
 fuente_casilleros_facil = pg.font.Font(ruta_fuente_pixel, 52)
@@ -98,11 +98,11 @@ RESOLUCION_IMAGEN_BLANCO_DIFICIL = (IMAGEN_BLANCO_ANCHO_DIFICIL, IMAGEN_BLANCO_A
 imagen_blanco_dificil = pg.transform.scale(imagen_blanco_facil, RESOLUCION_IMAGEN_BLANCO_DIFICIL)
 
 imagen_reiniciar = pg.image.load("segundo_parcial/recursos/cara_sonriente.gif")
-IMAGEN_REINICIAR_ANCHO = imagen_reiniciar.get_width()
-IMAGEN_REINICIAR_ALTO = imagen_reiniciar.get_height()
+IMAGEN_REINICIAR_ANCHO = imagen_reiniciar.get_width() * 2
+IMAGEN_REINICIAR_ALTO = imagen_reiniciar.get_height() * 2
 RESOLUCION_IMAGEN_REINICIAR = (IMAGEN_REINICIAR_ANCHO, IMAGEN_REINICIAR_ALTO)
 imagen_reiniciar = pg.transform.scale(imagen_reiniciar, RESOLUCION_IMAGEN_REINICIAR)
-posicion_imagen_reiniciar = (120, 70)
+posicion_imagen_reiniciar = (300, 70)
 
 ruta_imagen_bandera = "segundo_parcial/recursos/bandera.gif"
 imagen_bandera_facil = pg.image.load(ruta_imagen_bandera)
@@ -324,21 +324,26 @@ while corriendo == True:
         bandera_boton_nivel = True
     elif estado_juego == "jugando":
         pg.mixer.music.set_volume(0.2)
-        texto_cantidad_minas = fuente_jugando.render(cantidad_minas, True, COLOR_ROJO)
+        if nivel == "facil":
+            texto_cantidad_minas = fuente_jugando.render(cantidad_minas_facil, True, COLOR_ROJO)
+        elif nivel == "medio":
+            texto_cantidad_minas = fuente_jugando.render(cantidad_minas_medio, True, COLOR_ROJO)
+        else:
+            texto_cantidad_minas = fuente_jugando.render(cantidad_minas_dificil, True, COLOR_ROJO)
         posicion_cantidad_minas = (70, 70)
         if bandera_tiempo_inicial == True:
             tiempo_transcurrido_minutos = int(time.time() - tiempo_inicial) // 60
             tiempo_transcurrido_segundos = str(int(time.time() - tiempo_inicial) % 60).zfill(2)
         texto_tiempo = fuente_jugando.render(f"{tiempo_transcurrido_minutos}:{tiempo_transcurrido_segundos}", True, COLOR_ROJO)
-        posicion_tiempo = (160, 70)
+        posicion_tiempo = (400, 70)
         puntaje = str(contador_puntaje).zfill(4)
         texto_puntaje = fuente_jugando.render(puntaje, True, COLOR_ROJO)
-        posicion_puntaje = (220, 70)
+        posicion_puntaje = (500, 70)
         pantalla.blit(texto_cantidad_minas, posicion_cantidad_minas)
         boton_reiniciar = pantalla.blit(imagen_reiniciar, posicion_imagen_reiniciar)
         pantalla.blit(texto_tiempo, posicion_tiempo)
         pantalla.blit(texto_puntaje, posicion_puntaje)
-        posicion_casillero_inicial = (70, 100)
+        posicion_casillero_inicial = (70, 140)
         for i in range(len(matriz)):
             for j in range(len(matriz[i])):
                 if nivel == "dificil":
@@ -438,8 +443,8 @@ while corriendo == True:
                         bandera_matriz_descubierta[i][j] = True
             bandera_boton_buscaminas = False
             bandera_tiempo_inicial = False
-            texto_fin = fuente_inicio.render("PERDISTE", True, COLOR_ROJO)
-            posicion_fin = (470, 70)
+            texto_fin = fuente_casilleros_facil.render("PERDISTE", True, COLOR_ROJO)
+            posicion_fin = (620, 70)
             pantalla.blit(texto_fin, posicion_fin)
         if nivel == "facil" and puntaje == "0054" or nivel == "medio" and puntaje == "0216" or nivel == "dificil" and puntaje == "0380":
             estado_juego = "identificarse"
