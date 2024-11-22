@@ -21,6 +21,7 @@ bandera_boton_nivel = False
 bandera_campo_texto = False
 bandera_tiempo_inicial = False
 bandera_inicio = False
+bandera_fin = False
 
 ruta_imagen_mina = "segundo_parcial/recursos/mina.jpg"
 imagen_mina = pg.image.load(ruta_imagen_mina)
@@ -187,37 +188,39 @@ while corriendo == True:
                             nivel = "dificil"
                             estado_juego = "jugando"
                 elif estado_juego == "jugando":
+                    if boton_reiniciar.collidepoint(evento.pos) == True:
+                        bandera_fin = False
+                        bandera_tiempo_inicial = False
+                        bandera_boton_buscaminas = False
+                        bandera_boton_nivel = False
+                        bandera_identificarse = False
+                        bandera_campo_texto = False
+                        bandera_inicio = False
+                        nombre_ingresado = ""
+                        tiempo_inicial = 0
+                        tiempo_transcurrido_minutos = 0
+                        tiempo_transcurrido_segundos = "0".zfill(2)
+                        contador_puntaje = 0
+                        if nivel == "facil":
+                            bandera_matriz_descubierta = inicializar_matriz(FILAS_FACIL, COLUMNAS_FACIL, False)
+                            bandera_matriz_marcada = inicializar_matriz(FILAS_FACIL, COLUMNAS_FACIL, False)
+                            matriz = inicializar_matriz(FILAS_FACIL, COLUMNAS_FACIL, 0)
+                            establecer_cantidad_minas(matriz, CANTIDAD_MINAS_FACIL)
+                        elif nivel == "medio":
+                            bandera_matriz_descubierta = inicializar_matriz(FILAS_MEDIO, COLUMNAS_MEDIO, False)
+                            bandera_matriz_marcada = inicializar_matriz(FILAS_MEDIO, COLUMNAS_MEDIO, False)
+                            matriz = inicializar_matriz(FILAS_MEDIO, COLUMNAS_MEDIO, 0)
+                            establecer_cantidad_minas(matriz, CANTIDAD_MINAS_MEDIO)
+                        elif nivel == "dificil":
+                            bandera_matriz_descubierta = inicializar_matriz(FILAS_DIFICIL, COLUMNAS_DIFICIL, False)
+                            bandera_matriz_marcada = inicializar_matriz(FILAS_DIFICIL, COLUMNAS_DIFICIL, False)
+                            matriz = inicializar_matriz(FILAS_DIFICIL, COLUMNAS_DIFICIL, 0)
+                            establecer_cantidad_minas(matriz, CANTIDAD_MINAS_DIFICIL)
+                        establecer_minas_contiguas(matriz)
+                        print("\n")
+                        mostrar_matriz(matriz)
+                        bandera_boton_buscaminas = True
                     if bandera_boton_buscaminas == True:
-                        if boton_reiniciar.collidepoint(evento.pos) == True:
-                            bandera_tiempo_inicial = False
-                            bandera_boton_buscaminas = False
-                            bandera_boton_nivel = False
-                            bandera_identificarse = False
-                            bandera_campo_texto = False
-                            bandera_inicio = False
-                            nombre_ingresado = ""
-                            tiempo_inicial = 0
-                            tiempo_transcurrido_minutos = 0
-                            tiempo_transcurrido_segundos = "0".zfill(2)
-                            contador_puntaje = 0
-                            if nivel == "facil":
-                                bandera_matriz_descubierta = inicializar_matriz(FILAS_FACIL, COLUMNAS_FACIL, False)
-                                bandera_matriz_marcada = inicializar_matriz(FILAS_FACIL, COLUMNAS_FACIL, False)
-                                matriz = inicializar_matriz(FILAS_FACIL, COLUMNAS_FACIL, 0)
-                                establecer_cantidad_minas(matriz, CANTIDAD_MINAS_FACIL)
-                            elif nivel == "medio":
-                                bandera_matriz_descubierta = inicializar_matriz(FILAS_MEDIO, COLUMNAS_MEDIO, False)
-                                bandera_matriz_marcada = inicializar_matriz(FILAS_MEDIO, COLUMNAS_MEDIO, False)
-                                matriz = inicializar_matriz(FILAS_MEDIO, COLUMNAS_MEDIO, 0)
-                                establecer_cantidad_minas(matriz, CANTIDAD_MINAS_MEDIO)
-                            elif nivel == "dificil":
-                                bandera_matriz_descubierta = inicializar_matriz(FILAS_DIFICIL, COLUMNAS_DIFICIL, False)
-                                bandera_matriz_marcada = inicializar_matriz(FILAS_DIFICIL, COLUMNAS_DIFICIL, False)
-                                matriz = inicializar_matriz(FILAS_DIFICIL, COLUMNAS_DIFICIL, 0)
-                                establecer_cantidad_minas(matriz, CANTIDAD_MINAS_DIFICIL)
-                            establecer_minas_contiguas(matriz)
-                            print("\n")
-                            mostrar_matriz(matriz)
                         for i in range(len(matriz)):
                             for j in range(len(matriz[i])):
                                 if botones_buscaminas[i][j].collidepoint(evento.pos) == True:
@@ -227,7 +230,7 @@ while corriendo == True:
                                     match(matriz[j][i]):
                                         case -1:
                                             explosion.play()
-                                            estado_juego = "identificarse"
+                                            bandera_fin = True
                                         case _:
                                             if bandera_matriz_descubierta[i][j] == False:
                                                 descubrimiento.play()
@@ -394,7 +397,16 @@ while corriendo == True:
                             elif nivel == "facil":
                                 texto_casillero = fuente_casilleros_facil.render(f"{matriz[j][i]}", True, "azure4")
                     pantalla.blit(texto_casillero, posicion_casillero)
-                bandera_boton_buscaminas = True
+                if bandera_fin == False:    
+                    bandera_boton_buscaminas = True
+        if bandera_fin == True:
+            bandera_boton_buscaminas = False
+            bandera_tiempo_inicial = False
+            texto_fin = fuente_inicio.render("PERDISTE", True, COLOR_ROJO)
+            posicion_fin = (470, 70)
+            pantalla.blit(texto_fin, posicion_fin)
+        if nivel == "facil" and puntaje == "0054" or nivel == "medio" and puntaje == "0216" or nivel == "dificil" and puntaje == "0380":
+            estado_juego = "identificarse"
     elif estado_juego == "identificarse":
         texto_nombre_usuario = fuente_inicio.render("Ingrese nombre: ", True, COLOR_ROJO)
         texto_nombre_ingresado = fuente_inicio.render(f"{nombre_ingresado}", True, COLOR_ROJO)
@@ -441,7 +453,7 @@ while corriendo == True:
         boton_inicio = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_inicio, width=10, border_radius=15)
         bandera_inicio = True    
     elif estado_juego == "fin":
-        texto_fin = fuente_inicio.render("PERDISTE", True, COLOR_ROJO)
+        texto_fin = fuente_inicio.render("GANASTE", True, COLOR_ROJO)
         posicion_fin = (pantalla.get_width() // 2 - texto_fin.get_width() // 2, pantalla.get_height() // 2)
         pantalla.blit(texto_fin, posicion_fin)
         if int(time.time() - tiempo_fin) >= 5:
