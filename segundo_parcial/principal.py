@@ -21,11 +21,32 @@ bandera_boton_nivel = False
 bandera_campo_texto = False
 bandera_tiempo_inicial = False
 bandera_inicio = False
+bandera_mina = False
 bandera_fin = False
 
 ruta_imagen_mina = "segundo_parcial/recursos/mina.jpg"
 imagen_mina = pg.image.load(ruta_imagen_mina)
+
 pg.display.set_icon(imagen_mina)
+
+ruta_imagen_mina_fin = "segundo_parcial/recursos/mina_fin.gif"
+imagen_mina_fin = pg.image.load(ruta_imagen_mina_fin)
+IMAGEN_MINA_ANCHO_FACIL = imagen_mina_fin.get_width() * 4
+IMAGEN_MINA_ALTO_FACIL = imagen_mina_fin.get_height() * 4
+RESOLUCION_IMAGEN_BANDERA = (IMAGEN_MINA_ANCHO_FACIL, IMAGEN_MINA_ALTO_FACIL)
+imagen_mina_facil = pg.transform.scale(imagen_mina_fin, RESOLUCION_IMAGEN_BANDERA)
+
+IMAGEN_MINA_ANCHO_MEDIO = imagen_mina_fin.get_width() / 2
+IMAGEN_MINA_ALTO_MEDIO = imagen_mina_fin.get_height() / 2
+RESOLUCION_IMAGEN_MINA_MEDIO = (IMAGEN_MINA_ANCHO_MEDIO, IMAGEN_MINA_ALTO_MEDIO)
+imagen_mina_medio = pg.transform.scale(imagen_mina_fin, RESOLUCION_IMAGEN_MINA_MEDIO)
+
+IMAGEN_MINA_ANCHO_DIFICIL = imagen_mina_fin.get_width() / 4
+IMAGEN_MINA_ALTO_DIFICIL = imagen_mina_fin.get_height() / 4
+RESOLUCION_IMAGEN_MINA_DIFICIL = (IMAGEN_MINA_ANCHO_DIFICIL, IMAGEN_MINA_ALTO_DIFICIL)
+imagen_mina_dificil = pg.transform.scale(imagen_mina_fin, RESOLUCION_IMAGEN_MINA_DIFICIL)
+
+
 
 imagen_buscaminas = pg.image.load("segundo_parcial/recursos/buscaminas.png")
 posicion_buscaminas = (400, 70)
@@ -39,13 +60,13 @@ fuente_jugando = pg.font.Font(ruta_fuente_jugando, 24)
 fuente_casilleros_dificil = pg.font.Font(ruta_fuente_pixel, 15)
 fuente_casilleros_medio = pg.font.Font(ruta_fuente_pixel, 24)
 fuente_casilleros_facil = pg.font.Font(ruta_fuente_pixel, 52)
-texto_nivel = fuente_inicio.render("Nivel", True, COLOR_NARANJA, color_fondo)
+texto_nivel = fuente_inicio.render("Nivel", True, COLOR_NARANJA)
 posicion_nivel = (70, 70)
-texto_jugar = fuente_inicio.render("Jugar", True, COLOR_NARANJA, color_fondo)
+texto_jugar = fuente_inicio.render("Jugar", True, COLOR_NARANJA)
 posicion_jugar = (70, 170)
-texto_puntajes = fuente_inicio.render("Ver puntajes", True, COLOR_NARANJA, color_fondo)
+texto_puntajes = fuente_inicio.render("Ver puntajes", True, COLOR_NARANJA)
 posicion_puntajes = (70, 270)
-texto_salir = fuente_inicio.render("Salir", True, COLOR_NARANJA, color_fondo)
+texto_salir = fuente_inicio.render("Salir", True, COLOR_NARANJA)
 posicion_salir = (70, 370)
 texto_nivel_facil = fuente_inicio.render("Facil", True, COLOR_NARANJA)
 posicion_nivel_facil = (70, 70)
@@ -230,7 +251,9 @@ while corriendo == True:
                                     match(matriz[j][i]):
                                         case -1:
                                             explosion.play()
-                                            bandera_fin = True
+                                            if bandera_matriz_descubierta[i][j] == False:
+                                                bandera_matriz_descubierta[i][j] = True
+                                                bandera_fin = True
                                         case _:
                                             if bandera_matriz_descubierta[i][j] == False:
                                                 descubrimiento.play()
@@ -273,6 +296,7 @@ while corriendo == True:
                     nombre_usuario = fuente_inicio.render(nombre_ingresado, True, COLOR_ROJO)            
     pantalla.fill(color_fondo)
     if estado_juego == "inicio":
+        imagen_explosion.set_alpha(28)
         pantalla.blit(imagen_explosion, posicion_explosion)
         pantalla.blit(imagen_buscaminas, posicion_buscaminas)
         pantalla.blit(texto_nivel, posicion_nivel)
@@ -338,8 +362,15 @@ while corriendo == True:
                             botones_buscaminas[i][j] = pantalla.blit(imagen_bandera_medio, posicion_casillero)
                         elif nivel == "facil":
                             botones_buscaminas[i][j] = pantalla.blit(imagen_bandera_facil, posicion_casillero)
-                elif matriz[j][i] > 0:
+                elif matriz[j][i] > 0 or matriz[j][i] == -1:
                     match matriz[j][i]:
+                        case -1:
+                            if nivel == "dificil":
+                                botones_buscaminas[i][j] = pantalla.blit(imagen_mina_dificil, posicion_casillero)
+                            elif nivel == "medio":
+                                botones_buscaminas[i][j] = pantalla.blit(imagen_mina_medio, posicion_casillero)
+                            elif nivel == "facil":
+                                botones_buscaminas[i][j] = pantalla.blit(imagen_mina_facil, posicion_casillero)
                         case 1:
                             if nivel == "dificil":
                                 texto_casillero = fuente_casilleros_dificil.render(f"{matriz[j][i]}", True, "blue1")
@@ -396,10 +427,15 @@ while corriendo == True:
                                 texto_casillero = fuente_casilleros_medio.render(f"{matriz[j][i]}", True, "azure4")
                             elif nivel == "facil":
                                 texto_casillero = fuente_casilleros_facil.render(f"{matriz[j][i]}", True, "azure4")
-                    pantalla.blit(texto_casillero, posicion_casillero)
+                    if matriz[j][i] != -1:
+                        pantalla.blit(texto_casillero, posicion_casillero)
                 if bandera_fin == False:    
                     bandera_boton_buscaminas = True
         if bandera_fin == True:
+            for i in range(len(matriz)):
+                for j in range(len(matriz[i])):
+                    if matriz[j][i] == -1:
+                        bandera_matriz_descubierta[i][j] = True
             bandera_boton_buscaminas = False
             bandera_tiempo_inicial = False
             texto_fin = fuente_inicio.render("PERDISTE", True, COLOR_ROJO)
@@ -463,6 +499,7 @@ while corriendo == True:
             bandera_identificarse = False
             bandera_campo_texto = False
             bandera_inicio = False
+            bandera_fin = False
             nombre_ingresado = ""
             tiempo_inicial = 0
             tiempo_transcurrido_minutos = 0
