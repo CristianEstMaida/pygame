@@ -218,6 +218,9 @@ while corriendo == True:
                         bandera_campo_texto = False
                         bandera_inicio = False
                         bandera_mina = False
+                        cantidad_minas_facil = str(CANTIDAD_MINAS_FACIL)
+                        cantidad_minas_medio = str(CANTIDAD_MINAS_MEDIO)
+                        cantidad_minas_dificil = str(CANTIDAD_MINAS_DIFICIL)
                         nombre_ingresado = ""
                         tiempo_inicial = 0
                         tiempo_transcurrido_minutos = 0
@@ -272,16 +275,19 @@ while corriendo == True:
             elif evento.button == 3:
                 if estado_juego == "jugando":
                     for i in range(len(matriz)):
-                            for j in range(len(matriz[i])):
-                                if botones_buscaminas[i][j].collidepoint(evento.pos) == True:
+                        for j in range(len(matriz[i])):
+                            if botones_buscaminas[i][j].collidepoint(evento.pos) == True:
+                                if bandera_boton_buscaminas == True:
                                     if bandera_matriz_marcada[i][j] == False:
-                                        bandera_matriz_marcada[i][j] = True
-                                        if nivel == "facil":
+                                        if nivel == "facil" and int(cantidad_minas_facil) > 0:
                                             cantidad_minas_facil = str(int(cantidad_minas_facil) - 1)
-                                        elif nivel == "medio":
+                                            bandera_matriz_marcada[i][j] = True
+                                        elif nivel == "medio" and int(cantidad_minas_medio) > 0:
                                             cantidad_minas_medio = str(int(cantidad_minas_medio) - 1)
-                                        else:
+                                            bandera_matriz_marcada[i][j] = True
+                                        elif nivel == "dificil" and int(cantidad_minas_dificil) > 0:
                                             cantidad_minas_dificil = str(int(cantidad_minas_dificil) - 1)
+                                            bandera_matriz_marcada[i][j] = True
                                     else:
                                         bandera_matriz_marcada[i][j] = False
                                         if nivel == "facil":
@@ -519,6 +525,9 @@ while corriendo == True:
             bandera_inicio = False
             bandera_mina = False
             bandera_fin = False
+            cantidad_minas_facil = str(CANTIDAD_MINAS_FACIL)
+            cantidad_minas_medio = str(CANTIDAD_MINAS_MEDIO)
+            cantidad_minas_dificil = str(CANTIDAD_MINAS_DIFICIL)
             nombre_ingresado = ""
             tiempo_inicial = 0
             tiempo_transcurrido_minutos = 0
