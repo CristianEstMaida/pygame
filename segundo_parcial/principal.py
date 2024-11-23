@@ -295,24 +295,25 @@ while corriendo == True:
                         for j in range(len(matriz[i])):
                             if botones_buscaminas[i][j].collidepoint(evento.pos) == True:
                                 if bandera_boton_buscaminas == True:
-                                    if bandera_matriz_marcada[i][j] == False:
-                                        if nivel == "facil" and int(cantidad_minas_facil) > 0:
-                                            cantidad_minas_facil = str(int(cantidad_minas_facil) - 1)
-                                            bandera_matriz_marcada[i][j] = True
-                                        elif nivel == "medio" and int(cantidad_minas_medio) > 0:
-                                            cantidad_minas_medio = str(int(cantidad_minas_medio) - 1)
-                                            bandera_matriz_marcada[i][j] = True
-                                        elif nivel == "dificil" and int(cantidad_minas_dificil) > 0:
-                                            cantidad_minas_dificil = str(int(cantidad_minas_dificil) - 1)
-                                            bandera_matriz_marcada[i][j] = True
-                                    else:
-                                        bandera_matriz_marcada[i][j] = False
-                                        if nivel == "facil":
-                                            cantidad_minas_facil = str(int(cantidad_minas_facil) + 1)
-                                        elif nivel == "medio":
-                                            cantidad_minas_medio = str(int(cantidad_minas_medio) + 1)
+                                    if bandera_matriz_descubierta[i][j] == False:
+                                        if bandera_matriz_marcada[i][j] == False:
+                                            if nivel == "facil" and int(cantidad_minas_facil) > 0:
+                                                cantidad_minas_facil = str(int(cantidad_minas_facil) - 1)
+                                                bandera_matriz_marcada[i][j] = True
+                                            elif nivel == "medio" and int(cantidad_minas_medio) > 0:
+                                                cantidad_minas_medio = str(int(cantidad_minas_medio) - 1)
+                                                bandera_matriz_marcada[i][j] = True
+                                            elif nivel == "dificil" and int(cantidad_minas_dificil) > 0:
+                                                cantidad_minas_dificil = str(int(cantidad_minas_dificil) - 1)
+                                                bandera_matriz_marcada[i][j] = True
                                         else:
-                                            cantidad_minas_dificil = str(int(cantidad_minas_dificil) + 1)
+                                            bandera_matriz_marcada[i][j] = False
+                                            if nivel == "facil":
+                                                cantidad_minas_facil = str(int(cantidad_minas_facil) + 1)
+                                            elif nivel == "medio":
+                                                cantidad_minas_medio = str(int(cantidad_minas_medio) + 1)
+                                            else:
+                                                cantidad_minas_dificil = str(int(cantidad_minas_dificil) + 1)
         if evento.type == pg.KEYDOWN:
             if estado_juego == "identificarse":
                 if bandera_campo_texto == True:
