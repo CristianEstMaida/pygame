@@ -217,6 +217,7 @@ while corriendo == True:
                         bandera_identificarse = False
                         bandera_campo_texto = False
                         bandera_inicio = False
+                        bandera_mina = False
                         nombre_ingresado = ""
                         tiempo_inicial = 0
                         tiempo_transcurrido_minutos = 0
@@ -275,8 +276,20 @@ while corriendo == True:
                                 if botones_buscaminas[i][j].collidepoint(evento.pos) == True:
                                     if bandera_matriz_marcada[i][j] == False:
                                         bandera_matriz_marcada[i][j] = True
+                                        if nivel == "facil":
+                                            cantidad_minas_facil = str(int(cantidad_minas_facil) - 1)
+                                        elif nivel == "medio":
+                                            cantidad_minas_medio = str(int(cantidad_minas_medio) - 1)
+                                        else:
+                                            cantidad_minas_dificil = str(int(cantidad_minas_dificil) - 1)
                                     else:
                                         bandera_matriz_marcada[i][j] = False
+                                        if nivel == "facil":
+                                            cantidad_minas_facil = str(int(cantidad_minas_facil) + 1)
+                                        elif nivel == "medio":
+                                            cantidad_minas_medio = str(int(cantidad_minas_medio) + 1)
+                                        else:
+                                            cantidad_minas_dificil = str(int(cantidad_minas_dificil) + 1)
         if evento.type == pg.KEYDOWN:
             if estado_juego == "identificarse":
                 if bandera_campo_texto == True:
@@ -504,6 +517,7 @@ while corriendo == True:
             bandera_identificarse = False
             bandera_campo_texto = False
             bandera_inicio = False
+            bandera_mina = False
             bandera_fin = False
             nombre_ingresado = ""
             tiempo_inicial = 0
