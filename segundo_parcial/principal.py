@@ -55,11 +55,17 @@ posicion_explosion = (0, 0)
 
 ruta_fuente_pixel = "segundo_parcial/recursos/pixelifysans_variablefont_wght.ttf"
 ruta_fuente_jugando = "segundo_parcial/recursos/digital_7.ttf"
-fuente_inicio = pg.font.Font(ruta_fuente_pixel, 24)
-fuente_jugando = pg.font.Font(ruta_fuente_jugando, 52)
-fuente_casilleros_dificil = pg.font.Font(ruta_fuente_pixel, 15)
-fuente_casilleros_medio = pg.font.Font(ruta_fuente_pixel, 24)
-fuente_casilleros_facil = pg.font.Font(ruta_fuente_pixel, 52)
+TAMANIO_FUENTE_INICIO = 24
+TAMANIO_FUENTE_JUGANDO = 52
+TAMANIO_FUENTE_CASILLEROS_DIFICIL = 15
+TAMANIO_FUENTE_CASILLEROS_MEDIO = 24
+TAMANIO_FUENTE_CASILLEROS_FACIL = 52
+
+fuente_inicio = pg.font.Font(ruta_fuente_pixel, TAMANIO_FUENTE_INICIO)
+fuente_jugando = pg.font.Font(ruta_fuente_jugando, TAMANIO_FUENTE_JUGANDO)
+fuente_casilleros_dificil = pg.font.Font(ruta_fuente_pixel, TAMANIO_FUENTE_CASILLEROS_DIFICIL)
+fuente_casilleros_medio = pg.font.Font(ruta_fuente_pixel, TAMANIO_FUENTE_CASILLEROS_MEDIO)
+fuente_casilleros_facil = pg.font.Font(ruta_fuente_pixel, TAMANIO_FUENTE_CASILLEROS_FACIL)
 texto_nivel = fuente_inicio.render("Nivel", True, COLOR_NARANJA)
 posicion_nivel = (70, 70)
 texto_jugar = fuente_inicio.render("Jugar", True, COLOR_NARANJA)
@@ -76,6 +82,7 @@ texto_nivel_dificil = fuente_inicio.render("Dificil", True, COLOR_NARANJA)
 posicion_nivel_dificil = (70, 270)
 texto_inicio = fuente_inicio.render("Inicio", True, COLOR_NARANJA)
 posicion_inicio = (70, 370)
+texto_volver = fuente_inicio.render("Volver", True, COLOR_NARANJA)
 nombre_ingresado = ""
 fuente_nombre = pg.font.SysFont(ruta_fuente_pixel, 72, bold=True)
 nombre_usuario = fuente_nombre.render(nombre_ingresado, True, COLOR_ROJO)
@@ -103,6 +110,12 @@ IMAGEN_REINICIAR_ALTO = imagen_reiniciar.get_height() * 2
 RESOLUCION_IMAGEN_REINICIAR = (IMAGEN_REINICIAR_ANCHO, IMAGEN_REINICIAR_ALTO)
 imagen_reiniciar = pg.transform.scale(imagen_reiniciar, RESOLUCION_IMAGEN_REINICIAR)
 posicion_imagen_reiniciar = (300, 70)
+
+imagen_triste_reiniciar = pg.image.load("segundo_parcial/recursos/cara_triste.gif")
+IMAGEN_TRISTE_REINICIAR_ANCHO = imagen_triste_reiniciar.get_width() * 2
+IMAGEN_TRISTE_REINICIAR_ALTO = imagen_triste_reiniciar.get_height() * 2
+RESOLUCION_IMAGEN_TRISTE_REINICIAR = (IMAGEN_TRISTE_REINICIAR_ANCHO, IMAGEN_TRISTE_REINICIAR_ALTO)
+imagen_triste_reiniciar = pg.transform.scale(imagen_triste_reiniciar, RESOLUCION_IMAGEN_TRISTE_REINICIAR)
 
 ruta_imagen_bandera = "segundo_parcial/recursos/bandera.gif"
 imagen_bandera_facil = pg.image.load(ruta_imagen_bandera)
@@ -245,7 +258,7 @@ while corriendo == True:
                         print("\n")
                         mostrar_matriz(matriz)
                         bandera_boton_buscaminas = True
-                    if bandera_boton_buscaminas == True:
+                    if bandera_boton_buscaminas == True:                
                         for i in range(len(matriz)):
                             for j in range(len(matriz[i])):
                                 if botones_buscaminas[i][j].collidepoint(evento.pos) == True:
@@ -264,6 +277,9 @@ while corriendo == True:
                                                     descubrimiento.play()
                                                     contador_puntaje += 1
                                                     bandera_matriz_descubierta[i][j] = True
+                    if bandera_inicio == True:
+                        if boton_volver.collidepoint(evento.pos):
+                            estado_juego ="inicio"
                 elif estado_juego == "identificarse":
                     if campo_texto.collidepoint(evento.pos) == True:
                         bandera_campo_texto = True
@@ -360,7 +376,8 @@ while corriendo == True:
         texto_puntaje = fuente_jugando.render(puntaje, True, COLOR_ROJO)
         posicion_puntaje = (500, 70)
         pantalla.blit(texto_cantidad_minas, posicion_cantidad_minas)
-        boton_reiniciar = pantalla.blit(imagen_reiniciar, posicion_imagen_reiniciar)
+        if bandera_fin == False:
+            boton_reiniciar = pantalla.blit(imagen_reiniciar, posicion_imagen_reiniciar)
         pantalla.blit(texto_tiempo, posicion_tiempo)
         pantalla.blit(texto_puntaje, posicion_puntaje)
         posicion_casillero_inicial = (70, 140)
@@ -463,11 +480,17 @@ while corriendo == True:
                         bandera_matriz_descubierta[i][j] = True
             bandera_boton_buscaminas = False
             bandera_tiempo_inicial = False
+            boton_reiniciar = pantalla.blit(imagen_triste_reiniciar, posicion_imagen_reiniciar)
             texto_fin = fuente_casilleros_facil.render("PERDISTE", True, COLOR_ROJO)
             posicion_fin = (620, 70)
             pantalla.blit(texto_fin, posicion_fin)
         if nivel == "facil" and puntaje == "0054" or nivel == "medio" and puntaje == "0216" or nivel == "dificil" and puntaje == "0380":
             estado_juego = "identificarse"
+        posicion_volver = (70, 770)
+        pantalla.blit(texto_volver, posicion_volver)
+        coordenadas_boton_volver = (50, 750, 200, 75)
+        boton_volver = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_volver, width=10, border_radius=15)
+        bandera_inicio = True
     elif estado_juego == "identificarse":
         texto_nombre_usuario = fuente_inicio.render("Ingrese nombre: ", True, COLOR_ROJO)
         texto_nombre_ingresado = fuente_inicio.render(f"{nombre_ingresado}", True, COLOR_ROJO)
