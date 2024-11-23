@@ -252,17 +252,18 @@ while corriendo == True:
                                     if bandera_tiempo_inicial == False:
                                         tiempo_inicial = time.time()
                                         bandera_tiempo_inicial = True
-                                    match(matriz[j][i]):
-                                        case -1:
-                                            explosion.play()
-                                            if bandera_matriz_descubierta[i][j] == False:
-                                                bandera_matriz_descubierta[i][j] = True
-                                                bandera_fin = True
-                                        case _:
-                                            if bandera_matriz_descubierta[i][j] == False:
-                                                descubrimiento.play()
-                                                contador_puntaje += 1
-                                                bandera_matriz_descubierta[i][j] = True
+                                    if bandera_matriz_marcada[i][j] == False:
+                                        match(matriz[j][i]):
+                                            case -1:
+                                                explosion.play()
+                                                if bandera_matriz_descubierta[i][j] == False:
+                                                    bandera_matriz_descubierta[i][j] = True
+                                                    bandera_fin = True
+                                            case _:
+                                                if bandera_matriz_descubierta[i][j] == False:
+                                                    descubrimiento.play()
+                                                    contador_puntaje += 1
+                                                    bandera_matriz_descubierta[i][j] = True
                 elif estado_juego == "identificarse":
                     if campo_texto.collidepoint(evento.pos) == True:
                         bandera_campo_texto = True
