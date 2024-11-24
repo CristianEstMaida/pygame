@@ -95,18 +95,19 @@ IMAGEN_BLANCO_ANCHO_FACIL = dict_blanco_dificil["superficie"].get_width() * 4
 IMAGEN_BLANCO_ALTO_FACIL = dict_blanco_dificil["superficie"].get_height() * 4
 dict_blanco_facil = crear_imagen_transformada(IMAGEN_MINA_ANCHO_FACIL, IMAGEN_MINA_ALTO_FACIL, ruta_imagen_blanco)
 
-imagen_reiniciar = pg.image.load("segundo_parcial/recursos/cara_sonriente.gif")
-IMAGEN_REINICIAR_ANCHO = imagen_reiniciar.get_width() * 2
-IMAGEN_REINICIAR_ALTO = imagen_reiniciar.get_height() * 2
-RESOLUCION_IMAGEN_REINICIAR = (IMAGEN_REINICIAR_ANCHO, IMAGEN_REINICIAR_ALTO)
-imagen_reiniciar = pg.transform.scale(imagen_reiniciar, RESOLUCION_IMAGEN_REINICIAR)
-posicion_imagen_reiniciar = (300, 70)
+ruta_imagen_reiniciar = "segundo_parcial/recursos/cara_sonriente.gif"
+dict_imagen_reiniciar = crear_imagen(0, 0, ruta_imagen_reiniciar, False)
+IMAGEN_REINICIAR_ANCHO = dict_imagen_reiniciar["superficie"].get_width() * 2
+IMAGEN_REINICIAR_ALTO = dict_imagen_reiniciar["superficie"].get_height() * 2
+dict_imagen_reiniciar = crear_imagen_transformada(IMAGEN_REINICIAR_ANCHO, IMAGEN_REINICIAR_ALTO, ruta_imagen_reiniciar)
+dict_imagen_reiniciar["pos"] = (300, 70)
 
-imagen_triste_reiniciar = pg.image.load("segundo_parcial/recursos/cara_triste.gif")
-IMAGEN_TRISTE_REINICIAR_ANCHO = imagen_triste_reiniciar.get_width() * 2
-IMAGEN_TRISTE_REINICIAR_ALTO = imagen_triste_reiniciar.get_height() * 2
-RESOLUCION_IMAGEN_TRISTE_REINICIAR = (IMAGEN_TRISTE_REINICIAR_ANCHO, IMAGEN_TRISTE_REINICIAR_ALTO)
-imagen_triste_reiniciar = pg.transform.scale(imagen_triste_reiniciar, RESOLUCION_IMAGEN_TRISTE_REINICIAR)
+ruta_imagen_triste_reiniciar = "segundo_parcial/recursos/cara_triste.gif"
+dict_imagen_triste_reiniciar = crear_imagen(0, 0, ruta_imagen_triste_reiniciar, False)
+IMAGEN_TRISTE_REINICIAR_ANCHO = dict_imagen_triste_reiniciar["superficie"].get_width() * 2
+IMAGEN_TRISTE_REINICIAR_ALTO = dict_imagen_triste_reiniciar["superficie"].get_height() * 2
+dict_imagen_triste_reiniciar = crear_imagen_transformada(IMAGEN_REINICIAR_ANCHO, IMAGEN_REINICIAR_ALTO, ruta_imagen_triste_reiniciar)
+dict_imagen_triste_reiniciar["pos"] = (300, 70)
 
 ruta_imagen_bandera = "segundo_parcial/recursos/bandera.gif"
 dict_bandera_dificil = crear_imagen(0, 0, ruta_imagen_bandera, False)
@@ -361,7 +362,7 @@ while corriendo == True:
         posicion_puntaje = (500, 70)
         pantalla.blit(texto_cantidad_minas, posicion_cantidad_minas)
         if bandera_fin == False:
-            boton_reiniciar = pantalla.blit(imagen_reiniciar, posicion_imagen_reiniciar)
+            boton_reiniciar = actualizar_pantalla(dict_imagen_reiniciar, pantalla)
         pantalla.blit(texto_tiempo, posicion_tiempo)
         pantalla.blit(texto_puntaje, posicion_puntaje)
         posicion_casillero_inicial = (70, 140)
@@ -473,7 +474,7 @@ while corriendo == True:
                         bandera_matriz_descubierta[i][j] = True
             bandera_boton_buscaminas = False
             bandera_tiempo_inicial = False
-            boton_reiniciar = pantalla.blit(imagen_triste_reiniciar, posicion_imagen_reiniciar)
+            boton_reiniciar = actualizar_pantalla(dict_imagen_triste_reiniciar, pantalla)
             texto_fin = fuente_casilleros_facil.render("PERDISTE", True, COLOR_ROJO)
             posicion_fin = (620, 70)
             pantalla.blit(texto_fin, posicion_fin)
