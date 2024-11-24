@@ -50,6 +50,7 @@ dict_trofeo = crear_imagen(0, 0, "segundo_parcial/recursos/trofeo.png", True)
 
 ruta_fuente_pixel = "segundo_parcial/recursos/pixelifysans_variablefont_wght.ttf"
 ruta_fuente_jugando = "segundo_parcial/recursos/digital_7.ttf"
+
 TAMANIO_FUENTE_INICIO = 24
 TAMANIO_FUENTE_JUGANDO = 52
 TAMANIO_FUENTE_CASILLEROS_DIFICIL = 15
@@ -108,21 +109,15 @@ RESOLUCION_IMAGEN_TRISTE_REINICIAR = (IMAGEN_TRISTE_REINICIAR_ANCHO, IMAGEN_TRIS
 imagen_triste_reiniciar = pg.transform.scale(imagen_triste_reiniciar, RESOLUCION_IMAGEN_TRISTE_REINICIAR)
 
 ruta_imagen_bandera = "segundo_parcial/recursos/bandera.gif"
-imagen_bandera_facil = pg.image.load(ruta_imagen_bandera)
-IMAGEN_BANDERA_ANCHO = imagen_bandera_facil.get_width() * 4
-IMAGEN_BANDERA_ALTO = imagen_bandera_facil.get_height() * 4
-RESOLUCION_IMAGEN_BANDERA = (IMAGEN_BANDERA_ANCHO, IMAGEN_BANDERA_ALTO)
-imagen_bandera_facil = pg.transform.scale(imagen_bandera_facil, RESOLUCION_IMAGEN_BANDERA)
+dict_bandera_dificil = crear_imagen(0, 0, ruta_imagen_bandera, False)
 
-IMAGEN_BANDERA_ANCHO_MEDIO = imagen_bandera_facil.get_width() / 2
-IMAGEN_BANDERA_ALTO_MEDIO = imagen_bandera_facil.get_height() / 2
-RESOLUCION_IMAGEN_BANDERA_MEDIO = (IMAGEN_BANDERA_ANCHO_MEDIO, IMAGEN_BANDERA_ALTO_MEDIO)
-imagen_bandera_medio = pg.transform.scale(imagen_bandera_facil, RESOLUCION_IMAGEN_BANDERA_MEDIO)
+IMAGEN_BANDERA_ANCHO_MEDIO = dict_bandera_dificil["superficie"].get_width() * 2
+IMAGEN_BANDERA_ALTO_MEDIO = dict_bandera_dificil["superficie"].get_height() * 2
+dict_bandera_medio = crear_imagen_transformada(IMAGEN_BANDERA_ANCHO_MEDIO, IMAGEN_BANDERA_ALTO_MEDIO, ruta_imagen_bandera)
 
-IMAGEN_BANDERA_ANCHO_DIFICIL = imagen_bandera_facil.get_width() / 4
-IMAGEN_BANDERA_ALTO_DIFICIL = imagen_bandera_facil.get_height() / 4
-RESOLUCION_IMAGEN_BANDERA_DIFICIL = (IMAGEN_BANDERA_ANCHO_DIFICIL, IMAGEN_BANDERA_ALTO_DIFICIL)
-imagen_bandera_dificil = pg.transform.scale(imagen_bandera_facil, RESOLUCION_IMAGEN_BANDERA_DIFICIL)
+IMAGEN_BANDERA_ANCHO_FACIL = dict_bandera_dificil["superficie"].get_width() * 4
+IMAGEN_BANDERA_ALTO_FACIL = dict_bandera_dificil["superficie"].get_height() * 4
+dict_bandera_facil = crear_imagen_transformada(IMAGEN_BANDERA_ANCHO_FACIL, IMAGEN_BANDERA_ALTO_FACIL, ruta_imagen_bandera)
 
 ruta_musica_buscaminas = "segundo_parcial/recursos/buscaminas.mp3"
 pg.mixer.music.load(ruta_musica_buscaminas)
@@ -137,7 +132,6 @@ descubrimiento = pg.mixer.Sound(ruta_efecto_descubrimiento)
 descubrimiento.set_volume(0.25)
 
 reloj = pg.time.Clock()
-
 
 matriz = inicializar_matriz(FILAS_FACIL, COLUMNAS_FACIL, 0)
 establecer_cantidad_minas(matriz, CANTIDAD_MINAS_FACIL)
@@ -377,14 +371,17 @@ while corriendo == True:
                     posicion_casillero = (posicion_casillero_inicial[0] + i * 16, posicion_casillero_inicial[1] + j * 16)
                     dict_mina_dificil["pos"] = posicion_casillero
                     dict_blanco_dificil["pos"] = posicion_casillero
+                    dict_bandera_dificil["pos"] = posicion_casillero
                 elif nivel == "medio":
                     posicion_casillero = (posicion_casillero_inicial[0] + i * 33, posicion_casillero_inicial[1] + j * 33)
                     dict_mina_medio["pos"] = posicion_casillero
                     dict_blanco_medio["pos"] = posicion_casillero
+                    dict_bandera_medio["pos"] = posicion_casillero
                 elif nivel == "facil":
                     posicion_casillero = (posicion_casillero_inicial[0] + i * 65, posicion_casillero_inicial[1] + j * 65)
                     dict_mina_facil["pos"] = posicion_casillero
                     dict_blanco_facil["pos"] = posicion_casillero
+                    dict_bandera_facil["pos"] = posicion_casillero
                 if bandera_matriz_descubierta[i][j] == False:
                     if bandera_matriz_marcada[i][j] == False:
                         if nivel == "dificil":
@@ -395,11 +392,11 @@ while corriendo == True:
                             botones_buscaminas[i][j] = actualizar_pantalla(dict_blanco_facil, pantalla)
                     else:
                         if nivel == "dificil":
-                            botones_buscaminas[i][j] = pantalla.blit(imagen_bandera_dificil, posicion_casillero)
+                            botones_buscaminas[i][j] = actualizar_pantalla(dict_bandera_dificil, pantalla)
                         elif nivel == "medio":
-                            botones_buscaminas[i][j] = pantalla.blit(imagen_bandera_medio, posicion_casillero)
+                            botones_buscaminas[i][j] = actualizar_pantalla(dict_bandera_medio, pantalla)
                         elif nivel == "facil":
-                            botones_buscaminas[i][j] = pantalla.blit(imagen_bandera_facil, posicion_casillero)
+                            botones_buscaminas[i][j] = actualizar_pantalla(dict_bandera_facil, pantalla)
                 elif matriz[j][i] > 0 or matriz[j][i] == -1:
                     match matriz[j][i]:
                         case -1:
