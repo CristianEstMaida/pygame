@@ -48,9 +48,7 @@ IMAGEN_MINA_ALTO_DIFICIL = imagen_mina_facil.get_height() / 4
 RESOLUCION_IMAGEN_MINA_DIFICIL = (IMAGEN_MINA_ANCHO_DIFICIL, IMAGEN_MINA_ALTO_DIFICIL)
 imagen_mina_dificil = pg.transform.scale(imagen_mina_facil, RESOLUCION_IMAGEN_MINA_DIFICIL)
 
-imagen_buscaminas = pg.image.load("segundo_parcial/recursos/buscaminas.png")
-posicion_buscaminas = (400, 70)
-
+dict_bucaminas = crear_imagen(400, 70, "segundo_parcial/recursos/buscaminas.png", False)
 dict_explosion = crear_imagen(0, 0, "segundo_parcial/recursos/explosion.jpg", True)
 dict_trofeo = crear_imagen(0, 0, "segundo_parcial/recursos/trofeo.png", True)
 
@@ -148,7 +146,6 @@ descubrimiento = pg.mixer.Sound(ruta_efecto_descubrimiento)
 descubrimiento.set_volume(0.25)
 
 reloj = pg.time.Clock()
-
 
 matriz = inicializar_matriz(FILAS_FACIL, COLUMNAS_FACIL, 0)
 establecer_cantidad_minas(matriz, CANTIDAD_MINAS_FACIL)
@@ -335,7 +332,8 @@ while corriendo == True:
     pantalla.fill(color_fondo)
     if estado_juego == "inicio":
         actualizar_pantalla(dict_explosion, pantalla)
-        pantalla.blit(imagen_buscaminas, posicion_buscaminas)
+        actualizar_pantalla(dict_bucaminas, pantalla)
+        # pantalla.blit(imagen_buscaminas, posicion_buscaminas)
         pantalla.blit(texto_nivel, posicion_nivel)
         pantalla.blit(texto_jugar, posicion_jugar)
         pantalla.blit(texto_puntajes, posicion_puntajes)
