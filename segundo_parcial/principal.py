@@ -50,10 +50,9 @@ imagen_mina_dificil = pg.transform.scale(imagen_mina_facil, RESOLUCION_IMAGEN_MI
 
 imagen_buscaminas = pg.image.load("segundo_parcial/recursos/buscaminas.png")
 posicion_buscaminas = (400, 70)
-imagen_explosion = pg.image.load("segundo_parcial/recursos/explosion.jpg")
-posicion_explosion = (0, 0)
-imagen_trofeo = pg.image.load("segundo_parcial/recursos/trofeo.png")
-posicion_trofeo = (0, 0)
+
+dict_explosion = crear_imagen(0, 0, "segundo_parcial/recursos/explosion.jpg", True)
+dict_trofeo = crear_imagen(0, 0, "segundo_parcial/recursos/trofeo.png", True)
 
 ruta_fuente_pixel = "segundo_parcial/recursos/pixelifysans_variablefont_wght.ttf"
 ruta_fuente_jugando = "segundo_parcial/recursos/digital_7.ttf"
@@ -335,8 +334,7 @@ while corriendo == True:
                     nombre_usuario = fuente_inicio.render(nombre_ingresado, True, COLOR_ROJO)            
     pantalla.fill(color_fondo)
     if estado_juego == "inicio":
-        imagen_explosion.set_alpha(28)
-        pantalla.blit(imagen_explosion, posicion_explosion)
+        actualizar_pantalla(dict_explosion, pantalla)
         pantalla.blit(imagen_buscaminas, posicion_buscaminas)
         pantalla.blit(texto_nivel, posicion_nivel)
         pantalla.blit(texto_jugar, posicion_jugar)
@@ -509,8 +507,7 @@ while corriendo == True:
         if bandera_identificarse == True:
             estado_juego = "fin"
     elif estado_juego == "puntajes":
-        imagen_trofeo.set_alpha(28)
-        pantalla.blit(imagen_trofeo, posicion_trofeo)
+        actualizar_pantalla(dict_trofeo, pantalla)
         if len(lista_jugadores) > 0:
             posicion_nombre = [70, 70]
             posicion_puntaje = [300, 70]
