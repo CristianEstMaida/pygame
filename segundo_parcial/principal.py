@@ -52,6 +52,8 @@ imagen_buscaminas = pg.image.load("segundo_parcial/recursos/buscaminas.png")
 posicion_buscaminas = (400, 70)
 imagen_explosion = pg.image.load("segundo_parcial/recursos/explosion.jpg")
 posicion_explosion = (0, 0)
+imagen_trofeo = pg.image.load("segundo_parcial/recursos/trofeo.png")
+posicion_trofeo = (0, 0)
 
 ruta_fuente_pixel = "segundo_parcial/recursos/pixelifysans_variablefont_wght.ttf"
 ruta_fuente_jugando = "segundo_parcial/recursos/digital_7.ttf"
@@ -81,7 +83,7 @@ posicion_nivel_medio = (70, 170)
 texto_nivel_dificil = fuente_inicio.render("Dificil", True, COLOR_NARANJA)
 posicion_nivel_dificil = (70, 270)
 texto_inicio = fuente_inicio.render("Inicio", True, COLOR_NARANJA)
-posicion_inicio = (70, 370)
+posicion_inicio = (70, 770)
 texto_volver = fuente_inicio.render("Volver", True, COLOR_NARANJA)
 nombre_ingresado = ""
 fuente_nombre = pg.font.SysFont(ruta_fuente_pixel, 72, bold=True)
@@ -507,6 +509,8 @@ while corriendo == True:
         if bandera_identificarse == True:
             estado_juego = "fin"
     elif estado_juego == "puntajes":
+        imagen_trofeo.set_alpha(28)
+        pantalla.blit(imagen_trofeo, posicion_trofeo)
         if len(lista_jugadores) > 0:
             posicion_nombre = [70, 70]
             posicion_puntaje = [300, 70]
@@ -534,7 +538,7 @@ while corriendo == True:
                         break
                     contador_mostrar_puntajes += 1
         pantalla.blit(texto_inicio, posicion_inicio)
-        coordenadas_boton_inicio = (50, 350, 200, 75)
+        coordenadas_boton_inicio = (50, 750, 200, 75)
         boton_inicio = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_inicio, width=10, border_radius=15)
         bandera_inicio = True    
     elif estado_juego == "fin":
