@@ -32,23 +32,19 @@ imagen_mina = pg.image.load(ruta_imagen_mina)
 pg.display.set_icon(imagen_mina)
 
 ruta_imagen_mina_fin = "segundo_parcial/recursos/mina_fin.gif"
-imagen_mina_fin = pg.image.load(ruta_imagen_mina_fin)
-IMAGEN_MINA_ANCHO_FACIL = imagen_mina_fin.get_width() * 4
-IMAGEN_MINA_ALTO_FACIL = imagen_mina_fin.get_height() * 4
-RESOLUCION_IMAGEN_BANDERA = (IMAGEN_MINA_ANCHO_FACIL, IMAGEN_MINA_ALTO_FACIL)
-imagen_mina_facil = pg.transform.scale(imagen_mina_fin, RESOLUCION_IMAGEN_BANDERA)
 
-IMAGEN_MINA_ANCHO_MEDIO = imagen_mina_facil.get_width() / 2
-IMAGEN_MINA_ALTO_MEDIO = imagen_mina_facil.get_height() / 2
-RESOLUCION_IMAGEN_MINA_MEDIO = (IMAGEN_MINA_ANCHO_MEDIO, IMAGEN_MINA_ALTO_MEDIO)
-imagen_mina_medio = pg.transform.scale(imagen_mina_facil, RESOLUCION_IMAGEN_MINA_MEDIO)
+dict_mina_dificil = crear_imagen(0, 0, ruta_imagen_mina_fin, False)
 
-IMAGEN_MINA_ANCHO_DIFICIL = imagen_mina_facil.get_width() / 4
-IMAGEN_MINA_ALTO_DIFICIL = imagen_mina_facil.get_height() / 4
-RESOLUCION_IMAGEN_MINA_DIFICIL = (IMAGEN_MINA_ANCHO_DIFICIL, IMAGEN_MINA_ALTO_DIFICIL)
-imagen_mina_dificil = pg.transform.scale(imagen_mina_facil, RESOLUCION_IMAGEN_MINA_DIFICIL)
+IMAGEN_MINA_ANCHO_MEDIO = dict_mina_dificil["superficie"].get_width() * 2
+IMAGEN_MINA_ALTO_MEDIO = dict_mina_dificil["superficie"].get_height() * 2
+dict_mina_medio = crear_imagen_transformada(IMAGEN_MINA_ANCHO_MEDIO, IMAGEN_MINA_ALTO_MEDIO, ruta_imagen_mina_fin)
+
+IMAGEN_MINA_ANCHO_FACIL = dict_mina_dificil["superficie"].get_width() * 4
+IMAGEN_MINA_ALTO_FACIL = dict_mina_dificil["superficie"].get_height() * 4
+dict_mina_facil = crear_imagen_transformada(IMAGEN_MINA_ANCHO_FACIL, IMAGEN_MINA_ALTO_FACIL, ruta_imagen_mina_fin)
 
 dict_bucaminas = crear_imagen(400, 70, "segundo_parcial/recursos/buscaminas.png", False)
+
 dict_explosion = crear_imagen(0, 0, "segundo_parcial/recursos/explosion.jpg", True)
 dict_trofeo = crear_imagen(0, 0, "segundo_parcial/recursos/trofeo.png", True)
 
@@ -146,6 +142,7 @@ descubrimiento = pg.mixer.Sound(ruta_efecto_descubrimiento)
 descubrimiento.set_volume(0.25)
 
 reloj = pg.time.Clock()
+
 
 matriz = inicializar_matriz(FILAS_FACIL, COLUMNAS_FACIL, 0)
 establecer_cantidad_minas(matriz, CANTIDAD_MINAS_FACIL)
@@ -333,7 +330,6 @@ while corriendo == True:
     if estado_juego == "inicio":
         actualizar_pantalla(dict_explosion, pantalla)
         actualizar_pantalla(dict_bucaminas, pantalla)
-        # pantalla.blit(imagen_buscaminas, posicion_buscaminas)
         pantalla.blit(texto_nivel, posicion_nivel)
         pantalla.blit(texto_jugar, posicion_jugar)
         pantalla.blit(texto_puntajes, posicion_puntajes)
@@ -384,10 +380,13 @@ while corriendo == True:
             for j in range(len(matriz[i])):
                 if nivel == "dificil":
                     posicion_casillero = (posicion_casillero_inicial[0] + i * 16, posicion_casillero_inicial[1] + j * 16)
+                    dict_mina_dificil["pos"] = posicion_casillero
                 elif nivel == "medio":
                     posicion_casillero = (posicion_casillero_inicial[0] + i * 33, posicion_casillero_inicial[1] + j * 33)
+                    dict_mina_medio["pos"] = posicion_casillero
                 elif nivel == "facil":
                     posicion_casillero = (posicion_casillero_inicial[0] + i * 65, posicion_casillero_inicial[1] + j * 65)
+                    dict_mina_facil["pos"] = posicion_casillero
                 if bandera_matriz_descubierta[i][j] == False:
                     if bandera_matriz_marcada[i][j] == False:
                         if nivel == "dificil":
@@ -407,11 +406,11 @@ while corriendo == True:
                     match matriz[j][i]:
                         case -1:
                             if nivel == "dificil":
-                                botones_buscaminas[i][j] = pantalla.blit(imagen_mina_dificil, posicion_casillero)
+                                botones_buscaminas[i][j] = actualizar_pantalla(dict_mina_dificil, pantalla)
                             elif nivel == "medio":
-                                botones_buscaminas[i][j] = pantalla.blit(imagen_mina_medio, posicion_casillero)
+                                botones_buscaminas[i][j] = actualizar_pantalla(dict_mina_medio, pantalla)
                             elif nivel == "facil":
-                                botones_buscaminas[i][j] = pantalla.blit(imagen_mina_facil, posicion_casillero)
+                                botones_buscaminas[i][j] = actualizar_pantalla(dict_mina_facil, pantalla)
                         case 1:
                             if nivel == "dificil":
                                 texto_casillero = fuente_casilleros_dificil.render(f"{matriz[j][i]}", True, "blue1")
