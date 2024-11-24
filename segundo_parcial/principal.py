@@ -83,21 +83,16 @@ fuente_nombre = pg.font.SysFont(ruta_fuente_pixel, 72, bold=True)
 nombre_usuario = fuente_nombre.render(nombre_ingresado, True, COLOR_ROJO)
 
 ruta_imagen_blanco = "segundo_parcial/recursos/blanco.gif"
-imagen_blanco_facil = pg.image.load(ruta_imagen_blanco)
-IMAGEN_BLANCO_ANCHO = imagen_blanco_facil.get_width() * 4
-IMAGEN_BLANCO_ALTO = imagen_blanco_facil.get_height() * 4
-RESOLUCION_IMAGEN_BLANCO = (IMAGEN_BLANCO_ANCHO, IMAGEN_BLANCO_ALTO)
-imagen_blanco_facil = pg.transform.scale(imagen_blanco_facil, RESOLUCION_IMAGEN_BLANCO)
 
-IMAGEN_BLANCO_ANCHO_MEDIO = imagen_blanco_facil.get_width() / 2
-IMAGEN_BLANCO_ALTO_MEDIO = imagen_blanco_facil.get_height() / 2
-RESOLUCION_IMAGEN_BLANCO_MEDIO = (IMAGEN_BLANCO_ANCHO_MEDIO, IMAGEN_BLANCO_ALTO_MEDIO)
-imagen_blanco_medio = pg.transform.scale(imagen_blanco_facil, RESOLUCION_IMAGEN_BLANCO_MEDIO)
+dict_blanco_dificil = crear_imagen(0, 0, ruta_imagen_blanco, False)
 
-IMAGEN_BLANCO_ANCHO_DIFICIL = imagen_blanco_facil.get_width() / 4
-IMAGEN_BLANCO_ALTO_DIFICIL = imagen_blanco_facil.get_height() / 4
-RESOLUCION_IMAGEN_BLANCO_DIFICIL = (IMAGEN_BLANCO_ANCHO_DIFICIL, IMAGEN_BLANCO_ALTO_DIFICIL)
-imagen_blanco_dificil = pg.transform.scale(imagen_blanco_facil, RESOLUCION_IMAGEN_BLANCO_DIFICIL)
+IMAGEN_BLANCO_ANCHO_MEDIO = dict_blanco_dificil["superficie"].get_width() * 2
+IMAGEN_BLANCO_ALTO_MEDIO = dict_blanco_dificil["superficie"].get_height() * 2
+dict_blanco_medio = crear_imagen_transformada(IMAGEN_MINA_ANCHO_MEDIO, IMAGEN_MINA_ALTO_MEDIO, ruta_imagen_blanco)
+
+IMAGEN_BLANCO_ANCHO_FACIL = dict_blanco_dificil["superficie"].get_width() * 4
+IMAGEN_BLANCO_ALTO_FACIL = dict_blanco_dificil["superficie"].get_height() * 4
+dict_blanco_facil = crear_imagen_transformada(IMAGEN_MINA_ANCHO_FACIL, IMAGEN_MINA_ALTO_FACIL, ruta_imagen_blanco)
 
 imagen_reiniciar = pg.image.load("segundo_parcial/recursos/cara_sonriente.gif")
 IMAGEN_REINICIAR_ANCHO = imagen_reiniciar.get_width() * 2
@@ -381,20 +376,23 @@ while corriendo == True:
                 if nivel == "dificil":
                     posicion_casillero = (posicion_casillero_inicial[0] + i * 16, posicion_casillero_inicial[1] + j * 16)
                     dict_mina_dificil["pos"] = posicion_casillero
+                    dict_blanco_dificil["pos"] = posicion_casillero
                 elif nivel == "medio":
                     posicion_casillero = (posicion_casillero_inicial[0] + i * 33, posicion_casillero_inicial[1] + j * 33)
                     dict_mina_medio["pos"] = posicion_casillero
+                    dict_blanco_medio["pos"] = posicion_casillero
                 elif nivel == "facil":
                     posicion_casillero = (posicion_casillero_inicial[0] + i * 65, posicion_casillero_inicial[1] + j * 65)
                     dict_mina_facil["pos"] = posicion_casillero
+                    dict_blanco_facil["pos"] = posicion_casillero
                 if bandera_matriz_descubierta[i][j] == False:
                     if bandera_matriz_marcada[i][j] == False:
                         if nivel == "dificil":
-                            botones_buscaminas[i][j] = pantalla.blit(imagen_blanco_dificil, posicion_casillero)
+                            botones_buscaminas[i][j] = actualizar_pantalla(dict_blanco_dificil, pantalla)
                         elif nivel == "medio":
-                            botones_buscaminas[i][j] = pantalla.blit(imagen_blanco_medio, posicion_casillero)
+                            botones_buscaminas[i][j] = actualizar_pantalla(dict_blanco_medio, pantalla)
                         elif nivel == "facil":
-                            botones_buscaminas[i][j] = pantalla.blit(imagen_blanco_facil, posicion_casillero)
+                            botones_buscaminas[i][j] = actualizar_pantalla(dict_blanco_facil, pantalla)
                     else:
                         if nivel == "dificil":
                             botones_buscaminas[i][j] = pantalla.blit(imagen_bandera_dificil, posicion_casillero)
