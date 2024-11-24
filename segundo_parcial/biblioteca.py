@@ -1,5 +1,6 @@
 import random
 from json import *
+import pygame as pg
 
 def inicializar_matriz(cantidad_filas:int, cantidad_columnas:int, valor_inicial:any)->list:
     '''
@@ -113,3 +114,25 @@ def ordenar_jugadores(lista_alumnos:list[dict], orden:str) -> None:
         lista_alumnos.sort(key=definir_orden)
     elif orden == "desc":
         lista_alumnos.sort(key=definir_orden, reverse=True)
+
+def crear_imagen(x:int, y:int, ruta:str, transparencia:bool) -> dict:
+    '''
+    Crea una imagen en la pantalla.
+    Recibe las coordenadas x e y (int), una ruta (str) y la transparencia (bool)
+    Retorna un diccionario de la imagen
+    '''
+    dict_imagen = {}
+    posicion_imagen = (x, y)
+    dict_imagen["superficie"] = pg.image.load(ruta)
+    if transparencia == True:
+        dict_imagen["superficie"].set_alpha(28)
+    dict_imagen["pos"] = posicion_imagen
+    return dict_imagen
+
+def actualizar_pantalla(dict_imagen:dict, pantalla:any) -> None:
+    '''
+    Muestra una imagen en una posicion de una pantalla.
+    Recibe el diccionario de la imagen (dict) y la pantalla (any).
+    Retorna None
+    '''
+    pantalla.blit(dict_imagen["superficie"], dict_imagen["pos"])
