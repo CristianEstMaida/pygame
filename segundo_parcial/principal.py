@@ -100,14 +100,14 @@ dict_imagen_reiniciar = crear_imagen(0, 0, ruta_imagen_reiniciar, False)
 IMAGEN_REINICIAR_ANCHO = dict_imagen_reiniciar["superficie"].get_width() * 2
 IMAGEN_REINICIAR_ALTO = dict_imagen_reiniciar["superficie"].get_height() * 2
 dict_imagen_reiniciar = crear_imagen_transformada(IMAGEN_REINICIAR_ANCHO, IMAGEN_REINICIAR_ALTO, ruta_imagen_reiniciar)
-dict_imagen_reiniciar["pos"] = (300, 70)
+dict_imagen_reiniciar["pos"] = [300, 70]
 
 ruta_imagen_triste_reiniciar = "segundo_parcial/recursos/cara_triste.gif"
 dict_imagen_triste_reiniciar = crear_imagen(0, 0, ruta_imagen_triste_reiniciar, False)
 IMAGEN_TRISTE_REINICIAR_ANCHO = dict_imagen_triste_reiniciar["superficie"].get_width() * 2
 IMAGEN_TRISTE_REINICIAR_ALTO = dict_imagen_triste_reiniciar["superficie"].get_height() * 2
 dict_imagen_triste_reiniciar = crear_imagen_transformada(IMAGEN_REINICIAR_ANCHO, IMAGEN_REINICIAR_ALTO, ruta_imagen_triste_reiniciar)
-dict_imagen_triste_reiniciar["pos"] = (300, 70)
+dict_imagen_triste_reiniciar["pos"] = [300, 70]
 
 ruta_imagen_bandera = "segundo_parcial/recursos/bandera.gif"
 dict_bandera_dificil = crear_imagen(0, 0, ruta_imagen_bandera, False)
@@ -121,6 +121,11 @@ IMAGEN_BANDERA_ALTO_FACIL = dict_bandera_dificil["superficie"].get_height() * 4
 dict_bandera_facil = crear_imagen_transformada(IMAGEN_BANDERA_ANCHO_FACIL, IMAGEN_BANDERA_ALTO_FACIL, ruta_imagen_bandera)
 
 dict_casillero = {}
+dict_cantidad_minas = {}
+dict_tiempo = {}
+dict_puntaje = {}
+
+dict_fin = crear_texto(620, 70, ruta_fuente_pixel, "PERDISTE", TAMANIO_FUENTE_CASILLEROS_FACIL, COLOR_ROJO)
 
 ruta_musica_buscaminas = "segundo_parcial/recursos/buscaminas.mp3"
 pg.mixer.music.load(ruta_musica_buscaminas)
@@ -382,26 +387,26 @@ while corriendo == True:
     elif estado_juego == "jugando":
         pg.mixer.music.set_volume(0.2)
         if nivel == "facil":
-            texto_cantidad_minas = fuente_jugando.render(cantidad_minas_facil, True, COLOR_ROJO)
+            dict_cantidad_minas["texto"] = fuente_jugando.render(cantidad_minas_facil, True, COLOR_ROJO)
         elif nivel == "medio":
-            texto_cantidad_minas = fuente_jugando.render(cantidad_minas_medio, True, COLOR_ROJO)
+            dict_cantidad_minas["texto"] = fuente_jugando.render(cantidad_minas_medio, True, COLOR_ROJO)
         else:
-            texto_cantidad_minas = fuente_jugando.render(cantidad_minas_dificil, True, COLOR_ROJO)
-        posicion_cantidad_minas = (70, 70)
+            dict_cantidad_minas["texto"] = fuente_jugando.render(cantidad_minas_dificil, True, COLOR_ROJO)
+        dict_cantidad_minas["pos"] = [70, 70]
         if bandera_tiempo_inicial == True:
             tiempo_transcurrido_minutos = int(time.time() - tiempo_inicial) // 60
             tiempo_transcurrido_segundos = str(int(time.time() - tiempo_inicial) % 60).zfill(2)
-        texto_tiempo = fuente_jugando.render(f"{tiempo_transcurrido_minutos}:{tiempo_transcurrido_segundos}", True, COLOR_ROJO)
-        posicion_tiempo = (400, 70)
+        dict_tiempo["texto"] = fuente_jugando.render(f"{tiempo_transcurrido_minutos}:{tiempo_transcurrido_segundos}", True, COLOR_ROJO)
+        dict_tiempo["pos"] = [400, 70]
         puntaje = str(contador_puntaje).zfill(4)
-        texto_puntaje = fuente_jugando.render(puntaje, True, COLOR_ROJO)
-        posicion_puntaje = (500, 70)
-        pantalla.blit(texto_cantidad_minas, posicion_cantidad_minas)
+        dict_puntaje["texto"] = fuente_jugando.render(puntaje, True, COLOR_ROJO)
+        dict_puntaje["pos"] = [500, 70]
+        actualizar_pantalla(dict_cantidad_minas, "texto", pantalla)
         if bandera_fin == False:
             boton_reiniciar = actualizar_pantalla(dict_imagen_reiniciar, "superficie", pantalla)
-        pantalla.blit(texto_tiempo, posicion_tiempo)
-        pantalla.blit(texto_puntaje, posicion_puntaje)
-        posicion_casillero_inicial = (70, 140)
+        actualizar_pantalla(dict_tiempo, "texto", pantalla)
+        actualizar_pantalla(dict_puntaje, "texto", pantalla)
+        posicion_casillero_inicial = [70, 140]
         for i in range(len(matriz)):
             for j in range(len(matriz[i])):
                 if nivel == "dificil":
@@ -512,9 +517,7 @@ while corriendo == True:
             bandera_boton_buscaminas = False
             bandera_tiempo_inicial = False
             boton_reiniciar = actualizar_pantalla(dict_imagen_triste_reiniciar, "superficie", pantalla)
-            texto_fin = fuente_casilleros_facil.render("PERDISTE", True, COLOR_ROJO)
-            posicion_fin = (620, 70)
-            pantalla.blit(texto_fin, posicion_fin)
+            actualizar_pantalla(dict_fin, "texto", pantalla)
         if nivel == "facil" and puntaje == "0054" or nivel == "medio" and puntaje == "0216" or nivel == "dificil" and puntaje == "0380":
             estado_juego = "identificarse"
         actualizar_pantalla(dict_volver, "texto", pantalla)
