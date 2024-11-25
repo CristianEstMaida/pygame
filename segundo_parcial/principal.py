@@ -79,6 +79,10 @@ dict_volver = crear_texto(70, 770, ruta_fuente_pixel, "Volver", TAMANIO_FUENTE_I
 dict_nombre_usuario = crear_texto(70, 90, ruta_fuente_pixel, "Ingrese nombre: ", TAMANIO_FUENTE_INICIO, COLOR_ROJO)
 nombre_ingresado = ""
 dict_nombre_ingresado = crear_texto(290, 90, ruta_fuente_pixel, nombre_ingresado, TAMANIO_FUENTE_INICIO, COLOR_ROJO)
+
+dict_nombre = crear_texto(70, 70, ruta_fuente_pixel, "", TAMANIO_FUENTE_INICIO, COLOR_ROJO)
+dict_puntaje = crear_texto(300, 70, ruta_fuente_pixel, "", TAMANIO_FUENTE_INICIO, COLOR_ROJO)
+
 ruta_imagen_blanco = "segundo_parcial/recursos/blanco.gif"
 
 dict_blanco_dificil = crear_imagen(0, 0, ruta_imagen_blanco, False)
@@ -526,30 +530,28 @@ while corriendo == True:
         if bandera_identificarse == True:
             estado_juego = "fin"
     elif estado_juego == "puntajes":
-        actualizar_pantalla(dict_trofeo, "superficie",pantalla)
+        actualizar_pantalla(dict_trofeo, "superficie", pantalla)
         if len(lista_jugadores) > 0:
-            posicion_nombre = [70, 70]
-            posicion_puntaje = [300, 70]
             contador_mostrar_puntajes = 0
             for clave_encabezado in lista_claves:
                 if clave_encabezado == "nombre":
-                    encabezado_nombre = fuente_inicio.render(f"{clave_encabezado.upper()}", True, COLOR_ROJO)
-                    pantalla.blit(encabezado_nombre, posicion_nombre)
+                    dict_nombre["texto"] = fuente_inicio.render(f"{clave_encabezado.upper()}", True, COLOR_ROJO)
+                    actualizar_pantalla(dict_nombre, "texto", pantalla)
                 elif clave_encabezado == "puntaje":
-                    encabezado_puntaje = fuente_inicio.render(f"{clave_encabezado.upper()}", True, COLOR_ROJO)
-                    pantalla.blit(encabezado_puntaje, posicion_puntaje)                    
+                    dict_puntaje["texto"] = fuente_inicio.render(f"{clave_encabezado.upper()}", True, COLOR_ROJO)
+                    actualizar_pantalla(dict_puntaje, "texto", pantalla)                    
             for puntaje_jugador in lista_jugadores:
                 if puntaje_jugador["activo"] == True:
                     if contador_mostrar_puntajes < 3:
                         for clave in puntaje_jugador:
                             if clave == "nombre":
-                                texto_nombre = fuente_inicio.render(f"{puntaje_jugador[clave]}", True, COLOR_ROJO)
-                                posicion_nombre[1] += 40
-                                pantalla.blit(texto_nombre, posicion_nombre)
+                                dict_nombre["texto"] = fuente_inicio.render(f"{puntaje_jugador[clave]}", True, COLOR_ROJO)
+                                dict_nombre["pos"][1] += 40
+                                actualizar_pantalla(dict_nombre, "texto", pantalla)
                             elif clave == "puntaje":
-                                texto_puntaje =  fuente_inicio.render(f"{puntaje_jugador[clave]}", True, COLOR_ROJO)
-                                posicion_puntaje[1] += 40
-                                pantalla.blit(texto_puntaje, posicion_puntaje)
+                                dict_puntaje["texto"] =  fuente_inicio.render(f"{puntaje_jugador[clave]}", True, COLOR_ROJO)
+                                dict_puntaje["pos"][1] += 40
+                                actualizar_pantalla(dict_puntaje, "texto", pantalla)
                     else:
                         break
                     contador_mostrar_puntajes += 1
