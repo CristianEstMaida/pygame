@@ -267,6 +267,14 @@ while corriendo == True:
                                                     bandera_matriz_descubierta[i][j] = True
                                                     bandera_fin = True
                                             case _:
+                                                for x in range(j - 1, j + 2):
+                                                    for y in range(i - 1, i + 2):
+                                                        if 0 <= x and x < len(matriz) and 0 <= y and y < len(matriz[x]):
+                                                            if matriz[x][y] != -1:
+                                                                if bandera_matriz_descubierta[y][x] == False:
+                                                                    contador_puntaje += 1
+                                                                    bandera_matriz_descubierta[y][x] = True
+                                                
                                                 if bandera_matriz_descubierta[i][j] == False:
                                                     descubrimiento.play()
                                                     contador_puntaje += 1
@@ -407,7 +415,7 @@ while corriendo == True:
         if bandera_fin == False:
             boton_reiniciar = actualizar_pantalla(dict_imagen_reiniciar, "superficie", pantalla)
         actualizar_pantalla(dict_tiempo, "texto", pantalla)
-        actualizar_pantalla(dict_puntaje, "texto", pantalla)
+        actualizar_pantalla(dict_puntaje_juego, "texto", pantalla)
         posicion_casillero_inicial = [70, 140]
         for i in range(len(matriz)):
             for j in range(len(matriz[i])):
