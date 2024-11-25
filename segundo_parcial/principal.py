@@ -123,9 +123,11 @@ dict_bandera_facil = crear_imagen_transformada(IMAGEN_BANDERA_ANCHO_FACIL, IMAGE
 dict_casillero = {}
 dict_cantidad_minas = {}
 dict_tiempo = {}
-dict_puntaje = {}
+dict_puntaje_juego = {}
 
 dict_fin = crear_texto(620, 70, ruta_fuente_pixel, "PERDISTE", TAMANIO_FUENTE_CASILLEROS_FACIL, COLOR_ROJO)
+
+dict_gana = {}
 
 ruta_musica_buscaminas = "segundo_parcial/recursos/buscaminas.mp3"
 pg.mixer.music.load(ruta_musica_buscaminas)
@@ -399,8 +401,8 @@ while corriendo == True:
         dict_tiempo["texto"] = fuente_jugando.render(f"{tiempo_transcurrido_minutos}:{tiempo_transcurrido_segundos}", True, COLOR_ROJO)
         dict_tiempo["pos"] = [400, 70]
         puntaje = str(contador_puntaje).zfill(4)
-        dict_puntaje["texto"] = fuente_jugando.render(puntaje, True, COLOR_ROJO)
-        dict_puntaje["pos"] = [500, 70]
+        dict_puntaje_juego["texto"] = fuente_jugando.render(puntaje, True, COLOR_ROJO)
+        dict_puntaje_juego["pos"] = [500, 70]
         actualizar_pantalla(dict_cantidad_minas, "texto", pantalla)
         if bandera_fin == False:
             boton_reiniciar = actualizar_pantalla(dict_imagen_reiniciar, "superficie", pantalla)
@@ -538,6 +540,8 @@ while corriendo == True:
     elif estado_juego == "puntajes":
         actualizar_pantalla(dict_trofeo, "superficie", pantalla)
         if len(lista_jugadores) > 0:
+            dict_nombre["pos"] = [70, 70]
+            dict_puntaje["pos"] = [300, 70]
             contador_mostrar_puntajes = 0
             for clave_encabezado in lista_claves:
                 if clave_encabezado == "nombre":
@@ -566,9 +570,9 @@ while corriendo == True:
         boton_inicio = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_inicio, width=10, border_radius=15)
         bandera_inicio = True    
     elif estado_juego == "fin":
-        texto_fin = fuente_inicio.render("GANASTE", True, COLOR_ROJO)
-        posicion_fin = (pantalla.get_width() // 2 - texto_fin.get_width() // 2, pantalla.get_height() // 2)
-        pantalla.blit(texto_fin, posicion_fin)
+        dict_gana["texto"] = fuente_inicio.render("GANASTE", True, COLOR_ROJO)
+        dict_gana["pos"] = (pantalla.get_width() // 2 - dict_gana["texto"].get_width() // 2, pantalla.get_height() // 2)
+        actualizar_pantalla(dict_gana, "texto", pantalla)
         if int(time.time() - tiempo_fin) >= 5:
             bandera_tiempo_inicial = False
             bandera_boton_buscaminas = False
