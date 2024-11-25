@@ -122,7 +122,7 @@ def crear_imagen(x:int, y:int, ruta:str, transparencia:bool) -> dict:
     Retorna un diccionario de la imagen
     '''
     dict_imagen = {}
-    posicion_imagen = (x, y)
+    posicion_imagen = [x, y]
     dict_imagen["superficie"] = pg.image.load(ruta)
     if transparencia == True:
         dict_imagen["superficie"].set_alpha(28)
@@ -136,13 +136,13 @@ def crear_texto(x:int, y:int, ruta:str, texto:str, tamanio:int, color:str, negri
     Retorna un diccionario de la imagen
     '''
     dict_texto = {}
-    posicion_imagen = (x, y)
+    posicion_texto = [x, y]
     if negrita == True:
         fuente = pg.font.SysFont(ruta, tamanio, bold=True)
     else:
         fuente = pg.font.Font(ruta, tamanio)
     dict_texto["texto"] = fuente.render(texto, True, color)
-    dict_texto["pos"] = posicion_imagen
+    dict_texto["pos"] = posicion_texto
     return dict_texto
 
 def crear_imagen_transformada(alto:int, ancho:int, ruta:str) -> dict:
@@ -152,14 +152,14 @@ def crear_imagen_transformada(alto:int, ancho:int, ruta:str) -> dict:
     Retorna un diccionario de la imagen
     '''
     dict_imagen = crear_imagen(0, 0, ruta, False)
-    resolucion_imagen = (alto, ancho)
+    resolucion_imagen = [alto, ancho]
     dict_imagen["superficie"] = pg.transform.scale(dict_imagen["superficie"], resolucion_imagen)
     return dict_imagen
 
 def actualizar_pantalla(diccionario:dict, clave:str, pantalla:any) -> any:
     '''
     Muestra una imagen o un texto en una posicion de una pantalla.
-    Recibe el diccionario (dict) y la pantalla (any).
+    Recibe el diccionario (dict), la clave (str) y la pantalla (any).
     Retorna la imagen posicionada
     '''
     return pantalla.blit(diccionario[clave], diccionario["pos"])
