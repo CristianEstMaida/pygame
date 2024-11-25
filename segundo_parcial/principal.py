@@ -51,12 +51,6 @@ dict_trofeo = crear_imagen(0, 0, "segundo_parcial/recursos/trofeo.png", True)
 ruta_fuente_pixel = "segundo_parcial/recursos/pixelifysans_variablefont_wght.ttf"
 ruta_fuente_jugando = "segundo_parcial/recursos/digital_7.ttf"
 
-TAMANIO_FUENTE_INICIO = 24
-TAMANIO_FUENTE_JUGANDO = 52
-TAMANIO_FUENTE_CASILLEROS_DIFICIL = 15
-TAMANIO_FUENTE_CASILLEROS_MEDIO = 24
-TAMANIO_FUENTE_CASILLEROS_FACIL = 52
-
 fuente_inicio = pg.font.Font(ruta_fuente_pixel, TAMANIO_FUENTE_INICIO)
 fuente_jugando = pg.font.Font(ruta_fuente_jugando, TAMANIO_FUENTE_JUGANDO)
 fuente_casilleros_dificil = pg.font.Font(ruta_fuente_pixel, TAMANIO_FUENTE_CASILLEROS_DIFICIL)
@@ -576,7 +570,7 @@ while corriendo == True:
         actualizar_pantalla(dict_inicio, "texto", pantalla)
         coordenadas_boton_inicio = (50, 750, 200, 75)
         boton_inicio = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_inicio, width=10, border_radius=15)
-        bandera_inicio = True    
+        bandera_inicio = True
     elif estado_juego == "fin":
         dict_gana["texto"] = fuente_inicio.render("GANASTE", True, COLOR_ROJO)
         dict_gana["pos"] = (pantalla.get_width() // 2 - dict_gana["texto"].get_width() // 2, pantalla.get_height() // 2)
