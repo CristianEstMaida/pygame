@@ -112,15 +112,22 @@ IMAGEN_BANDERA_ANCHO_FACIL = dict_bandera_dificil["superficie"].get_width() * 4
 IMAGEN_BANDERA_ALTO_FACIL = dict_bandera_dificil["superficie"].get_height() * 4
 dict_bandera_facil = crear_imagen_transformada(IMAGEN_BANDERA_ANCHO_FACIL, IMAGEN_BANDERA_ALTO_FACIL, ruta_imagen_bandera)
 
-imagen_play = pg.image.load("segundo_parcial/recursos/play.png") 
-imagen_pause = pg.image.load("segundo_parcial/recursos/pausa.png")
-imagen_play = pg.transform.scale(imagen_play, (50, 50))
-imagen_pause = pg.transform.scale(imagen_pause, (50, 50))
+ruta_imagen_activar_sonido = "segundo_parcial/recursos/reproducir.png"
+dict_imagen_activar_sonido = crear_imagen(0, 0, ruta_imagen_activar_sonido, False)
+IMAGEN_SONIDO_ANCHO = dict_imagen_activar_sonido["superficie"].get_width() / 10
+IMAGEN_SONIDO_ALTO = dict_imagen_activar_sonido["superficie"].get_height() / 10
+dict_imagen_activar_sonido = crear_imagen_transformada(IMAGEN_SONIDO_ANCHO, IMAGEN_SONIDO_ALTO, ruta_imagen_activar_sonido)
+dict_imagen_activar_sonido["pos"] = [900, 50]
+
+ruta_imagen_desactivar_sonido = "segundo_parcial/recursos/pausa.png"
+dict_imagen_desactivar_sonido = crear_imagen(900, 50, ruta_imagen_desactivar_sonido, False)
+IMAGEN_SONIDO_ANCHO = dict_imagen_desactivar_sonido["superficie"].get_width() / 10
+IMAGEN_SONIDO_ALTO = dict_imagen_desactivar_sonido["superficie"].get_height() / 10
+dict_imagen_desactivar_sonido = crear_imagen_transformada(IMAGEN_SONIDO_ANCHO, IMAGEN_SONIDO_ALTO, ruta_imagen_desactivar_sonido)
+dict_imagen_desactivar_sonido["pos"] = [900, 50]
 
 musica_corriendo = True
-imagen_actual_musica = imagen_pause
-boton_rect = imagen_actual_musica.get_rect(center=(900, 50))
-
+dict_imagen_sonido = dict_imagen_activar_sonido
 dict_casillero = {}
 dict_cantidad_minas = {}
 dict_tiempo = {}
@@ -181,15 +188,15 @@ while corriendo == True:
                         estado_juego = "puntajes"
                     elif boton_salir.collidepoint(evento.pos) == True:
                         corriendo = False
-                    elif boton_rect.collidepoint(evento.pos):
-                        if musica_corriendo:
+                    elif boton_musica.collidepoint(evento.pos):
+                        if musica_corriendo == True:
                             pg.mixer.music.pause()
                             musica_corriendo = False
-                            imagen_actual_musica = imagen_play
+                            dict_imagen_sonido = dict_imagen_desactivar_sonido
                         else:
                             pg.mixer.music.unpause()
                             musica_corriendo = True
-                            imagen_actual_musica = imagen_pause
+                            dict_imagen_sonido = dict_imagen_activar_sonido
                 elif estado_juego == "nivel":
                     if bandera_boton_nivel == True:
                         if boton_nivel_facil.collidepoint(evento.pos) == True:
@@ -384,7 +391,7 @@ while corriendo == True:
         actualizar_pantalla(dict_jugar, "texto", pantalla)
         actualizar_pantalla(dict_puntajes, "texto", pantalla)
         actualizar_pantalla(dict_salir, "texto", pantalla)
-        boton_musica = pantalla.blit(imagen_actual_musica, (boton_rect.x, boton_rect.y))
+        boton_musica = actualizar_pantalla(dict_imagen_sonido, "superficie", pantalla)
         coordenadas_boton_nivel = (50, 50, 200, 75)
         coordenadas_boton_jugar = (50, 150, 200, 75)
         coordenadas_boton_puntajes = (50, 250, 200, 75)
