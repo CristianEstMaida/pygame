@@ -43,9 +43,9 @@ IMAGEN_MINA_ANCHO_FACIL = dict_mina_dificil["superficie"].get_width() * 4
 IMAGEN_MINA_ALTO_FACIL = dict_mina_dificil["superficie"].get_height() * 4
 dict_mina_facil = crear_imagen_transformada(IMAGEN_MINA_ANCHO_FACIL, IMAGEN_MINA_ALTO_FACIL, ruta_imagen_mina_fin)
 
-dict_bucaminas = crear_imagen(400, 70, "segundo_parcial/recursos/buscaminas.png", False)
+# dict_bucaminas = crear_imagen(400, 70, "segundo_parcial/recursos/buscaminas.png", False)
 
-dict_explosion = crear_imagen(0, 0, "segundo_parcial/recursos/explosion.jpg", True)
+dict_explosion = crear_imagen(0, 0, "segundo_parcial/recursos/explosion.jpg", False)
 dict_trofeo = crear_imagen(0, 0, "segundo_parcial/recursos/trofeo.png", True)
 
 ruta_fuente_pixel = "segundo_parcial/recursos/pixelifysans_variablefont_wght.ttf"
@@ -189,7 +189,7 @@ while corriendo == True:
                             musica_corriendo = False
                             imagen_actual_musica = imagen_play
                         else:
-                            pg.mixer.music.unpause()  # Reanudar la música
+                            pg.mixer.music.unpause()
                             musica_corriendo = True
                             imagen_actual_musica = imagen_pause
                 elif estado_juego == "nivel":
@@ -382,7 +382,6 @@ while corriendo == True:
     pantalla.fill(color_fondo)
     if estado_juego == "inicio":
         actualizar_pantalla(dict_explosion, "superficie", pantalla)
-        actualizar_pantalla(dict_bucaminas, "superficie", pantalla)
         actualizar_pantalla(dict_nivel, "texto", pantalla)
         actualizar_pantalla(dict_jugar, "texto", pantalla)
         actualizar_pantalla(dict_puntajes, "texto", pantalla)
