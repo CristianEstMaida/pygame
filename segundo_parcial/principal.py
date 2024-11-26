@@ -43,8 +43,6 @@ IMAGEN_MINA_ANCHO_FACIL = dict_mina_dificil["superficie"].get_width() * 4
 IMAGEN_MINA_ALTO_FACIL = dict_mina_dificil["superficie"].get_height() * 4
 dict_mina_facil = crear_imagen_transformada(IMAGEN_MINA_ANCHO_FACIL, IMAGEN_MINA_ALTO_FACIL, ruta_imagen_mina_fin)
 
-# dict_bucaminas = crear_imagen(400, 70, "segundo_parcial/recursos/buscaminas.png", False)
-
 dict_explosion = crear_imagen(0, 0, "segundo_parcial/recursos/explosion.jpg", False)
 dict_trofeo = crear_imagen(0, 0, "segundo_parcial/recursos/trofeo.png", True)
 
