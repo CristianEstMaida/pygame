@@ -188,7 +188,7 @@ while corriendo == True:
                         estado_juego = "puntajes"
                     elif boton_salir.collidepoint(evento.pos) == True:
                         corriendo = False
-                    elif boton_musica.collidepoint(evento.pos):
+                    elif boton_musica.collidepoint(evento.pos) == True:
                         if musica_corriendo == True:
                             pg.mixer.music.pause()
                             musica_corriendo = False
