@@ -31,8 +31,6 @@ imagen_mina = pg.image.load(ruta_imagen_mina)
 
 pg.display.set_icon(imagen_mina)
 
-
-
 dict_explosion = crear_imagen(0, 0, "segundo_parcial/recursos/explosion.jpg", False)
 dict_elige_nivel = crear_imagen(0, 0, "segundo_parcial/recursos/elige_tu_nivel.png", False)
 dict_fondo_ganaste = crear_imagen(0, 0, "segundo_parcial/recursos/ganaste.png", False)
