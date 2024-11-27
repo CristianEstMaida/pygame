@@ -301,13 +301,12 @@ while corriendo == True:
                                                                     descubrimiento.play()
                                                                     contador_puntaje += 1
                                                                     bandera_matriz_descubierta[y][x] = True
-                                                
                                                 if bandera_matriz_descubierta[i][j] == False:
                                                     descubrimiento.play()
                                                     contador_puntaje += 1
                                                     bandera_matriz_descubierta[i][j] = True
                     if bandera_inicio == True:
-                        if boton_volver.collidepoint(evento.pos):
+                        if boton_volver.collidepoint(evento.pos) == True:
                             bandera_tiempo_inicial = False
                             bandera_boton_buscaminas = False
                             bandera_boton_nivel = False
