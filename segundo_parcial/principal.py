@@ -31,17 +31,7 @@ imagen_mina = pg.image.load(ruta_imagen_mina)
 
 pg.display.set_icon(imagen_mina)
 
-ruta_imagen_mina_fin = "segundo_parcial/recursos/mina_fin.gif"
 
-dict_mina_dificil = crear_imagen(0, 0, ruta_imagen_mina_fin, False)
-
-IMAGEN_MINA_ANCHO_MEDIO = dict_mina_dificil["superficie"].get_width() * 2
-IMAGEN_MINA_ALTO_MEDIO = dict_mina_dificil["superficie"].get_height() * 2
-dict_mina_medio = crear_imagen_transformada(IMAGEN_MINA_ANCHO_MEDIO, IMAGEN_MINA_ALTO_MEDIO, ruta_imagen_mina_fin)
-
-IMAGEN_MINA_ANCHO_FACIL = dict_mina_dificil["superficie"].get_width() * 4
-IMAGEN_MINA_ALTO_FACIL = dict_mina_dificil["superficie"].get_height() * 4
-dict_mina_facil = crear_imagen_transformada(IMAGEN_MINA_ANCHO_FACIL, IMAGEN_MINA_ALTO_FACIL, ruta_imagen_mina_fin)
 
 dict_explosion = crear_imagen(0, 0, "segundo_parcial/recursos/explosion.jpg", False)
 dict_elige_nivel = crear_imagen(0, 0, "segundo_parcial/recursos/elige_tu_nivel.png", False)
@@ -79,18 +69,6 @@ dict_nombre_ingresado = crear_texto(360, 410, ruta_fuente_pixel, nombre_ingresad
 dict_nombre = crear_texto(70, 70, ruta_fuente_pixel, "", TAMANIO_FUENTE_INICIO, COLOR_ROJO)
 dict_puntaje = crear_texto(300, 70, ruta_fuente_pixel, "", TAMANIO_FUENTE_INICIO, COLOR_ROJO)
 
-ruta_imagen_blanco = "segundo_parcial/recursos/blanco.gif"
-
-dict_blanco_dificil = crear_imagen(0, 0, ruta_imagen_blanco, False)
-
-IMAGEN_BLANCO_ANCHO_MEDIO = dict_blanco_dificil["superficie"].get_width() * 2
-IMAGEN_BLANCO_ALTO_MEDIO = dict_blanco_dificil["superficie"].get_height() * 2
-dict_blanco_medio = crear_imagen_transformada(IMAGEN_MINA_ANCHO_MEDIO, IMAGEN_MINA_ALTO_MEDIO, ruta_imagen_blanco)
-
-IMAGEN_BLANCO_ANCHO_FACIL = dict_blanco_dificil["superficie"].get_width() * 4
-IMAGEN_BLANCO_ALTO_FACIL = dict_blanco_dificil["superficie"].get_height() * 4
-dict_blanco_facil = crear_imagen_transformada(IMAGEN_MINA_ANCHO_FACIL, IMAGEN_MINA_ALTO_FACIL, ruta_imagen_blanco)
-
 ruta_imagen_reiniciar = "segundo_parcial/recursos/cara_sonriente.gif"
 dict_imagen_reiniciar = crear_imagen(0, 0, ruta_imagen_reiniciar, False)
 IMAGEN_REINICIAR_ANCHO = dict_imagen_reiniciar["superficie"].get_width() * 2
@@ -105,16 +83,47 @@ IMAGEN_TRISTE_REINICIAR_ALTO = dict_imagen_triste_reiniciar["superficie"].get_he
 dict_imagen_triste_reiniciar = crear_imagen_transformada(IMAGEN_REINICIAR_ANCHO, IMAGEN_REINICIAR_ALTO, ruta_imagen_triste_reiniciar)
 dict_imagen_triste_reiniciar["pos"] = [450, 70]
 
-ruta_imagen_bandera = "segundo_parcial/recursos/bandera.gif"
-dict_bandera_dificil = crear_imagen(0, 0, ruta_imagen_bandera, False)
+ruta_imagen_blanco = "segundo_parcial/recursos/blanco.gif"
+dict_blanco = crear_imagen(0, 0, ruta_imagen_blanco, False)
+IMAGEN_BLANCO_ANCHO_DIFICIL = dict_blanco["superficie"].get_width() * 1.2
+IMAGEN_BLANCO_ALTO_DIFICIL = dict_blanco["superficie"].get_height() * 1.2
+dict_blanco_dificil = crear_imagen_transformada(IMAGEN_BLANCO_ANCHO_DIFICIL, IMAGEN_BLANCO_ALTO_DIFICIL, ruta_imagen_blanco)
 
-IMAGEN_BANDERA_ANCHO_MEDIO = dict_bandera_dificil["superficie"].get_width() * 2
-IMAGEN_BANDERA_ALTO_MEDIO = dict_bandera_dificil["superficie"].get_height() * 2
+IMAGEN_BLANCO_ANCHO_MEDIO = dict_blanco["superficie"].get_width() * 2
+IMAGEN_BLANCO_ALTO_MEDIO = dict_blanco["superficie"].get_height() * 2
+dict_blanco_medio = crear_imagen_transformada(IMAGEN_BLANCO_ANCHO_MEDIO, IMAGEN_BLANCO_ALTO_MEDIO, ruta_imagen_blanco)
+
+IMAGEN_BLANCO_ANCHO_FACIL = dict_blanco["superficie"].get_width() * 4
+IMAGEN_BLANCO_ALTO_FACIL = dict_blanco["superficie"].get_height() * 4
+dict_blanco_facil = crear_imagen_transformada(IMAGEN_BLANCO_ANCHO_FACIL, IMAGEN_BLANCO_ALTO_FACIL, ruta_imagen_blanco)
+
+ruta_imagen_bandera = "segundo_parcial/recursos/bandera.gif"
+dict_bandera = crear_imagen(0, 0, ruta_imagen_bandera, False)
+IMAGEN_BANDERA_ANCHO_DIFICIL = dict_bandera["superficie"].get_width() * 1.2
+IMAGEN_BANDERA_ALTO_DIFICIL = dict_bandera["superficie"].get_height() * 1.2
+dict_bandera_dificil = crear_imagen_transformada(IMAGEN_BANDERA_ANCHO_DIFICIL, IMAGEN_BANDERA_ALTO_DIFICIL, ruta_imagen_bandera)
+
+IMAGEN_BANDERA_ANCHO_MEDIO = dict_bandera["superficie"].get_width() * 2
+IMAGEN_BANDERA_ALTO_MEDIO = dict_bandera["superficie"].get_height() * 2
 dict_bandera_medio = crear_imagen_transformada(IMAGEN_BANDERA_ANCHO_MEDIO, IMAGEN_BANDERA_ALTO_MEDIO, ruta_imagen_bandera)
 
-IMAGEN_BANDERA_ANCHO_FACIL = dict_bandera_dificil["superficie"].get_width() * 4
-IMAGEN_BANDERA_ALTO_FACIL = dict_bandera_dificil["superficie"].get_height() * 4
+IMAGEN_BANDERA_ANCHO_FACIL = dict_bandera["superficie"].get_width() * 4
+IMAGEN_BANDERA_ALTO_FACIL = dict_bandera["superficie"].get_height() * 4
 dict_bandera_facil = crear_imagen_transformada(IMAGEN_BANDERA_ANCHO_FACIL, IMAGEN_BANDERA_ALTO_FACIL, ruta_imagen_bandera)
+
+ruta_imagen_mina_fin = "segundo_parcial/recursos/mina_fin.gif"
+dict_mina = crear_imagen(0, 0, ruta_imagen_mina_fin, False)
+IMAGEN_MINA_ANCHO_DIFICIL = dict_mina["superficie"].get_width() * 1.2
+IMAGEN_MINA_ALTO_DIFICIL = dict_mina["superficie"].get_height() * 1.2
+dict_mina_dificil = crear_imagen_transformada(IMAGEN_MINA_ANCHO_DIFICIL, IMAGEN_MINA_ALTO_DIFICIL, ruta_imagen_mina_fin)
+
+IMAGEN_MINA_ANCHO_MEDIO = dict_mina["superficie"].get_width() * 2
+IMAGEN_MINA_ALTO_MEDIO = dict_mina["superficie"].get_height() * 2
+dict_mina_medio = crear_imagen_transformada(IMAGEN_MINA_ANCHO_MEDIO, IMAGEN_MINA_ALTO_MEDIO, ruta_imagen_mina_fin)
+
+IMAGEN_MINA_ANCHO_FACIL = dict_mina["superficie"].get_width() * 4
+IMAGEN_MINA_ALTO_FACIL = dict_mina["superficie"].get_height() * 4
+dict_mina_facil = crear_imagen_transformada(IMAGEN_MINA_ANCHO_FACIL, IMAGEN_MINA_ALTO_FACIL, ruta_imagen_mina_fin)
 
 ruta_imagen_activar_sonido = "segundo_parcial/recursos/reproducir.png"
 dict_imagen_activar_sonido = crear_imagen(0, 0, ruta_imagen_activar_sonido, False)
@@ -438,25 +447,32 @@ while corriendo == True:
             boton_reiniciar = actualizar_pantalla(dict_imagen_reiniciar, "superficie", pantalla)
         actualizar_pantalla(dict_tiempo, "texto", pantalla)
         actualizar_pantalla(dict_puntaje_juego, "texto", pantalla)
-        posicion_casillero_inicial = [220, 140]
+        if nivel == "dificil":
+            posicion_casillero_inicial = [180, 140]
+        elif nivel == "medio":
+            posicion_casillero_inicial = [200, 140]
+        else:
+            posicion_casillero_inicial = [220, 140]
         for i in range(len(matriz)):
             for j in range(len(matriz[i])):
                 if nivel == "dificil":
-                    posicion_casillero = (posicion_casillero_inicial[0] + i * 16, posicion_casillero_inicial[1] + j * 16)
+                    posicion_casillero = [posicion_casillero_inicial[0] + i * 20, posicion_casillero_inicial[1] + j * 20]
                     dict_mina_dificil["pos"] = posicion_casillero
                     dict_blanco_dificil["pos"] = posicion_casillero
                     dict_bandera_dificil["pos"] = posicion_casillero
+                    dict_casillero["pos"] = [posicion_casillero[0] + 4, posicion_casillero[1] + 1]
                 elif nivel == "medio":
-                    posicion_casillero = (posicion_casillero_inicial[0] + i * 33, posicion_casillero_inicial[1] + j * 33)
+                    posicion_casillero = [posicion_casillero_inicial[0] + i * 33, posicion_casillero_inicial[1] + j * 33]
                     dict_mina_medio["pos"] = posicion_casillero
                     dict_blanco_medio["pos"] = posicion_casillero
                     dict_bandera_medio["pos"] = posicion_casillero
+                    dict_casillero["pos"] = [posicion_casillero[0] + 8, posicion_casillero[1] + 2]
                 elif nivel == "facil":
-                    posicion_casillero = (posicion_casillero_inicial[0] + i * 65, posicion_casillero_inicial[1] + j * 65)
+                    posicion_casillero = [posicion_casillero_inicial[0] + i * 65, posicion_casillero_inicial[1] + j * 65]
                     dict_mina_facil["pos"] = posicion_casillero
                     dict_blanco_facil["pos"] = posicion_casillero
                     dict_bandera_facil["pos"] = posicion_casillero
-                dict_casillero["pos"] = posicion_casillero
+                    dict_casillero["pos"] = [posicion_casillero[0] + 16, posicion_casillero[1] + 2]
                 if bandera_matriz_descubierta[i][j] == False:
                     if bandera_matriz_marcada[i][j] == False:
                         if nivel == "dificil":
@@ -553,7 +569,7 @@ while corriendo == True:
         if nivel == "facil" and puntaje == "0054" or nivel == "medio" and puntaje == "0216" or nivel == "dificil" and puntaje == "0380":
             estado_juego = "identificarse"
         actualizar_pantalla(dict_volver, "texto", pantalla)
-        coordenadas_boton_volver = (400, 750, 200, 75)
+        coordenadas_boton_volver = (380, 750, 200, 75)
         boton_volver = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_volver, width=10, border_radius=15)
         bandera_inicio = True
     elif estado_juego == "identificarse":
