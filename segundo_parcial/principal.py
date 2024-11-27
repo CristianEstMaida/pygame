@@ -44,7 +44,11 @@ IMAGEN_MINA_ALTO_FACIL = dict_mina_dificil["superficie"].get_height() * 4
 dict_mina_facil = crear_imagen_transformada(IMAGEN_MINA_ANCHO_FACIL, IMAGEN_MINA_ALTO_FACIL, ruta_imagen_mina_fin)
 
 dict_explosion = crear_imagen(0, 0, "segundo_parcial/recursos/explosion.jpg", False)
-dict_trofeo = crear_imagen(0, 0, "segundo_parcial/recursos/trofeo.png", True)
+dict_elige_nivel = crear_imagen(0, 0, "segundo_parcial/recursos/elige_tu_nivel.png", False)
+dict_fondo_ganaste = crear_imagen(0, 0, "segundo_parcial/recursos/ganaste.png", False)
+dict_fondo_nombre_usuario = crear_imagen(0, 0, "segundo_parcial/recursos/ingresa_tu_nombre.png", False)
+dict_fondo_lista_puntajes = crear_imagen(0, 0, "segundo_parcial/recursos/listado_puntajes.png", False)
+dict_fondo_tablero_juego = crear_imagen(0, 0, "segundo_parcial/recursos/fondo_tablero.png", False)
 
 ruta_fuente_pixel = "segundo_parcial/recursos/pixelifysans_variablefont_wght.ttf"
 ruta_fuente_jugando = "segundo_parcial/recursos/digital_7.ttf"
@@ -60,17 +64,17 @@ dict_jugar = crear_texto(70, 170, ruta_fuente_pixel, "Jugar", TAMANIO_FUENTE_INI
 dict_puntajes = crear_texto(70, 270, ruta_fuente_pixel, "Ver puntajes", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
 dict_salir = crear_texto(70, 370, ruta_fuente_pixel, "Salir", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
 
-dict_nivel_facil = crear_texto(70, 70, ruta_fuente_pixel, "Facil", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
-dict_nivel_medio =  crear_texto(70, 170, ruta_fuente_pixel, "Medio", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
-dict_nivel_dificil = crear_texto(70, 270, ruta_fuente_pixel, "Dificil", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
+dict_nivel_facil = crear_texto(390, 300, ruta_fuente_pixel, "Facil", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
+dict_nivel_medio =  crear_texto(380, 500, ruta_fuente_pixel, "Medio", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
+dict_nivel_dificil = crear_texto(360, 700, ruta_fuente_pixel, "Dificil", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
 
-dict_inicio = crear_texto(70, 770, ruta_fuente_pixel, "Inicio", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
+dict_inicio = crear_texto(460, 940, ruta_fuente_pixel, "Inicio", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
 
-dict_volver = crear_texto(70, 770, ruta_fuente_pixel, "Volver", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
+dict_volver = crear_texto(280, 770, ruta_fuente_pixel, "Volver", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
 
-dict_nombre_usuario = crear_texto(70, 90, ruta_fuente_pixel, "Ingrese nombre: ", TAMANIO_FUENTE_INICIO, COLOR_ROJO)
+dict_nombre_usuario = crear_texto(200, 300, ruta_fuente_pixel, "Ingrese nombre: ", TAMANIO_FUENTE_ELIGE_NIVEL, COLOR_ROJO)
 nombre_ingresado = ""
-dict_nombre_ingresado = crear_texto(290, 90, ruta_fuente_pixel, nombre_ingresado, TAMANIO_FUENTE_INICIO, COLOR_ROJO)
+dict_nombre_ingresado = crear_texto(400, 400, ruta_fuente_pixel, nombre_ingresado, TAMANIO_FUENTE_ELIGE_NIVEL, COLOR_ROJO)
 
 dict_nombre = crear_texto(70, 70, ruta_fuente_pixel, "", TAMANIO_FUENTE_INICIO, COLOR_ROJO)
 dict_puntaje = crear_texto(300, 70, ruta_fuente_pixel, "", TAMANIO_FUENTE_INICIO, COLOR_ROJO)
@@ -334,6 +338,7 @@ while corriendo == True:
                             mostrar_matriz(matriz)
                             estado_juego ="inicio"
                 elif estado_juego == "identificarse":
+                    actualizar_pantalla(dict_fondo_nombre_usuario , "superficie", pantalla)
                     if campo_texto.collidepoint(evento.pos) == True:
                         bandera_campo_texto = True
                     else:
@@ -401,18 +406,20 @@ while corriendo == True:
         boton_puntajes = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_puntajes, width=10, border_radius=15)
         boton_salir = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_salir, width=10, border_radius=15)
     elif estado_juego == "nivel":
+        actualizar_pantalla(dict_elige_nivel , "superficie", pantalla)
         actualizar_pantalla(dict_nivel_facil, "texto", pantalla)
         actualizar_pantalla(dict_nivel_medio, "texto", pantalla)
         actualizar_pantalla(dict_nivel_dificil, "texto", pantalla)
-        coordenadas_boton_facil = (50, 50, 200, 75)
-        coordenadas_boton_medio = (50, 150, 200, 75)
-        coordenadas_boton_dificil = (50, 250, 200, 75)
+        coordenadas_boton_facil = (330, 290, 300, 100)
+        coordenadas_boton_medio = (330, 490, 300, 100)
+        coordenadas_boton_dificil = (325, 690, 300, 100)
         boton_nivel_facil = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_facil, width=10, border_radius=15)
         boton_nivel_medio = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_medio, width=10, border_radius=15)
         boton_nivel_dificil = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_dificil, width=10, border_radius=15)
         bandera_boton_nivel = True
     elif estado_juego == "jugando":
         pg.mixer.music.set_volume(0.2)
+        actualizar_pantalla(dict_fondo_tablero_juego, "superficie", pantalla)
         if nivel == "facil":
             dict_cantidad_minas["texto"] = fuente_jugando.render(cantidad_minas_facil, True, COLOR_ROJO)
         elif nivel == "medio":
@@ -548,14 +555,15 @@ while corriendo == True:
         if nivel == "facil" and puntaje == "0054" or nivel == "medio" and puntaje == "0216" or nivel == "dificil" and puntaje == "0380":
             estado_juego = "identificarse"
         actualizar_pantalla(dict_volver, "texto", pantalla)
-        coordenadas_boton_volver = (50, 750, 200, 75)
+        coordenadas_boton_volver = (240, 750, 200, 75)
         boton_volver = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_volver, width=10, border_radius=15)
         bandera_inicio = True
     elif estado_juego == "identificarse":
+        actualizar_pantalla(dict_fondo_nombre_usuario , "superficie", pantalla)
         dict_nombre_ingresado["texto"] = fuente_inicio.render(f"{nombre_ingresado}", True, COLOR_ROJO)
         actualizar_pantalla(dict_nombre_usuario, "texto", pantalla)
         actualizar_pantalla(dict_nombre_ingresado, "texto", pantalla)
-        coordenadas_campo_texto = (270, 70, 260, 75)
+        coordenadas_campo_texto = (330, 390, 300, 80)
         if bandera_campo_texto == False:
             campo_texto = pg.draw.rect(pantalla, COLOR_ROJO, coordenadas_campo_texto, width=10, border_radius=15)
         else:
@@ -563,10 +571,10 @@ while corriendo == True:
         if bandera_identificarse == True:
             estado_juego = "fin"
     elif estado_juego == "puntajes":
-        actualizar_pantalla(dict_trofeo, "superficie", pantalla)
+        actualizar_pantalla(dict_fondo_lista_puntajes, "superficie", pantalla)
         if len(lista_jugadores) > 0:
-            dict_nombre["pos"] = [70, 70]
-            dict_puntaje["pos"] = [300, 70]
+            dict_nombre["pos"] = [350, 200]
+            dict_puntaje["pos"] = [550, 200]
             contador_mostrar_puntajes = 0
             for clave_encabezado in lista_claves:
                 if clave_encabezado == "nombre":
@@ -591,10 +599,11 @@ while corriendo == True:
                         break
                     contador_mostrar_puntajes += 1
         actualizar_pantalla(dict_inicio, "texto", pantalla)
-        coordenadas_boton_inicio = (50, 750, 200, 75)
+        coordenadas_boton_inicio = (410, 925, 200, 75)
         boton_inicio = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_inicio, width=10, border_radius=15)
         bandera_inicio = True
     elif estado_juego == "fin":
+        actualizar_pantalla(dict_fondo_ganaste, "superficie", pantalla)
         dict_gana["texto"] = fuente_inicio.render("GANASTE", True, COLOR_ROJO)
         dict_gana["pos"] = (pantalla.get_width() // 2 - dict_gana["texto"].get_width() // 2, pantalla.get_height() // 2)
         actualizar_pantalla(dict_gana, "texto", pantalla)
