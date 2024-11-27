@@ -74,7 +74,7 @@ dict_volver = crear_texto(420, 770, ruta_fuente_pixel, "VOLVER", TAMANIO_FUENTE_
 
 dict_nombre_usuario = crear_texto(200, 300, ruta_fuente_pixel, "Ingrese nombre: ", TAMANIO_FUENTE_ELIGE_NIVEL, COLOR_ROJO)
 nombre_ingresado = ""
-dict_nombre_ingresado = crear_texto(400, 400, ruta_fuente_pixel, nombre_ingresado, TAMANIO_FUENTE_ELIGE_NIVEL, COLOR_ROJO)
+dict_nombre_ingresado = crear_texto(360, 410, ruta_fuente_pixel, nombre_ingresado, TAMANIO_FUENTE_ELIGE_NIVEL, COLOR_ROJO)
 
 dict_nombre = crear_texto(70, 70, ruta_fuente_pixel, "", TAMANIO_FUENTE_INICIO, COLOR_ROJO)
 dict_puntaje = crear_texto(300, 70, ruta_fuente_pixel, "", TAMANIO_FUENTE_INICIO, COLOR_ROJO)
@@ -138,8 +138,6 @@ dict_tiempo = {}
 dict_puntaje_juego = {}
 
 dict_fin = crear_texto(770, 70, ruta_fuente_pixel, "PERDISTE", TAMANIO_FUENTE_CASILLEROS_FACIL, COLOR_ROJO)
-
-dict_gana = {}
 
 ruta_musica_buscaminas = "segundo_parcial/recursos/buscaminas.mp3"
 pg.mixer.music.load(ruta_musica_buscaminas)
@@ -555,7 +553,7 @@ while corriendo == True:
         if nivel == "facil" and puntaje == "0054" or nivel == "medio" and puntaje == "0216" or nivel == "dificil" and puntaje == "0380":
             estado_juego = "identificarse"
         actualizar_pantalla(dict_volver, "texto", pantalla)
-        coordenadas_boton_volver = (380, 750, 200, 75)
+        coordenadas_boton_volver = (400, 750, 200, 75)
         boton_volver = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_volver, width=10, border_radius=15)
         bandera_inicio = True
     elif estado_juego == "identificarse":
@@ -563,7 +561,7 @@ while corriendo == True:
         dict_nombre_ingresado["texto"] = fuente_inicio.render(f"{nombre_ingresado}", True, COLOR_ROJO)
         actualizar_pantalla(dict_nombre_usuario, "texto", pantalla)
         actualizar_pantalla(dict_nombre_ingresado, "texto", pantalla)
-        coordenadas_campo_texto = (330, 390, 300, 80)
+        coordenadas_campo_texto = (340, 390, 320, 80)
         if bandera_campo_texto == False:
             campo_texto = pg.draw.rect(pantalla, COLOR_ROJO, coordenadas_campo_texto, width=10, border_radius=15)
         else:
@@ -604,9 +602,6 @@ while corriendo == True:
         bandera_inicio = True
     elif estado_juego == "fin":
         actualizar_pantalla(dict_fondo_ganaste, "superficie", pantalla)
-        dict_gana["texto"] = fuente_inicio.render("GANASTE", True, COLOR_ROJO)
-        dict_gana["pos"] = (pantalla.get_width() // 2 - dict_gana["texto"].get_width() // 2, pantalla.get_height() // 2)
-        actualizar_pantalla(dict_gana, "texto", pantalla)
         if int(time.time() - tiempo_fin) >= 5:
             bandera_tiempo_inicial = False
             bandera_boton_buscaminas = False
