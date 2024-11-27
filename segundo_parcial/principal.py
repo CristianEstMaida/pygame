@@ -298,6 +298,7 @@ while corriendo == True:
                                                         if 0 <= x and x < len(matriz) and 0 <= y and y < len(matriz[x]):
                                                             if matriz[x][y] != -1:
                                                                 if bandera_matriz_descubierta[y][x] == False:
+                                                                    descubrimiento.play()
                                                                     contador_puntaje += 1
                                                                     bandera_matriz_descubierta[y][x] = True
                                                 
