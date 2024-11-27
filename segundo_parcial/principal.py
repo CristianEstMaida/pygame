@@ -59,10 +59,10 @@ fuente_casilleros_dificil = pg.font.Font(ruta_fuente_pixel, TAMANIO_FUENTE_CASIL
 fuente_casilleros_medio = pg.font.Font(ruta_fuente_pixel, TAMANIO_FUENTE_CASILLEROS_MEDIO)
 fuente_casilleros_facil = pg.font.Font(ruta_fuente_pixel, TAMANIO_FUENTE_CASILLEROS_FACIL)
 
-dict_nivel = crear_texto(70, 70, ruta_fuente_pixel, "Nivel", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
-dict_jugar = crear_texto(70, 170, ruta_fuente_pixel, "Jugar", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
-dict_puntajes = crear_texto(70, 270, ruta_fuente_pixel, "Ver puntajes", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
-dict_salir = crear_texto(70, 370, ruta_fuente_pixel, "Salir", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
+dict_nivel = crear_texto(108, 70, ruta_fuente_pixel, "Nivel", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
+dict_jugar = crear_texto(105, 170, ruta_fuente_pixel, "Jugar", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
+dict_puntajes = crear_texto(80, 270, ruta_fuente_pixel, "Puntajes", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
+dict_salir = crear_texto(105, 370, ruta_fuente_pixel, "Salir", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
 
 dict_nivel_facil = crear_texto(390, 300, ruta_fuente_pixel, "Facil", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
 dict_nivel_medio =  crear_texto(380, 500, ruta_fuente_pixel, "Medio", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
