@@ -59,18 +59,18 @@ fuente_casilleros_dificil = pg.font.Font(ruta_fuente_pixel, TAMANIO_FUENTE_CASIL
 fuente_casilleros_medio = pg.font.Font(ruta_fuente_pixel, TAMANIO_FUENTE_CASILLEROS_MEDIO)
 fuente_casilleros_facil = pg.font.Font(ruta_fuente_pixel, TAMANIO_FUENTE_CASILLEROS_FACIL)
 
-dict_nivel = crear_texto(108, 70, ruta_fuente_pixel, "Nivel", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
-dict_jugar = crear_texto(105, 170, ruta_fuente_pixel, "Jugar", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
-dict_puntajes = crear_texto(80, 270, ruta_fuente_pixel, "Puntajes", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
-dict_salir = crear_texto(105, 370, ruta_fuente_pixel, "Salir", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
+dict_nivel = crear_texto(108, 70, ruta_fuente_pixel, "NIVEL", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
+dict_jugar = crear_texto(105, 170, ruta_fuente_pixel, "JUGAR", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
+dict_puntajes = crear_texto(80, 270, ruta_fuente_pixel, "PUNTAJES", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
+dict_salir = crear_texto(105, 370, ruta_fuente_pixel, "SALIR", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
 
-dict_nivel_facil = crear_texto(390, 300, ruta_fuente_pixel, "Facil", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
-dict_nivel_medio =  crear_texto(380, 500, ruta_fuente_pixel, "Medio", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
-dict_nivel_dificil = crear_texto(360, 700, ruta_fuente_pixel, "Dificil", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
+dict_nivel_facil = crear_texto(390, 300, ruta_fuente_pixel, "FACIL", TAMANIO_FUENTE_ELIGE_NIVEL, COLOR_NARANJA)
+dict_nivel_medio =  crear_texto(380, 500, ruta_fuente_pixel, "MEDIO", TAMANIO_FUENTE_ELIGE_NIVEL, COLOR_NARANJA)
+dict_nivel_dificil = crear_texto(360, 700, ruta_fuente_pixel, "DIFICIL", TAMANIO_FUENTE_ELIGE_NIVEL, COLOR_NARANJA)
 
-dict_inicio = crear_texto(460, 940, ruta_fuente_pixel, "Inicio", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
+dict_inicio = crear_texto(460, 940, ruta_fuente_pixel, "INICIO", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
 
-dict_volver = crear_texto(280, 770, ruta_fuente_pixel, "Volver", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
+dict_volver = crear_texto(280, 770, ruta_fuente_pixel, "VOLVER", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
 
 dict_nombre_usuario = crear_texto(200, 300, ruta_fuente_pixel, "Ingrese nombre: ", TAMANIO_FUENTE_ELIGE_NIVEL, COLOR_ROJO)
 nombre_ingresado = ""
@@ -412,7 +412,7 @@ while corriendo == True:
         actualizar_pantalla(dict_nivel_dificil, "texto", pantalla)
         coordenadas_boton_facil = (330, 290, 300, 100)
         coordenadas_boton_medio = (330, 490, 300, 100)
-        coordenadas_boton_dificil = (325, 690, 300, 100)
+        coordenadas_boton_dificil = (330, 690, 300, 100)
         boton_nivel_facil = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_facil, width=10, border_radius=15)
         boton_nivel_medio = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_medio, width=10, border_radius=15)
         boton_nivel_dificil = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_dificil, width=10, border_radius=15)
