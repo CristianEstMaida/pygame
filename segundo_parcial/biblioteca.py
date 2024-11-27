@@ -133,7 +133,7 @@ def crear_texto(x:int, y:int, ruta:str, texto:str, tamanio:int, color:str, negri
     '''
     Crea una texto en la pantalla.
     Recibe las coordenadas x e y (int), una ruta, un texto (str), un tamanio (int), un color (str) y un valor negrita (bool)
-    Retorna un diccionario de la imagen
+    Retorna un diccionario del texto
     '''
     dict_texto = {}
     posicion_texto = [x, y]
@@ -156,7 +156,7 @@ def crear_imagen_transformada(alto:int, ancho:int, ruta:str) -> dict:
     dict_imagen["superficie"] = pg.transform.scale(dict_imagen["superficie"], resolucion_imagen)
     return dict_imagen
 
-def actualizar_pantalla(diccionario:dict, clave:str, pantalla:any) -> any:
+def actualizar_pantalla(diccionario:dict, clave:str, pantalla:pg.Surface) -> pg.Surface:
     '''
     Muestra una imagen o un texto en una posicion de una pantalla.
     Recibe el diccionario (dict), la clave (str) y la pantalla (any).
