@@ -450,7 +450,7 @@ while corriendo == True:
         if nivel == "dificil":
             posicion_casillero_inicial = [180, 140]
         elif nivel == "medio":
-            posicion_casillero_inicial = [200, 140]
+            posicion_casillero_inicial = [210, 140]
         else:
             posicion_casillero_inicial = [220, 140]
         for i in range(len(matriz)):
