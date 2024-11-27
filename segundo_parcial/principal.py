@@ -477,14 +477,14 @@ while corriendo == True:
                             botones_buscaminas[i][j] = actualizar_pantalla(dict_blanco_dificil, "superficie", pantalla)
                         elif nivel == "medio":
                             botones_buscaminas[i][j] = actualizar_pantalla(dict_blanco_medio, "superficie", pantalla)
-                        elif nivel == "facil":
+                        else:
                             botones_buscaminas[i][j] = actualizar_pantalla(dict_blanco_facil, "superficie", pantalla)
                     else:
                         if nivel == "dificil":
                             botones_buscaminas[i][j] = actualizar_pantalla(dict_bandera_dificil, "superficie", pantalla)
                         elif nivel == "medio":
                             botones_buscaminas[i][j] = actualizar_pantalla(dict_bandera_medio, "superficie", pantalla)
-                        elif nivel == "facil":
+                        else:
                             botones_buscaminas[i][j] = actualizar_pantalla(dict_bandera_facil, "superficie", pantalla)
                 elif matriz[j][i] > 0 or matriz[j][i] == -1:
                     match matriz[j][i]:
@@ -493,63 +493,63 @@ while corriendo == True:
                                 botones_buscaminas[i][j] = actualizar_pantalla(dict_mina_dificil, "superficie", pantalla)
                             elif nivel == "medio":
                                 botones_buscaminas[i][j] = actualizar_pantalla(dict_mina_medio, "superficie", pantalla)
-                            elif nivel == "facil":
+                            else:
                                 botones_buscaminas[i][j] = actualizar_pantalla(dict_mina_facil, "superficie", pantalla)
                         case 1:
                             if nivel == "dificil":
                                 dict_casillero["texto"] = fuente_casilleros_dificil.render(f"{matriz[j][i]}", True, "blue1")
                             elif nivel == "medio":
                                 dict_casillero["texto"] = fuente_casilleros_medio.render(f"{matriz[j][i]}", True, "blue1")
-                            elif nivel == "facil":
+                            else:
                                 dict_casillero["texto"] = fuente_casilleros_facil.render(f"{matriz[j][i]}", True, "blue1")
                         case 2:
                             if nivel == "dificil":
                                 dict_casillero["texto"] = fuente_casilleros_dificil.render(f"{matriz[j][i]}", True, "chartreuse4")
                             elif nivel == "medio":
                                 dict_casillero["texto"] = fuente_casilleros_medio.render(f"{matriz[j][i]}", True, "chartreuse4")
-                            elif nivel == "facil":
+                            else:
                                 dict_casillero["texto"] = fuente_casilleros_facil.render(f"{matriz[j][i]}", True, "chartreuse4")
                         case 3:
                             if nivel == "dificil":
                                 dict_casillero["texto"] = fuente_casilleros_dificil.render(f"{matriz[j][i]}", True, "red1")
                             elif nivel == "medio":
                                 dict_casillero["texto"] = fuente_casilleros_medio.render(f"{matriz[j][i]}", True, "red1")
-                            elif nivel == "facil":
+                            else:
                                 dict_casillero["texto"] = fuente_casilleros_facil.render(f"{matriz[j][i]}", True, "red1")
                         case 4:
                             if nivel == "dificil":
                                 dict_casillero["texto"] = fuente_casilleros_dificil.render(f"{matriz[j][i]}", True, "blue4")
                             elif nivel == "medio":
                                 dict_casillero["texto"] = fuente_casilleros_medio.render(f"{matriz[j][i]}", True, "blue4")
-                            elif nivel == "facil":
+                            else:
                                 dict_casillero["texto"] = fuente_casilleros_facil.render(f"{matriz[j][i]}", True, "blue4")
                         case 5:
                             if nivel == "dificil":
                                 dict_casillero["texto"] = fuente_casilleros_dificil.render(f"{matriz[j][i]}", True, "darkred")
                             elif nivel == "medio":
                                 dict_casillero["texto"] = fuente_casilleros_medio.render(f"{matriz[j][i]}", True, "darkred")
-                            elif nivel == "facil":
+                            else:
                                 dict_casillero["texto"] = fuente_casilleros_facil.render(f"{matriz[j][i]}", True, "darkred")
                         case 6:
                             if nivel == "dificil":
                                 dict_casillero["texto"] = fuente_casilleros_dificil.render(f"{matriz[j][i]}", True, "aquamarine4")
                             elif nivel == "medio":
                                 dict_casillero["texto"] = fuente_casilleros_medio.render(f"{matriz[j][i]}", True, "aquamarine4")
-                            elif nivel == "facil":
+                            else:
                                 dict_casillero["texto"] = fuente_casilleros_facil.render(f"{matriz[j][i]}", True, "aquamarine4")
                         case 7:
                             if nivel == "dificil":
                                 dict_casillero["texto"] = fuente_casilleros_dificil.render(f"{matriz[j][i]}", True, "black")
                             elif nivel == "medio":
                                 dict_casillero["texto"] = fuente_casilleros_medio.render(f"{matriz[j][i]}", True, "black")
-                            elif nivel == "facil":
+                            else:
                                 dict_casillero["texto"] = fuente_casilleros_facil.render(f"{matriz[j][i]}", True, "black")
                         case 8:
                             if nivel == "dificil":
                                 dict_casillero["texto"] = fuente_casilleros_dificil.render(f"{matriz[j][i]}", True, "azure4")
                             elif nivel == "medio":
                                 dict_casillero["texto"] = fuente_casilleros_medio.render(f"{matriz[j][i]}", True, "azure4")
-                            elif nivel == "facil":
+                            else:
                                 dict_casillero["texto"] = fuente_casilleros_facil.render(f"{matriz[j][i]}", True, "azure4")
                     if matriz[j][i] != -1:
                         actualizar_pantalla(dict_casillero, "texto", pantalla)
@@ -643,7 +643,7 @@ while corriendo == True:
                 bandera_matriz_marcada = inicializar_matriz(FILAS_MEDIO, COLUMNAS_MEDIO, False)
                 matriz = inicializar_matriz(FILAS_MEDIO, COLUMNAS_MEDIO, 0)
                 establecer_cantidad_minas(matriz, CANTIDAD_MINAS_MEDIO)
-            elif nivel == "dificil":
+            else:
                 bandera_matriz_descubierta = inicializar_matriz(FILAS_DIFICIL, COLUMNAS_DIFICIL, False)
                 bandera_matriz_marcada = inicializar_matriz(FILAS_DIFICIL, COLUMNAS_DIFICIL, False)
                 matriz = inicializar_matriz(FILAS_DIFICIL, COLUMNAS_DIFICIL, 0)
