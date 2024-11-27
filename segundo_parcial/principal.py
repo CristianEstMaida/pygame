@@ -70,7 +70,7 @@ dict_nivel_dificil = crear_texto(360, 700, ruta_fuente_pixel, "DIFICIL", TAMANIO
 
 dict_inicio = crear_texto(460, 940, ruta_fuente_pixel, "INICIO", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
 
-dict_volver = crear_texto(280, 770, ruta_fuente_pixel, "VOLVER", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
+dict_volver = crear_texto(420, 770, ruta_fuente_pixel, "VOLVER", TAMANIO_FUENTE_INICIO, COLOR_NARANJA)
 
 dict_nombre_usuario = crear_texto(200, 300, ruta_fuente_pixel, "Ingrese nombre: ", TAMANIO_FUENTE_ELIGE_NIVEL, COLOR_ROJO)
 nombre_ingresado = ""
@@ -96,14 +96,14 @@ dict_imagen_reiniciar = crear_imagen(0, 0, ruta_imagen_reiniciar, False)
 IMAGEN_REINICIAR_ANCHO = dict_imagen_reiniciar["superficie"].get_width() * 2
 IMAGEN_REINICIAR_ALTO = dict_imagen_reiniciar["superficie"].get_height() * 2
 dict_imagen_reiniciar = crear_imagen_transformada(IMAGEN_REINICIAR_ANCHO, IMAGEN_REINICIAR_ALTO, ruta_imagen_reiniciar)
-dict_imagen_reiniciar["pos"] = [300, 70]
+dict_imagen_reiniciar["pos"] = [450, 70]
 
 ruta_imagen_triste_reiniciar = "segundo_parcial/recursos/cara_triste.gif"
 dict_imagen_triste_reiniciar = crear_imagen(0, 0, ruta_imagen_triste_reiniciar, False)
 IMAGEN_TRISTE_REINICIAR_ANCHO = dict_imagen_triste_reiniciar["superficie"].get_width() * 2
 IMAGEN_TRISTE_REINICIAR_ALTO = dict_imagen_triste_reiniciar["superficie"].get_height() * 2
 dict_imagen_triste_reiniciar = crear_imagen_transformada(IMAGEN_REINICIAR_ANCHO, IMAGEN_REINICIAR_ALTO, ruta_imagen_triste_reiniciar)
-dict_imagen_triste_reiniciar["pos"] = [300, 70]
+dict_imagen_triste_reiniciar["pos"] = [450, 70]
 
 ruta_imagen_bandera = "segundo_parcial/recursos/bandera.gif"
 dict_bandera_dificil = crear_imagen(0, 0, ruta_imagen_bandera, False)
@@ -137,7 +137,7 @@ dict_cantidad_minas = {}
 dict_tiempo = {}
 dict_puntaje_juego = {}
 
-dict_fin = crear_texto(620, 70, ruta_fuente_pixel, "PERDISTE", TAMANIO_FUENTE_CASILLEROS_FACIL, COLOR_ROJO)
+dict_fin = crear_texto(770, 70, ruta_fuente_pixel, "PERDISTE", TAMANIO_FUENTE_CASILLEROS_FACIL, COLOR_ROJO)
 
 dict_gana = {}
 
@@ -426,21 +426,21 @@ while corriendo == True:
             dict_cantidad_minas["texto"] = fuente_jugando.render(cantidad_minas_medio, True, COLOR_ROJO)
         else:
             dict_cantidad_minas["texto"] = fuente_jugando.render(cantidad_minas_dificil, True, COLOR_ROJO)
-        dict_cantidad_minas["pos"] = [70, 70]
+        dict_cantidad_minas["pos"] = [220, 70]
         if bandera_tiempo_inicial == True:
             tiempo_transcurrido_minutos = int(time.time() - tiempo_inicial) // 60
             tiempo_transcurrido_segundos = str(int(time.time() - tiempo_inicial) % 60).zfill(2)
         dict_tiempo["texto"] = fuente_jugando.render(f"{tiempo_transcurrido_minutos}:{tiempo_transcurrido_segundos}", True, COLOR_ROJO)
-        dict_tiempo["pos"] = [400, 70]
+        dict_tiempo["pos"] = [550, 70]
         puntaje = str(contador_puntaje).zfill(4)
         dict_puntaje_juego["texto"] = fuente_jugando.render(puntaje, True, COLOR_ROJO)
-        dict_puntaje_juego["pos"] = [500, 70]
+        dict_puntaje_juego["pos"] = [650, 70]
         actualizar_pantalla(dict_cantidad_minas, "texto", pantalla)
         if bandera_fin == False:
             boton_reiniciar = actualizar_pantalla(dict_imagen_reiniciar, "superficie", pantalla)
         actualizar_pantalla(dict_tiempo, "texto", pantalla)
         actualizar_pantalla(dict_puntaje_juego, "texto", pantalla)
-        posicion_casillero_inicial = [70, 140]
+        posicion_casillero_inicial = [220, 140]
         for i in range(len(matriz)):
             for j in range(len(matriz[i])):
                 if nivel == "dificil":
@@ -555,7 +555,7 @@ while corriendo == True:
         if nivel == "facil" and puntaje == "0054" or nivel == "medio" and puntaje == "0216" or nivel == "dificil" and puntaje == "0380":
             estado_juego = "identificarse"
         actualizar_pantalla(dict_volver, "texto", pantalla)
-        coordenadas_boton_volver = (240, 750, 200, 75)
+        coordenadas_boton_volver = (380, 750, 200, 75)
         boton_volver = pg.draw.rect(pantalla, COLOR_NARANJA, coordenadas_boton_volver, width=10, border_radius=15)
         bandera_inicio = True
     elif estado_juego == "identificarse":
